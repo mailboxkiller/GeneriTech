@@ -35,6 +35,7 @@
 package xyz.aadev.generitech.api.registries;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
 import xyz.aadev.generitech.api.util.Crushable;
 
@@ -48,8 +49,8 @@ public class PulverizerRegistry {
         registry.add(new Crushable(input, output, chance, allowPulverizerFortune ? 1.0f : 0.0f));
     }
 
-    public static List<Crushable> getOutputs(ItemStack itemStack) {
-        List<Crushable> outputList = new ArrayList<>();
+    public static NonNullList<Crushable> getOutputs(ItemStack itemStack) {
+        NonNullList<Crushable> outputList = NonNullList.create();
 
         for (Crushable crushable : registry)
             if (crushable.input.isItemEqual(itemStack) && crushable.output != null)

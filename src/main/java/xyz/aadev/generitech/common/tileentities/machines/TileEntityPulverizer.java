@@ -47,6 +47,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -248,7 +249,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
 
     @Override
     public ItemStack removeStackFromSlot(int index) {
-        return null;
+        return ItemStack.EMPTY;
     }
 
     @Override
@@ -305,7 +306,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
             this.markForUpdate();
         }
 
-        if (ticksRemaining == 0 && inventory.getStackInSlot(0) == null && machineTier != MachineTier.TIER_0) {
+        if (ticksRemaining == 0 && inventory.getStackInSlot(0) == ItemStack.EMPTY && machineTier != MachineTier.TIER_0) {
             machineActive = false;
         }
 
@@ -324,17 +325,17 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
             this.markDirty();
         }
 
-        if (fuelRemaining == 0 && machineTier == MachineTier.TIER_0 && inventory.getStackInSlot(4) != null && net.minecraft.tileentity.TileEntityFurnace.getItemBurnTime(inventory.getStackInSlot(4)) > 0) {
-            if (inventory.getStackInSlot(1) != null) {
+        if (fuelRemaining == 0 && machineTier == MachineTier.TIER_0 && inventory.getStackInSlot(4) != ItemStack.EMPTY && net.minecraft.tileentity.TileEntityFurnace.getItemBurnTime(inventory.getStackInSlot(4)) > 0) {
+            if (inventory.getStackInSlot(1) != ItemStack.EMPTY) {
                 burnTime(1);
             }
-            if (inventory.getStackInSlot(0) != null) {
+            if (inventory.getStackInSlot(0) != ItemStack.EMPTY) {
                 burnTime(0);
             }
         }
 
 
-        if (this.canWork() && inventory.getStackInSlot(0) != null && inventory.getStackInSlot(1) == null) {
+        if (this.canWork() && inventory.getStackInSlot(0) != ItemStack.EMPTY && inventory.getStackInSlot(1) == ItemStack.EMPTY) {
             if (!cancrush(inventory.getStackInSlot(0)))
                 return;
 
@@ -349,7 +350,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
                 itemOut.setCount(1);
                 itemIn.shrink(1);
             }
-            if (itemIn != null && itemIn.getCount() == 0) itemIn = ItemStack.EMPTY;
+            if (itemIn != ItemStack.EMPTY && itemIn.getCount() == 0) itemIn = ItemStack.EMPTY;
             if (itemOut.getCount() == 0) itemOut = ItemStack.EMPTY;
 
             inventory.setInventorySlotContents(0, itemIn);
@@ -361,7 +362,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
             this.markDirty();
         }
 
-        if (inventory.getStackInSlot(1) != null && ticksRemaining <= 0) {
+        if (inventory.getStackInSlot(1) != ItemStack.EMPTY && ticksRemaining <= 0) {
 
             ticksRemaining = 0;
 
@@ -370,11 +371,11 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
             }
 
             ItemStack processItem = inventory.getStackInSlot(1);
-            if (processItem == null) {
+            if (processItem == ItemStack.EMPTY) {
                 return;
             }
 
-            List<Crushable> outputs = PulverizerRegistry.getOutputs(processItem);
+            NonNullList<Crushable> outputs = PulverizerRegistry.getOutputs(processItem);
 
             if (outputs.isEmpty())
                 return;
@@ -397,7 +398,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
 
 
                 // Simulate placing into output slot...
-                if (InventoryHelper.addItemStackToInventory(outItem, inventory, 2, 3, true) != null) {
+                if (InventoryHelper.addItemStackToInventory(outItem, inventory, 2, 3, true) != ItemStack.EMPTY) {
                     this.pulverizerPaused = true;
                     return;
                 }
@@ -406,9 +407,9 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
                 this.crushRNG = -1;
             }
             this.crushIndex = 0;
-            inventory.setInventorySlotContents(1, null);
+            inventory.setInventorySlotContents(1, ItemStack.EMPTY);
 
-            if (inventory.getStackInSlot(0) != null) {
+            if (inventory.getStackInSlot(0) != ItemStack.EMPTY) {
                 machineActive = cancrush(inventory.getStackInSlot(0));
             }
             this.markForUpdate();

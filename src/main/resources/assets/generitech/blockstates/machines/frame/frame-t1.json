@@ -5,15 +5,16 @@
             "all": "generitech:blocks/machines/FrameT1",
 			"particle": "generitech:blocks/machines/FrameT1"
         },
-        "model": "generitech:frame_T1",
+        "model": "generitech:frame_t1",
 		"transform":"forge:default-block",
         "uvlock": true
     },
     "variants": {
 		"inventory":[{
+
 		}],
         "normal": [{
-			"model": "generitech:frame_T1"
+			"model": "generitech:frame_t1"
         }]
     }
 }

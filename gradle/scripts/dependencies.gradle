@@ -54,7 +54,7 @@ dependencies {
     deobfCompile "mcp.mobius.waila:Hwyla:1.8.10-B23_1.11"
 
     compile "net.darkhax.tesla:Tesla:1.11-1.3.0.51"
-    deobfCompile "mcjty.theoneprobe:TheOneProbe:1.1x-1.4.1-51"
+    //deobfCompile "mcjty.theoneprobe:TheOneProbe:1.1x-1.4.1-51"
 
     runtime "mezz.jei:jei_1.11.2:4.2.7.241"
     deobfCompile "mezz.jei:jei_1.11.2:4.2.7.241:api"

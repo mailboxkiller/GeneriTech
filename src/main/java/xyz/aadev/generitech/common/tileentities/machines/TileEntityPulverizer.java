@@ -199,7 +199,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
         if (guiId == 3) {
             return new GuiUpgradeScreen(player.inventory, this, getSides(), 5, player);
         }
-        return null;
+        return guiId;
     }
 
     @Override
@@ -210,7 +210,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
         if (guiId == 3) {
             return new ContanierUpgradeStorage(player.inventory, this, 5);
         }
-        return null;
+        return guiId;
     }
 
     @Override
@@ -271,13 +271,13 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
         return PulverizerRegistry.containsInput(item);
     }
 
-    public void burnTime(int i) {
+    public void burnTime() {
         if (fuelRemaining == 0) {
-            if (inventory.getStackInSlot(4).getItem() == lastFuelType && cancrush(inventory.getStackInSlot(i))) {
+            if (inventory.getStackInSlot(4).getItem() == lastFuelType) {
                 fuelRemaining = lastFuelValue;
 
 
-            } else if (inventory.getStackInSlot(4).getItem() != lastFuelType && cancrush(inventory.getStackInSlot(i))) {
+            } else if (inventory.getStackInSlot(4).getItem() != lastFuelType) {
                 fuelRemaining = net.minecraft.tileentity.TileEntityFurnace.getItemBurnTime(inventory.getStackInSlot(4));
                 lastFuelType = inventory.getStackInSlot(4).getItem();
                 lastFuelValue = fuelRemaining;
@@ -292,8 +292,6 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
 
     @Override
     public void update() {
-
-        //System.out.println(sides[0]+" "+worldObj.isRemote);
 
         //checking for the machine type
         if (machineTier == null)
@@ -326,11 +324,8 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
         }
 
         if (fuelRemaining == 0 && machineTier == MachineTier.TIER_0 && inventory.getStackInSlot(4) != ItemStack.EMPTY && net.minecraft.tileentity.TileEntityFurnace.getItemBurnTime(inventory.getStackInSlot(4)) > 0) {
-            if (inventory.getStackInSlot(1) != ItemStack.EMPTY) {
-                burnTime(1);
-            }
-            if (inventory.getStackInSlot(0) != ItemStack.EMPTY) {
-                burnTime(0);
+            if (cancrush(inventory.getStackInSlot(1)) || cancrush(inventory.getStackInSlot(0))) {
+                burnTime();
             }
         }
 
@@ -362,7 +357,8 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
             this.markDirty();
         }
 
-        if (inventory.getStackInSlot(1) != ItemStack.EMPTY && ticksRemaining <= 0) {
+        if (inventory.getStackInSlot(1) != ItemStack.EMPTY  && ticksRemaining <= 0) {
+
 
             ticksRemaining = 0;
 
@@ -375,12 +371,15 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
                 return;
             }
 
+
             NonNullList<Crushable> outputs = PulverizerRegistry.getOutputs(processItem);
+
 
             if (outputs.isEmpty())
                 return;
 
             for (int i = this.crushIndex; i < outputs.size(); i++) {
+
                 this.crushIndex = i;
                 Crushable crushable = outputs.get(this.crushIndex);
 
@@ -415,6 +414,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
             this.markForUpdate();
             this.markDirty();
         }
+
 
     }
 

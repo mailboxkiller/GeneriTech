@@ -43,7 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PulverizerRegistry {
-    private static List<Crushable> registry = new ArrayList<>();
+    private static NonNullList<Crushable> registry = NonNullList.create();
 
     public static void register(ItemStack input, ItemStack output, float chance, boolean allowPulverizerFortune) {
         registry.add(new Crushable(input, output, chance, allowPulverizerFortune ? 1.0f : 0.0f));
@@ -53,7 +53,7 @@ public class PulverizerRegistry {
         NonNullList<Crushable> outputList = NonNullList.create();
 
         for (Crushable crushable : registry)
-            if (crushable.input.isItemEqual(itemStack) && crushable.output != null)
+            if (crushable.input.isItemEqual(itemStack) && crushable.output != ItemStack.EMPTY)
                 outputList.add(crushable);
 
         return outputList;
@@ -68,8 +68,8 @@ public class PulverizerRegistry {
     }
 
     public static void registerOreDictOre(String oreName) {
-        List<ItemStack> itemOres = OreDictionary.getOres("ore" + oreName);
-        List<ItemStack> itemDusts = OreDictionary.getOres("dust" + oreName);
+        NonNullList<ItemStack> itemOres = OreDictionary.getOres("ore" + oreName);
+        NonNullList<ItemStack> itemDusts = OreDictionary.getOres("dust" + oreName);
 
         if (itemOres.isEmpty() || itemDusts.isEmpty())
             return;
@@ -81,8 +81,8 @@ public class PulverizerRegistry {
     }
 
     public static void registerOreDictIngot(String ingotName) {
-        List<ItemStack> itemOres = OreDictionary.getOres("ingot" + ingotName);
-        List<ItemStack> itemDusts = OreDictionary.getOres("dust" + ingotName);
+        NonNullList<ItemStack> itemOres = OreDictionary.getOres("ingot" + ingotName);
+        NonNullList<ItemStack> itemDusts = OreDictionary.getOres("dust" + ingotName);
 
         if (itemOres.isEmpty() || itemDusts.isEmpty())
             return;

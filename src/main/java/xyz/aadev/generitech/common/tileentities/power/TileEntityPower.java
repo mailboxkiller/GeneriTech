@@ -80,6 +80,17 @@ public class TileEntityPower extends TileEntityMachineBase implements ITeslaProd
         return container.getStoredPower();
     }
 
+    public boolean isMachineActive(){
+        if(fuelRemaining > 0)
+            return true;
+        return false;
+    }
+
+    @Override
+    public boolean canBeRotated() {
+        return true;
+    }
+
     @Override
     public void update() {
         BlockPos pos = getPos();
@@ -89,8 +100,8 @@ public class TileEntityPower extends TileEntityMachineBase implements ITeslaProd
         }
         if (fuelRemaining != 0) fuelRemaining--;
 
-        if (fuelRemaining > 0 && machineTier == MachineTier.TIER_1) {
-            container.givePower(10, false);
+        if (fuelRemaining > 0) {
+            container.givePower(120, false);
         }
         if (container.getStoredPower() != container.getCapacity() && inventory.getStackInSlot(0) != null || container.getStoredPower() < container.getCapacity() && inventory.getStackInSlot(0) != null) {
             burnTime();

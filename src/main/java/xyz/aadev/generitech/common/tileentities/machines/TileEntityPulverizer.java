@@ -168,7 +168,6 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
     public int[] getAccessibleSlotsBySide(EnumFacing side) {
         int[] slots = new int[0];
         float oreAngle = (this.getForward().getHorizontalAngle() + 90) >= 360 ? 0 : (this.getForward().getHorizontalAngle() + 90);
-
         if (Math.abs(side.getHorizontalAngle() - oreAngle) < Reference.EPSILON) {
             slots = new int[1];
             slots[0] = 4;
@@ -176,15 +175,23 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
         if (side == EnumFacing.UP && machineTier == MachineTier.TIER_0) {
             slots = new int[1];
         }
+        if (side == EnumFacing.DOWN && machineTier == MachineTier.TIER_0) {
+            slots = new int[2];
+            slots[0] = 2;
+            slots[1] = 3;
+        }
         int i = 0;
         for (final EnumFacing sidea : EnumFacing.VALUES) {
-            if (sidea == side && (getSides()[i] == 1 || getSides()[i] == 0)) {
-                slots = new int[2];
+            if (sidea == side && (getSides()[i] == 1 || getSides()[i] == 0) && machineTier != MachineTier.TIER_0) {
+                slots = new int[3];
                 slots[0] = 2;
                 slots[1] = 3;
+                slots[2] = 0;
+                System.out.println(slots);
             }
             i++;
         }
+        System.out.println(slots);
 
         return slots;
     }
@@ -232,7 +239,6 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
     @Override
     public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
         int i = 0;
-
         for (final EnumFacing side : EnumFacing.VALUES) {
             if (direction == side && getSides()[i] == 1 && index == 0 && PulverizerRegistry.containsInput(itemStackIn)) {
                 return true;
@@ -304,7 +310,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
             this.markForUpdate();
         }
 
-        if (ticksRemaining == 0 && inventory.getStackInSlot(0) == ItemStack.EMPTY && machineTier != MachineTier.TIER_0) {
+        if (ticksRemaining == 0 && inventory.getStackInSlot(0) == ItemStack.EMPTY && machineTier != MachineTier.TIER_0||pulverizerPaused) {
             machineActive = false;
         }
 
@@ -399,6 +405,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
                 // Simulate placing into output slot...
                 if (InventoryHelper.addItemStackToInventory(outItem, inventory, 2, 3, true) != ItemStack.EMPTY) {
                     this.pulverizerPaused = true;
+
                     return;
                 }
 

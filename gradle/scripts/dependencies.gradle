@@ -39,6 +39,17 @@ repositories {
     }
 
     maven { url "http://maven.amadornes.com/" }
+
+    maven {
+        // location of the maven that hosts JEI files
+        name = "Progwml6 maven"
+        url = "http://dvs1.progwml6.com/files/maven"
+    }
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "modmaven.k-4u.nl"
+    }
 }
 
 configurations {
@@ -53,9 +64,12 @@ dependencies {
     compile project(':AALib')
     deobfCompile "mcp.mobius.waila:Hwyla:1.8.10-B23_1.11"
 
-    compile "net.darkhax.tesla:Tesla:1.11-1.3.0.51"
+    compile "net.darkhax.tesla:Tesla:1.11-1.3.0.52"
     //deobfCompile "mcjty.theoneprobe:TheOneProbe:1.1x-1.4.1-51"
 
     runtime "mezz.jei:jei_1.11.2:4.2.7.241"
     deobfCompile "mezz.jei:jei_1.11.2:4.2.7.241:api"
+
+
+
 }

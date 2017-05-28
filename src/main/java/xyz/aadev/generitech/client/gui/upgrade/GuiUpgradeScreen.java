@@ -34,6 +34,8 @@ import xyz.aadev.generitech.common.container.upgrade.ContanierUpgradeStorage;
 import xyz.aadev.generitech.common.network.Network;
 import xyz.aadev.generitech.common.network.messages.power.PacketSides;
 import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
+import xyz.aadev.generitech.common.tileentities.power.TileEntityPower;
+import xyz.aadev.generitech.common.tileentities.power.TileEntityPowerStorage;
 
 import java.awt.*;
 import java.io.IOException;
@@ -68,11 +70,20 @@ public class GuiUpgradeScreen extends GuiBase {
         if (tileEntity instanceof TileEntityMachineBase) {
             sides = ((TileEntityMachineBase) tileEntity).getSides();
         }
+
+        if (tileEntity instanceof TileEntityPowerStorage){
+            int powerLevel = (int) (((TileEntityPowerStorage) tileEntity).getStoredPower() / 2000 + 1);
+            if (((TileEntityPowerStorage) tileEntity).getStoredPower() > 48000) powerLevel = 25;
+            if (((TileEntityPowerStorage) tileEntity).getStoredPower() == 0) powerLevel = -1;
+            int power = powerLevel - 25;
+            drawTexturedModalRect(paramInt1 + 18, paramInt2 + 31 - power, 176, 70 - powerLevel, 25, 25);
+        }
     }
 
     @Override
     public void drawFG(int paramInt1, int paramInt2, int paramInt3, int paramInt4) {
         // Do nothing because of not implemented
+
     }
 
 
@@ -129,6 +140,7 @@ public class GuiUpgradeScreen extends GuiBase {
             RenderHelper.enableGUIStandardItemLighting();
             renderItem.renderItemIntoGUI(new ItemStack(tileEntity.getBlockType(), 1, machineTier), guiLeft + 52, guiTop + 35);
         }
+
 
         if (slot.contains(mouseX - guiLeft, mouseY - guiTop)) {
             RenderHelper.enableGUIStandardItemLighting();

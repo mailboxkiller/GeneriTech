@@ -43,38 +43,38 @@ import xyz.aadev.generitech.common.tileentities.machines.TileEntityFurnace;
 import xyz.aadev.generitech.common.util.LanguageHelper;
 
 public class GuiFurnace extends GuiBase {
-    private TileEntityFurnace tileEntity;
-    private GuiHelper guiHelper = new GuiHelper();
+        private TileEntityFurnace tileEntity;
+        private GuiHelper guiHelper = new GuiHelper();
 
-    public GuiFurnace(InventoryPlayer inventoryPlayer, TileEntityFurnace tileEntity) {
-        super(Reference.MOD_ID, new ContainerFurnace(inventoryPlayer, tileEntity));
-        this.xSize = 176;
-        this.ySize = 166;
-        this.tileEntity = tileEntity;
-    }
-
-    @Override
-    public void drawBG(int paramInt1, int paramInt2, int paramInt3, int paramInt4) {
-        bindTexture("gui/machines/furnace.png");
-        drawTexturedModalRect(paramInt1, paramInt2, 0, 0, this.xSize, this.ySize);
-
-        if (tileEntity.getTemperature() > 0) {
-            //float temp = (((float)tileEntity.getTemperature() / (float)tileEntity.getMaxTemperature()) * 100) / 7;
-            //LogHelper.info(">>>>> " + (int)temp);
-            drawTexturedModalRect(paramInt1 + 57, paramInt2 + 54, 176, 16, 14, 14);
+        public GuiFurnace(InventoryPlayer inventoryPlayer, TileEntityFurnace tileEntity) {
+            super(Reference.MOD_ID, new ContainerFurnace(inventoryPlayer, tileEntity));
+            this.xSize = 176;
+            this.ySize = 166;
+            this.tileEntity = tileEntity;
         }
-    }
 
-    @Override
-    public void drawFG(int paramInt1, int paramInt2, int paramInt3, int paramInt4) {
-        //String s = tileEntity.hasCustomName() ? tileEntity.getCustomName() : LanguageHelper.NONE.translateMessage(tileEntity.getUnlocalizedName());
-        String s = LanguageHelper.NONE.translateMessage(tileEntity.getUnlocalizedName());
-        this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 12, 0xE4E4E4);
+        @Override
+        public void drawBG(int paramInt1, int paramInt2, int paramInt3, int paramInt4) {
+            bindTexture("gui/machines/furnace.png");
+            drawTexturedModalRect(paramInt1, paramInt2, 0, 0, this.xSize, this.ySize);
 
-        float progress = ((((float) tileEntity.getSmeltProgress()) / (float) 1000)) * 100;
+            if (tileEntity.getTemperature() > 0) {
+                //float temp = (((float)tileEntity.getTemperature() / (float)tileEntity.getMaxTemperature()) * 100) / 7;
+                //LogHelper.info(">>>>> " + (int)temp);
+                drawTexturedModalRect(paramInt1 + 57, paramInt2 + 54, 176, 16, 14, 14);
+            }
+        }
 
-        guiHelper.drawHorizontalProgressBar(78, 39, 39, 8, Math.round(progress), colorBackground, colorBorder, colorProgressBackground);
-        String progressLabel = String.format("%d%%", Math.round(progress));
-        guiHelper.drawCenteredStringWithShadow(47, 39, 100, progressLabel, colorFont);
-    }
+        @Override
+        public void drawFG(int paramInt1, int paramInt2, int paramInt3, int paramInt4) {
+            //String s = tileEntity.hasCustomName() ? tileEntity.getCustomName() : LanguageHelper.NONE.translateMessage(tileEntity.getUnlocalizedName());
+            String s = LanguageHelper.NONE.translateMessage(tileEntity.getUnlocalizedName());
+            this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 12, 0xE4E4E4);
+
+            float progress = ((((float) tileEntity.getSmeltProgress()) / (float) 1000)) * 100;
+
+            guiHelper.drawHorizontalProgressBar(78, 39, 39, 8, Math.round(progress), colorBackground, colorBorder, colorProgressBackground);
+            String progressLabel = String.format("%d%%", Math.round(progress));
+            guiHelper.drawCenteredStringWithShadow(47, 39, 100, progressLabel, colorFont);
+        }
 }

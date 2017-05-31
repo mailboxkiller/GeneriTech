@@ -24,7 +24,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.structure.MapGenVillage;
 import net.minecraftforge.common.capabilities.Capability;
+import xyz.aadev.generitech.Reference;
+import xyz.aadev.generitech.api.util.MachineTier;
+import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,4 +102,34 @@ public class DistributePowerToFace {
     }
 
 
-}
+    public static int[] sidesnicememe (TileEntity tileEntity, EnumFacing side, MachineTier machineTier){
+            int[] slots = new int[0];
+            float oreAngle = (((TileEntityMachineBase) tileEntity).getForward().getHorizontalAngle() + 90) >= 360 ? 0 : (((TileEntityMachineBase) tileEntity).getForward().getHorizontalAngle() + 90);
+            if (Math.abs(side.getHorizontalAngle() - oreAngle) < Reference.EPSILON) {
+                slots = new int[1];
+                slots[0] = 4;
+            }
+            if (side == EnumFacing.UP && machineTier == MachineTier.TIER_0) {
+                slots = new int[1];
+            }
+            if (side == EnumFacing.DOWN && machineTier == MachineTier.TIER_0) {
+                slots = new int[2];
+                slots[0] = 2;
+                slots[1] = 3;
+            }
+            int i = 0;
+            for (final EnumFacing sidea : net.minecraft.util.EnumFacing.VALUES) {
+                if (sidea == side && (((TileEntityMachineBase) tileEntity).getSides()[i] == 1 || ((TileEntityMachineBase) tileEntity).getSides()[i] == 0) && machineTier != MachineTier.TIER_0) {
+                    slots = new int[3];
+                    slots[0] = 2;
+                    slots[1] = 3;
+                    slots[2] = 0;
+                }
+                i++;
+            }
+
+            return slots;
+        }
+
+    }
+

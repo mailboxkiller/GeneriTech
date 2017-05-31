@@ -65,6 +65,7 @@ import xyz.aadev.generitech.client.gui.upgrade.GuiUpgradeScreen;
 import xyz.aadev.generitech.common.container.machines.ContainerPulverizer;
 import xyz.aadev.generitech.common.container.upgrade.ContanierUpgradeStorage;
 import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
+import xyz.aadev.generitech.common.tileentities.power.DistributePowerToFace;
 import xyz.aadev.generitech.common.util.LanguageHelper;
 
 import java.util.List;
@@ -166,34 +167,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
 
     @Override
     public int[] getAccessibleSlotsBySide(EnumFacing side) {
-        int[] slots = new int[0];
-        float oreAngle = (this.getForward().getHorizontalAngle() + 90) >= 360 ? 0 : (this.getForward().getHorizontalAngle() + 90);
-        if (Math.abs(side.getHorizontalAngle() - oreAngle) < Reference.EPSILON) {
-            slots = new int[1];
-            slots[0] = 4;
-        }
-        if (side == EnumFacing.UP && machineTier == MachineTier.TIER_0) {
-            slots = new int[1];
-        }
-        if (side == EnumFacing.DOWN && machineTier == MachineTier.TIER_0) {
-            slots = new int[2];
-            slots[0] = 2;
-            slots[1] = 3;
-        }
-        int i = 0;
-        for (final EnumFacing sidea : EnumFacing.VALUES) {
-            if (sidea == side && (getSides()[i] == 1 || getSides()[i] == 0) && machineTier != MachineTier.TIER_0) {
-                slots = new int[3];
-                slots[0] = 2;
-                slots[1] = 3;
-                slots[2] = 0;
-                System.out.println(slots);
-            }
-            i++;
-        }
-        System.out.println(slots);
-
-        return slots;
+        return DistributePowerToFace.sidesnicememe(this,side,machineTier);
     }
 
 

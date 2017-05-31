@@ -55,18 +55,22 @@ import xyz.aadev.aalib.common.inventory.InternalInventory;
 import xyz.aadev.aalib.common.inventory.InventoryOperation;
 import xyz.aadev.aalib.common.util.InventoryHelper;
 import xyz.aadev.generitech.GeneriTech;
+import xyz.aadev.generitech.Reference;
 import xyz.aadev.generitech.api.registries.PulverizerRegistry;
 import xyz.aadev.generitech.api.util.MachineTier;
 import xyz.aadev.generitech.client.gui.machines.GuiFurnace;
+import xyz.aadev.generitech.client.gui.upgrade.GuiUpgradeScreen;
 import xyz.aadev.generitech.common.container.machines.ContainerFurnace;
+import xyz.aadev.generitech.common.container.upgrade.ContanierUpgradeStorage;
 import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
+import xyz.aadev.generitech.common.tileentities.power.DistributePowerToFace;
 import xyz.aadev.generitech.common.util.LanguageHelper;
 
 import java.util.List;
 
 public class TileEntityFurnace extends TileEntityMachineBase implements ITickable, IWailaBodyMessage {
 
-    private InternalInventory internalInventory = new InternalInventory(this, 4);
+    private InternalInventory internalInventory = new InternalInventory(this, 7);
     private BaseTeslaContainer container = new BaseTeslaContainer(0, 50000, 1000, 1000);
     private boolean machineActive = false;
     private int smeltProgress = 0;
@@ -96,12 +100,13 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
         internalTemp = nbtTagCompound.getFloat("internalTemp");
         smeltProgress = nbtTagCompound.getInteger("smeltProgress");
     }
+    @Override
+    public int[] getAccessibleSlotsBySide(EnumFacing side) {
+        return DistributePowerToFace.sidesnicememe(this,side,machineTier);
+    }
 
     @Override
     public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
-        if (machineTier == MachineTier.TIER_0) {
-            return direction == EnumFacing.DOWN && (index == 2 || index == 3);
-        }
         int i = 0;
         for (final EnumFacing side : EnumFacing.VALUES) {
             if (direction == side && getSides()[i] == 0 && (index == 2 || index == 3)) {
@@ -116,9 +121,8 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
     @Override
     public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
         int i = 0;
-
         for (final EnumFacing side : EnumFacing.VALUES) {
-            if (direction == side && getSides()[i] == 1 && index == 0 && PulverizerRegistry.containsInput(itemStackIn)) {
+            if (direction == side && getSides()[i] == 1 && index == 0 && FurnaceRecipes.instance().getSmeltingResult(itemStackIn)!=ItemStack.EMPTY) {
                 return true;
             }
             i++;
@@ -157,18 +161,21 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
     @SideOnly(Side.CLIENT)
     @Override
     public Object getClientGuiElement(int guiId, EntityPlayer player) {
+        if (guiId==3){
+            return new GuiUpgradeScreen(player.inventory,this,getSides(),3,player);
+        }
         return new GuiFurnace(player.inventory, this);
+
     }
 
     @Override
     public Object getServerGuiElement(int guiId, EntityPlayer player) {
+        if (guiId==3){
+            return new ContanierUpgradeStorage(player.inventory,this,3);
+        }
         return new ContainerFurnace(player.inventory, this);
     }
 
-    @Override
-    public int[] getAccessibleSlotsBySide(EnumFacing side) {
-        return new int[0];
-    }
 
     @Override
     public ItemStack removeStackFromSlot(int index) {
@@ -291,7 +298,7 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
         ItemStack processItem = internalInventory.getStackInSlot(1);
 
 
-        if (!ItemStack.areItemStacksEqual(processItem,ItemStack.EMPTY)&& getMultiplier() > 0) {
+        if (!ItemStack.areItemStacksEqual(processItem,ItemStack.EMPTY)&& getMultiplier() > 0 ) {
 
             smeltProgress += getMultiplier();
 

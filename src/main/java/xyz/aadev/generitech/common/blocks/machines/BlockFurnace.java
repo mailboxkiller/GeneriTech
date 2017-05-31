@@ -51,6 +51,7 @@ import xyz.aadev.generitech.GeneriTechTabs;
 import xyz.aadev.generitech.Reference;
 import xyz.aadev.generitech.api.util.MachineTier;
 import xyz.aadev.generitech.common.blocks.BlockMachineBase;
+import xyz.aadev.generitech.common.items.Items;
 import xyz.aadev.generitech.common.tileentities.machines.TileEntityFurnace;
 
 public class BlockFurnace extends BlockMachineBase {
@@ -67,9 +68,17 @@ public class BlockFurnace extends BlockMachineBase {
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
-            playerIn.openGui(GeneriTech.getInstance(), Reference.GUI_ID.FURNACE, worldIn, pos.getX(), pos.getY(), pos.getZ());
+            ItemStack heldItem = playerIn.getHeldItem(hand);
+            if (heldItem != null && heldItem.getItem() == Items.ITEM_TOOL_WRENCH.getItem()) {
+                playerIn.openGui(GeneriTech.getInstance(), Reference.GUI_ID.POWERSTORAGE_GUI, worldIn, pos.getX(), pos.getY(), pos.getZ());
+            } else {
+                playerIn.openGui(GeneriTech.getInstance(), Reference.GUI_ID.FURNACE, worldIn, pos.getX(), pos.getY(), pos.getZ());
+
+            }
+
+
         }
-        return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
+        return true;
     }
 
     @Override

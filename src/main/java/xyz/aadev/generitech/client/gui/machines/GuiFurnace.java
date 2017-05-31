@@ -77,4 +77,6 @@ public class GuiFurnace extends GuiBase {
             String progressLabel = String.format("%d%%", Math.round(progress));
             guiHelper.drawCenteredStringWithShadow(47, 39, 100, progressLabel, colorFont);
         }
+
+
 }

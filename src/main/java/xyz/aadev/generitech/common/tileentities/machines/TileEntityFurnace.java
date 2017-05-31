@@ -81,6 +81,7 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
     private MachineTier machineTier;
 
 
+
     @Override
     public void markForUpdate() {
         super.markForUpdate();
@@ -266,7 +267,8 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
         }
 
 
-        if (!ItemStack.areItemStacksEqual(internalInventory.getStackInSlot(0),ItemStack.EMPTY)&& ItemStack.areItemStacksEqual(internalInventory.getStackInSlot(1),ItemStack.EMPTY)) {
+
+        if (!ItemStack.areItemStacksEqual(internalInventory.getStackInSlot(0),ItemStack.EMPTY)&& ItemStack.areItemStacksEqual(internalInventory.getStackInSlot(1),ItemStack.EMPTY) && (ItemStack.areItemsEqual(FurnaceRecipes.instance().getSmeltingResult(internalInventory.getStackInSlot(0)), internalInventory.getStackInSlot(2)) || ItemStack.areItemsEqual(internalInventory.getStackInSlot(2),ItemStack.EMPTY))) {
             ItemStack itemIn = internalInventory.getStackInSlot(0);
             ItemStack itemOut;
 
@@ -288,6 +290,8 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
 
             internalInventory.setInventorySlotContents(0, itemIn);
             internalInventory.setInventorySlotContents(1, itemOut);
+
+
 
             machineActive = true;
 

@@ -34,8 +34,6 @@
 
 package xyz.aadev.generitech.common.tileentities.machines;
 
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.darkhax.tesla.api.implementation.BaseTeslaContainer;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.entity.player.EntityPlayer;
@@ -50,7 +48,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import xyz.aadev.aalib.api.common.integrations.waila.IWailaBodyMessage;
 import xyz.aadev.aalib.common.inventory.InternalInventory;
 import xyz.aadev.aalib.common.inventory.InventoryOperation;
 import xyz.aadev.aalib.common.util.InventoryHelper;
@@ -68,7 +65,7 @@ import xyz.aadev.generitech.common.util.LanguageHelper;
 
 import java.util.List;
 
-public class TileEntityFurnace extends TileEntityMachineBase implements ITickable, IWailaBodyMessage {
+public class TileEntityFurnace extends TileEntityMachineBase implements ITickable {
 
     private InternalInventory internalInventory = new InternalInventory(this, 7);
     private BaseTeslaContainer container = new BaseTeslaContainer(0, 50000, 1000, 1000);
@@ -349,22 +346,7 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
 
     }
 
-    @Override
-    public List<String> getWailaBodyToolTip(ItemStack itemStack, List<String> currentTip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
 
-        currentTip.add(String.format("%s: %s",
-                LanguageHelper.LABEL.translateMessage("max_temperature"),
-                getMaxTemperature()
-        ));
-
-        currentTip.add(String.format("%s: %s",
-                LanguageHelper.LABEL.translateMessage("current_temperature"),
-                getTemperature()
-        ));
-
-
-        return currentTip;
-    }
 
     @Override
     @SuppressWarnings("unchecked")

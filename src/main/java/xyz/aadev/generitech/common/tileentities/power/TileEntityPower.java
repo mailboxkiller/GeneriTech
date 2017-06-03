@@ -1,8 +1,7 @@
 package xyz.aadev.generitech.common.tileentities.power;
 
 
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
+
 import net.darkhax.tesla.api.ITeslaProducer;
 import net.darkhax.tesla.api.implementation.BaseTeslaContainer;
 import net.darkhax.tesla.capability.TeslaCapabilities;
@@ -16,7 +15,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
-import xyz.aadev.aalib.api.common.integrations.waila.IWailaBodyMessage;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import xyz.aadev.aalib.common.inventory.InternalInventory;
 import xyz.aadev.aalib.common.inventory.InventoryOperation;
 import xyz.aadev.generitech.Reference;
@@ -28,7 +28,7 @@ import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class TileEntityPower extends TileEntityMachineBase implements ITeslaProducer, net.minecraft.util.ITickable, IWailaBodyMessage {
+public class TileEntityPower extends TileEntityMachineBase implements ITeslaProducer, net.minecraft.util.ITickable {
     MachineTier machineTier;
     private BaseTeslaContainer container = new BaseTeslaContainer(0, 50000, 1000, 1000);
     private InternalInventory inventory = new InternalInventory(this, 1);
@@ -59,7 +59,7 @@ public class TileEntityPower extends TileEntityMachineBase implements ITeslaProd
         nbtTagCompound.setTag("TeslaContainer", this.container.serializeNBT());
     }
 
-
+    @SideOnly(Side.CLIENT)
     @Override
     public Object getClientGuiElement(int guiId, EntityPlayer player) {
         return new GuiGenerator(player.inventory, this);
@@ -164,13 +164,6 @@ public class TileEntityPower extends TileEntityMachineBase implements ITeslaProd
     }
 
 
-    @Override
-    public List<String> getWailaBodyToolTip(ItemStack itemStack, List<String> currentTip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-
-        currentTip.add(Long.toString(container.getStoredPower()));
-
-        return currentTip;
-    }
 
 
     @Override

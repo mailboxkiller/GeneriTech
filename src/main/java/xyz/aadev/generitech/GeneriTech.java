@@ -48,7 +48,6 @@ import org.apache.commons.lang3.JavaVersion;
 import org.apache.commons.lang3.SystemUtils;
 import xyz.aadev.aalib.common.command.CommandWithSubCommands;
 import xyz.aadev.aalib.common.integrations.IntegrationsManager;
-import xyz.aadev.aalib.common.integrations.waila.Waila;
 import xyz.aadev.aalib.common.logging.Logger;
 import xyz.aadev.generitech.api.exceptions.OutdatedJavaException;
 import xyz.aadev.generitech.common.config.Config;
@@ -108,7 +107,6 @@ public class GeneriTech {
 
         proxy.registerFluids();
 
-        integrationsManager.registerIntegration("Waila", Waila.class);
         integrationsManager.index();
         integrationsManager.preInit();
 

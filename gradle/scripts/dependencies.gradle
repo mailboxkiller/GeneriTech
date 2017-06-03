@@ -59,10 +59,10 @@ configurations {
 }
 
 dependencies {
-    mods "com.fireball1725.devworld:devworld:1.11-b15-client"
+    //mods "com.fireball1725.devworld:devworld:1.11-b15-client"
 
     compile project(':AALib')
-    deobfCompile "mcp.mobius.waila:Hwyla:1.8.10-B23_1.11"
+    //deobfCompile "mcp.mobius.waila:Hwyla:1.8.10-B23_1.11"
 
     compile "net.darkhax.tesla:Tesla:1.11-1.3.0.52"
     //deobfCompile "mcjty.theoneprobe:TheOneProbe:1.1x-1.4.1-51"

@@ -34,8 +34,6 @@
 
 package xyz.aadev.generitech.common.tileentities.machines;
 
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.darkhax.tesla.api.ITeslaConsumer;
 import net.darkhax.tesla.api.ITeslaHolder;
 import net.darkhax.tesla.api.implementation.BaseTeslaContainer;
@@ -52,7 +50,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.time.DurationFormatUtils;
-import xyz.aadev.aalib.api.common.integrations.waila.IWailaBodyMessage;
 import xyz.aadev.aalib.common.inventory.InternalInventory;
 import xyz.aadev.aalib.common.inventory.InventoryOperation;
 import xyz.aadev.aalib.common.util.InventoryHelper;
@@ -81,7 +78,7 @@ import java.util.Random;
 * 5-9 Upgrades
 */
 
-public class TileEntityPulverizer extends TileEntityMachineBase implements ITickable, IWailaBodyMessage, ITeslaConsumer, ITeslaHolder {
+public class TileEntityPulverizer extends TileEntityMachineBase implements ITickable, ITeslaConsumer, ITeslaHolder {
 
     private BaseTeslaContainer container = new BaseTeslaContainer(0, 50000, 10000, 10000);
     private InternalInventory inventory = new InternalInventory(this, 10);
@@ -411,26 +408,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
         return 200;
     }
 
-    @Override
-    public List<String> getWailaBodyToolTip(ItemStack itemStack, List<String> currentTip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
 
-        currentTip.add(LanguageHelper.LABEL.translateMessage("Power") + Long.toString(getPower()));
-
-
-        if (ticksRemaining == 0)
-            return currentTip;
-
-        float timePercent = ((float) getTotalProcessTime() - (float) ticksRemaining) / (float) getTotalProcessTime() * 100;
-        int secondsLeft = (ticksRemaining / 20) * 1000;
-
-        currentTip.add(String.format("%s: %s (%d%%)",
-                LanguageHelper.LABEL.translateMessage("time_left"),
-                DurationFormatUtils.formatDuration(secondsLeft, "mm:ss"),
-                Math.round(timePercent)));
-
-
-        return currentTip;
-    }
 
     @Override
     @SuppressWarnings("unchecked")

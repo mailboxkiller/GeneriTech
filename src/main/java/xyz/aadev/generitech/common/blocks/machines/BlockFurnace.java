@@ -34,6 +34,7 @@
 
 package xyz.aadev.generitech.common.blocks.machines;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
@@ -70,6 +71,7 @@ public class BlockFurnace extends BlockMachineBase {
         if (!worldIn.isRemote) {
             ItemStack heldItem = playerIn.getHeldItem(hand);
             if (heldItem != null && heldItem.getItem() == Items.ITEM_TOOL_WRENCH.getItem()) {
+
                 playerIn.openGui(GeneriTech.getInstance(), Reference.GUI_ID.POWERSTORAGE_GUI, worldIn, pos.getX(), pos.getY(), pos.getZ());
             } else {
                 playerIn.openGui(GeneriTech.getInstance(), Reference.GUI_ID.FURNACE, worldIn, pos.getX(), pos.getY(), pos.getZ());

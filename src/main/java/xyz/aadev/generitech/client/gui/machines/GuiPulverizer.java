@@ -83,8 +83,6 @@ public class GuiPulverizer extends GuiBase {
         } else {
             bindTexture("gui/machines/pulverizer.png");
             drawTexturedModalRect(paramInt1, paramInt2, 0, 0, this.xSize, this.ySize);
-            drawTexturedModalRect(paramInt1 + 30, paramInt2 + 63, 47, 34, 18, 18);
-
 
             int powerLevel = (int) (tileEntity.getPower() / 2000 + 1);
             if (tileEntity.getPower() > 48000) powerLevel = 25;

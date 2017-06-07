@@ -34,6 +34,7 @@
 
 package xyz.aadev.generitech.common.tileentities.machines;
 
+import mezz.jei.api.JEIPlugin;
 import net.darkhax.tesla.api.ITeslaConsumer;
 import net.darkhax.tesla.api.ITeslaHolder;
 import net.darkhax.tesla.api.implementation.BaseTeslaContainer;
@@ -94,7 +95,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
     private int fuelTotal = 0;
     private Item lastFuelType;
     private int lastFuelValue;
-    private float fortuneMultiplier = 0.5f;
+    private float fortuneMultiplier = 1f;
 
     public boolean isPulverizerPaused() {
         return pulverizerPaused;
@@ -236,11 +237,17 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
 
 
     public boolean canWork() {
-        if (machineTier == MachineTier.TIER_0) {
-            return fuelRemaining > 0;
-        } else {
-            return container.getStoredPower() >= powerUsage;
+        if ((ItemStack.areItemsEqual(PulverizerRegistry.getOutput(inventory.getStackInSlot(0)),inventory.getStackInSlot(2)) || ItemStack.areItemsEqual(PulverizerRegistry.getOutput(inventory.getStackInSlot(0)),inventory.getStackInSlot(3))) || ItemStack.areItemsEqual(inventory.getStackInSlot(3),ItemStack.EMPTY) || !ItemStack.areItemsEqual(inventory.getStackInSlot(1),ItemStack.EMPTY))
+        {
+            if (machineTier == MachineTier.TIER_0) {
+                return fuelRemaining > 0;
+            } else {
+                return container.getStoredPower() >= powerUsage;
+            }
+        }else {
+            return false;
         }
+
     }
 
     //checks if it can crush
@@ -269,6 +276,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
 
     @Override
     public void update() {
+
 
         //checking for the machine type
         if (machineTier == null)
@@ -307,7 +315,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
         }
 
 
-        if (this.canWork() && inventory.getStackInSlot(0) != ItemStack.EMPTY && inventory.getStackInSlot(1) == ItemStack.EMPTY) {
+        if (this.canWork() && !ItemStack.areItemStacksEqual(inventory.getStackInSlot(0), ItemStack.EMPTY) && ItemStack.areItemStacksEqual(inventory.getStackInSlot(1), ItemStack.EMPTY)) {
             if (!cancrush(inventory.getStackInSlot(0)))
                 return;
 
@@ -364,10 +372,13 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
                 float itemChance = crushable.chance;
                 boolean itemFortune = Math.abs(crushable.luckMultiplier - 1.0f) < Reference.EPSILON;
 
-                if (Math.abs(crushRNG - (-1)) < Reference.EPSILON) crushRNG = rnd.nextFloat();
+                //if (Math.abs(crushRNG - (-1)) < Reference.EPSILON) crushRNG = rnd.nextFloat();
 
                 if (itemFortune)
                     itemChance = itemChance + fortuneMultiplier;
+
+
+
 
                 outItem.setCount((int) Math.round(Math.floor(itemChance) + crushRNG * itemChance % 1));
                 if (outItem.getCount() == 0) outItem.setCount(1);

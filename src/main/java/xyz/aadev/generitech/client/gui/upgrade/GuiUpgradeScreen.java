@@ -72,11 +72,7 @@ public class GuiUpgradeScreen extends GuiBase {
         }
 
         if (tileEntity instanceof TileEntityPowerStorage){
-            int powerLevel = (int) (((TileEntityPowerStorage) tileEntity).getStoredPower() / 2000 + 1);
-            if (((TileEntityPowerStorage) tileEntity).getStoredPower() > 48000) powerLevel = 25;
-            if (((TileEntityPowerStorage) tileEntity).getStoredPower() == 0) powerLevel = -1;
-            int power = powerLevel - 25;
-            drawTexturedModalRect(paramInt1 + 18, paramInt2 + 31 - power, 176, 70 - powerLevel, 25, 25);
+
         }
     }
 

@@ -59,6 +59,16 @@ public class PulverizerRegistry {
         return outputList;
     }
 
+    public static ItemStack getOutput(ItemStack itemStack){
+        ItemStack output = ItemStack.EMPTY;
+
+        for (Crushable crushable : registry)
+            if (crushable.input.isItemEqual(itemStack) && crushable.output != ItemStack.EMPTY)
+                output=crushable.output;
+
+        return output;
+    }
+
     public static boolean containsInput(ItemStack itemStack) {
         for (Crushable crushable : registry)
             if (itemStack.isItemEqual(crushable.input))
@@ -76,7 +86,7 @@ public class PulverizerRegistry {
 
         for (ItemStack input : itemOres) {
             ItemStack output = itemDusts.get(0);
-            register(input, output, 0.8f, true);
+            register(input, output, 1.0f, true);
         }
     }
 

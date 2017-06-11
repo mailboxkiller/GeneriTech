@@ -1,12 +1,12 @@
 {
   "parent": "block/orientable",
   "textures": {
-    "particle": "generitech:blocks/BasicSide",
-    "west": "generitech:blocks/BasicSide",
-    "north": "generitech:blocks/PulverizerAnimated",
-    "down": "generitech:blocks/BasicSide",
-    "south": "generitech:blocks/BasicSide",
-    "east": "generitech:blocks/BasicSide",
-    "up": "generitech:blocks/BasicSide"
+    "particle": "generitech:blocks/side_basic",
+    "west": "generitech:blocks/side_basic",
+    "north": "generitech:blocks/pulverizer_animated",
+    "down": "generitech:blocks/side_basic",
+    "south": "generitech:blocks/side_basic",
+    "east": "generitech:blocks/side_basic",
+    "up": "generitech:blocks/side_basic"
   }
 }

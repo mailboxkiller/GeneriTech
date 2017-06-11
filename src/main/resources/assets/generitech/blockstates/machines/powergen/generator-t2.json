@@ -30,7 +30,7 @@
     "active": {
       "true": {
         "textures": {
-          "0": "generitech:blocks/machines/GeneratorFrontAnimated"
+          "0": "generitech:blocks/machines/generator_front_animated"
         }
       },
       "false": {

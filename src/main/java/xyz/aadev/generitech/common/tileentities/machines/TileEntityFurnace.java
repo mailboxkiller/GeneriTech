@@ -34,6 +34,8 @@
 
 package xyz.aadev.generitech.common.tileentities.machines;
 
+import net.darkhax.tesla.api.ITeslaConsumer;
+import net.darkhax.tesla.api.ITeslaHolder;
 import net.darkhax.tesla.api.implementation.BaseTeslaContainer;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.entity.player.EntityPlayer;
@@ -77,7 +79,9 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
     private long powerUsage = 50;
     private MachineTier machineTier;
 
-
+    public long getPower() {
+        return container.getStoredPower();
+    }
 
     @Override
     public void markForUpdate() {
@@ -378,4 +382,6 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
 
         return super.hasCapability(capability, facing);
     }
+
+
 }

@@ -71,16 +71,19 @@ public class GuiUpgradeScreen extends GuiBase {
             sides = ((TileEntityMachineBase) tileEntity).getSides();
         }
 
-        if (tileEntity instanceof TileEntityPowerStorage){
+        if (tileEntity instanceof TileEntityMachineBase) {
+            //System.out.println(((TileEntityMachineBase) tileEntity).getPower());
+
+
+            drawTexturedModalRect(paramInt1+11, paramInt2+31, 176, 30, 25, 25);
 
         }
+
     }
 
     @Override
     public void drawFG(int paramInt1, int paramInt2, int paramInt3, int paramInt4) {
-        if (tileEntity instanceof TileEntityMachineBase) {
-            System.out.println(((TileEntityMachineBase) tileEntity).getPower());
-        }
+
 
 
     }

@@ -78,7 +78,7 @@ public class GuiPulverizer extends GuiBase {
     @Override
     public void drawBG(int paramInt1, int paramInt2, int paramInt3, int paramInt4) {
         if (machineTier == MachineTier.TIER_0) {
-            bindTexture("gui/machines/pulverizerT0.png");
+            bindTexture("gui/machines/pulverizer_t0.png");
             drawTexturedModalRect(paramInt1, paramInt2, 0, 0, this.xSize, this.ySize);
         } else {
             bindTexture("gui/machines/pulverizer.png");

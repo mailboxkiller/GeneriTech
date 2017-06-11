@@ -56,6 +56,6 @@ public class ItemOre extends ItemBlock {
         String name = super.getUnlocalizedName();
         String oreName = EnumOres.byMeta(stack.getItemDamage()).getName();
 
-        return name + "." + oreName;
+        return oreName + "." + name;
     }
 }

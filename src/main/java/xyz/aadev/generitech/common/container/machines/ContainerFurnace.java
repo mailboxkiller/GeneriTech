@@ -50,7 +50,7 @@ public class ContainerFurnace extends ContainerBase {
 
         bindPlayerInventory(inventoryPlayer, 0, 84);
 
-        this.addSlotToContainer(new SlotNormal(inventory, 0, 56, 35));
-        this.addSlotToContainer(new SlotOutput(inventory, 2, 127, 35));
+        this.addSlotToContainer(new SlotNormal(inventory, 0, 53, 35));
+        this.addSlotToContainer(new SlotOutput(inventory, 2, 125, 35));
     }
 }

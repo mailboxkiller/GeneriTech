@@ -57,12 +57,25 @@ public class GuiFurnace extends GuiBase {
         public void drawBG(int paramInt1, int paramInt2, int paramInt3, int paramInt4) {
             bindTexture("gui/machines/furnace.png");
             drawTexturedModalRect(paramInt1, paramInt2, 0, 0, this.xSize, this.ySize);
-            System.out.println(tileEntity.getPower());
+
+            int powerLevel = (int) (tileEntity.getPower() / 2000 + 1);
+            if (tileEntity.getPower() > 48000) powerLevel = 25;
+            if (tileEntity.getPower() == 0) powerLevel = -1;
+            int power = powerLevel - 25;
+            drawTexturedModalRect(paramInt1 + 18, paramInt2 + 31 - power, 176, 70 - powerLevel, 25, 25);
+
             if (tileEntity.getTemperature() > 0) {
-                //float temp = (((float)tileEntity.getTemperature() / (float)tileEntity.getMaxTemperature()) * 100) / 7;
-                //LogHelper.info(">>>>> " + (int)temp);
-                drawTexturedModalRect(paramInt1 + 57, paramInt2 + 54, 176, 16, 14, 14);
+                int temp = (int)(((float)tileEntity.getTemperature() / (float)tileEntity.getMaxTemperature()) * 28);
+                if (temp > 13)temp=13;
+                int inversTemp = temp - 13;
+                drawTexturedModalRect(paramInt1 + 55, paramInt2 + 67 - temp, 176, 16 - inversTemp, 14, temp);
             }
+
+            int progress = Math.abs(tileEntity.getSmeltProgress() / 25);
+            drawTexturedModalRect(paramInt1 + 74, paramInt2 + 35, 176, 0, progress, 16);
+
+
+
         }
 
         @Override
@@ -73,9 +86,9 @@ public class GuiFurnace extends GuiBase {
 
             float progress = ((((float) tileEntity.getSmeltProgress()) / (float) 1000)) * 100;
 
-            guiHelper.drawHorizontalProgressBar(78, 39, 39, 8, Math.round(progress), colorBackground, colorBorder, colorProgressBackground);
-            String progressLabel = String.format("%d%%", Math.round(progress));
-            guiHelper.drawCenteredStringWithShadow(47, 39, 100, progressLabel, colorFont);
+            //guiHelper.drawHorizontalProgressBar(78, 39, 39, 8, Math.round(progress), colorBackground, colorBorder, colorProgressBackground);
+            //String progressLabel = String.format("%d%%", Math.round(progress));
+            //guiHelper.drawCenteredStringWithShadow(47, 39, 100, progressLabel, colorFont);
         }
 
 

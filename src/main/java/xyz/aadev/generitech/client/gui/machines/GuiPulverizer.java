@@ -99,7 +99,6 @@ public class GuiPulverizer extends GuiBase {
 
 
             int progress = Math.abs(tileEntity.getTicksRemaining() / 5);
-            if (progress == 0) progress = 40;
             drawTexturedModalRect(paramInt1 + 74, paramInt2 + 38, 176, 0, 40 - progress, 16);
 
         } else if (machineTier == MachineTier.TIER_1) {
@@ -107,22 +106,16 @@ public class GuiPulverizer extends GuiBase {
             if (progress == 0) progress = 40;
             drawTexturedModalRect(paramInt1 + 72, paramInt2 + 35, 176, 0, 40 - progress, 16);
 
-            drawTexturedModalRect(paramInt1 + 151, paramInt2 + 63, 47, 34, 18, 18);
         } else if (machineTier == MachineTier.TIER_2) {
             int progress = Math.abs(tileEntity.getTicksRemaining() / 5);
             if (progress == 0) progress = 40;
             drawTexturedModalRect(paramInt1 + 72, paramInt2 + 35, 176, 0, 40 - progress, 16);
 
-            drawTexturedModalRect(paramInt1 + 151, paramInt2 + 63, 47, 34, 18, 18);
-            drawTexturedModalRect(paramInt1 + 133, paramInt2 + 63, 47, 34, 18, 18);
         } else if (machineTier == MachineTier.TIER_3) {
             int progress = Math.abs(tileEntity.getTicksRemaining() / 5);
             if (progress == 0) progress = 40;
             drawTexturedModalRect(paramInt1 + 72, paramInt2 + 35, 176, 0, 40 - progress, 16);
 
-            drawTexturedModalRect(paramInt1 + 151, paramInt2 + 63, 47, 34, 18, 18);
-            drawTexturedModalRect(paramInt1 + 133, paramInt2 + 63, 47, 34, 18, 18);
-            drawTexturedModalRect(paramInt1 + 115, paramInt2 + 63, 47, 34, 18, 18);
         }
 
 

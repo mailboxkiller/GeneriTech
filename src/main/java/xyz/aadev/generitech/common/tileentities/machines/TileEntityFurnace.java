@@ -70,7 +70,7 @@ import java.util.List;
 public class TileEntityFurnace extends TileEntityMachineBase implements ITickable {
 
     private InternalInventory internalInventory = new InternalInventory(this, 7);
-    private BaseTeslaContainer container = new BaseTeslaContainer(0, 50000, 1000, 1000);
+    private BaseTeslaContainer container = new BaseTeslaContainer(0,50000,10000,10000);
     private boolean machineActive = false;
     private int smeltProgress = 0;
     private float internalTemp = 0f;
@@ -94,6 +94,8 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
         super.syncDataTo(nbtTagCompound, syncReason);
         nbtTagCompound.setFloat("internalTemp", internalTemp);
         nbtTagCompound.setInteger("smeltProgress", smeltProgress);
+        nbtTagCompound.setTag("TeslaContainer", this.container.serializeNBT());
+
     }
 
     @Override
@@ -101,6 +103,7 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
         super.syncDataFrom(nbtTagCompound, syncReason);
         internalTemp = nbtTagCompound.getFloat("internalTemp");
         smeltProgress = nbtTagCompound.getInteger("smeltProgress");
+        this.container = new BaseTeslaContainer(nbtTagCompound.getCompoundTag("TeslaContainer"));
     }
     @Override
     public int[] getAccessibleSlotsBySide(EnumFacing side) {
@@ -233,6 +236,12 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
                 return 0.5f;
         }
     }
+    public boolean isSlotOpen(){
+        if (ItemStack.areItemsEqual(FurnaceRecipes.instance().getSmeltingResult(internalInventory.getStackInSlot(0)), internalInventory.getStackInSlot(2)) || ItemStack.areItemsEqual(internalInventory.getStackInSlot(2),ItemStack.EMPTY)){
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public void update() {
@@ -269,9 +278,11 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
 
 
 
-        if (!ItemStack.areItemStacksEqual(internalInventory.getStackInSlot(0),ItemStack.EMPTY)&& ItemStack.areItemStacksEqual(internalInventory.getStackInSlot(1),ItemStack.EMPTY) && (ItemStack.areItemsEqual(FurnaceRecipes.instance().getSmeltingResult(internalInventory.getStackInSlot(0)), internalInventory.getStackInSlot(2)) || ItemStack.areItemsEqual(internalInventory.getStackInSlot(2),ItemStack.EMPTY))) {
+        if ((!ItemStack.areItemStacksEqual(internalInventory.getStackInSlot(0),ItemStack.EMPTY)&& ItemStack.areItemStacksEqual(internalInventory.getStackInSlot(1),ItemStack.EMPTY)) && isSlotOpen()) {
             ItemStack itemIn = internalInventory.getStackInSlot(0);
             ItemStack itemOut;
+
+            //System.out.println("test");
 
             if (!canSmelt(itemIn))
                 return;

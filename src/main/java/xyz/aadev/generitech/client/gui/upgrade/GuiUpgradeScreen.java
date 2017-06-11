@@ -78,7 +78,10 @@ public class GuiUpgradeScreen extends GuiBase {
 
     @Override
     public void drawFG(int paramInt1, int paramInt2, int paramInt3, int paramInt4) {
-        // Do nothing because of not implemented
+        if (tileEntity instanceof TileEntityMachineBase) {
+            System.out.println(((TileEntityMachineBase) tileEntity).getPower());
+        }
+
 
     }
 

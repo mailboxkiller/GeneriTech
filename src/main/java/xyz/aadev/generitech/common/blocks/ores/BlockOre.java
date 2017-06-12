@@ -96,6 +96,6 @@ public class BlockOre extends BlockBase {
     @Override
     public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
         String oreName = EnumOres.byMeta(stack.getItemDamage()).getName();
-        tooltip.add(LanguageHelper.TOOLTIP.translateMessage(String.format("%s.ore", oreName)));
+        tooltip.add(LanguageHelper.TOOLTIP.translateMessage(String.format("ore.%s", oreName)));
     }
 }

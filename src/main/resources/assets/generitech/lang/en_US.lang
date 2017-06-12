@@ -5,6 +5,9 @@ itemGroup.generitech.tools=GeneriTech Gadgets
 itemGroup.generitech.fluids=GeneriTech Fluids
 
 # Machines
+tile.generitech.generator.t1.name=Generator (T1)
+tile.generitech.generator.t2.name=Generator (T2)
+tile.generitech.generator.t3.name=Generator (T3)
 tile.generitech.pulverizer.t0.name=Pulverizer (T0)
 tile.generitech.pulverizer.t1.name=Pulverizer (T1)
 tile.generitech.pulverizer.t2.name=Pulverizer (T2)
@@ -15,6 +18,9 @@ tile.generitech.furnace.t3.name=Powered Furnace (T3)
 tile.generitech.machineframe.t1.name=Machine Frame (T1)
 tile.generitech.machineframe.t2.name=Machine Frame (T2)
 tile.generitech.machineframe.t3.name=Machine Frame (T3)
+tile.generitech.powerstorage.t1.name=Energy Reservoir (T1)
+tile.generitech.powerstorage.t2.name=Energy Reservoir (T2)
+tile.generitech.powerstorage.t3.name=Energy Reservoir (T3)
 
 # Metal Blocks
 tile.generitech.oreblock.tin.name=Tin Block
@@ -28,6 +34,9 @@ tile.generitech.ore.lead.name=Lead Ore
 
 # Tools
 item.generitech.tool_wrench.name=Combination Wrench
+
+# Components
+item.generitech.energy_amalgam.name=Energetic Amalgam
 
 # Debug
 item.generitech.worldgenwand.name=Orecle

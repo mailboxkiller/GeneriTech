@@ -34,7 +34,10 @@
 
 package xyz.aadev.generitech.client.gui.machines;
 
+import net.darkhax.tesla.lib.TeslaUtils;
 import net.minecraft.entity.player.InventoryPlayer;
+import org.lwjgl.util.Point;
+import org.lwjgl.util.Rectangle;
 import xyz.aadev.aalib.client.gui.GuiBase;
 import xyz.aadev.aalib.common.util.GuiHelper;
 import xyz.aadev.generitech.Reference;
@@ -42,16 +45,23 @@ import xyz.aadev.generitech.common.container.machines.ContainerFurnace;
 import xyz.aadev.generitech.common.tileentities.machines.TileEntityFurnace;
 import xyz.aadev.generitech.common.util.LanguageHelper;
 
+import java.util.ArrayList;
+
 public class GuiFurnace extends GuiBase {
         private TileEntityFurnace tileEntity;
-        private GuiHelper guiHelper = new GuiHelper();
+        Rectangle powerBar;
+        Rectangle heat;
 
-        public GuiFurnace(InventoryPlayer inventoryPlayer, TileEntityFurnace tileEntity) {
+
+    public GuiFurnace(InventoryPlayer inventoryPlayer, TileEntityFurnace tileEntity) {
             super(Reference.MOD_ID, new ContainerFurnace(inventoryPlayer, tileEntity));
             this.xSize = 176;
             this.ySize = 166;
             this.tileEntity = tileEntity;
-        }
+        powerBar = new Rectangle(18, 30, 9, 27);
+        heat = new Rectangle(53, 54, 14, 17);
+
+    }
 
         @Override
         public void drawBG(int paramInt1, int paramInt2, int paramInt3, int paramInt4) {
@@ -91,5 +101,24 @@ public class GuiFurnace extends GuiBase {
             //guiHelper.drawCenteredStringWithShadow(47, 39, 100, progressLabel, colorFont);
         }
 
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        super.drawScreen(mouseX, mouseY, partialTicks);
 
+
+        Point currentMouse = new Point(mouseX - guiLeft, mouseY - guiTop);
+        if (powerBar.contains(currentMouse)) {
+            ArrayList<String> powerMessage = new ArrayList<String>();
+            powerMessage.add(TeslaUtils.getDisplayableTeslaCount(tileEntity.getPower()));
+            renderToolTip(powerMessage, mouseX, mouseY);
+        }
+        if (heat.contains(currentMouse)) {
+            ArrayList<String> heatMessage = new ArrayList<String>();
+            heatMessage.add(Integer.toString(tileEntity.getTemperature()));
+            renderToolTip(heatMessage, mouseX, mouseY);
+        }         
+      
+        
+        
+    }
 }

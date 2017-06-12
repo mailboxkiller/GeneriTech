@@ -95,7 +95,9 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
     private int fuelTotal = 0;
     private Item lastFuelType;
     private int lastFuelValue;
-    private float fortuneMultiplier = 1f;
+    private float fortuneMultiplier = 0;
+
+
 
     public boolean isPulverizerPaused() {
         return pulverizerPaused;
@@ -243,8 +245,11 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
     public boolean canWork() {
         if ((ItemStack.areItemsEqual(PulverizerRegistry.getOutput(inventory.getStackInSlot(0)),inventory.getStackInSlot(2)) || ItemStack.areItemsEqual(PulverizerRegistry.getOutput(inventory.getStackInSlot(0)),inventory.getStackInSlot(3))) || ItemStack.areItemsEqual(inventory.getStackInSlot(3),ItemStack.EMPTY) || !ItemStack.areItemsEqual(inventory.getStackInSlot(1),ItemStack.EMPTY))
         {
+
             if (machineTier == MachineTier.TIER_0) {
-                return fuelRemaining > 0;
+
+
+                    return fuelRemaining > 0;
             } else {
                 return container.getStoredPower() >= powerUsage;
             }
@@ -280,11 +285,10 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
 
     @Override
     public void update() {
-
-
-        //checking for the machine type
-        if (machineTier == null)
+        if (machineTier == null){
             machineTier = MachineTier.byMeta(getBlockMetadata());
+        }
+
 
         if (machineTier == MachineTier.TIER_0 && container.getInputRate() != 0) container.setInputRate(0);
 
@@ -381,10 +385,27 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
                 if (itemFortune)
                     itemChance = itemChance + fortuneMultiplier;
 
+                switch (machineTier){
+                    case TIER_1:
+                        crushRNG = 0.5f;
+                        break;
+                    case TIER_2:
+                        crushRNG = 1f;
+                        break;
+                    case TIER_3:
+                        crushRNG = 1.3f;
+                        break;
+                    default:
+                        crushRNG = 0.0f;
+
+                }
 
 
+                int rng = Math.round(rnd.nextFloat()+crushRNG);
 
-                outItem.setCount((int) Math.round(Math.floor(itemChance) + crushRNG * itemChance % 1));
+                System.out.println(rng);
+
+                outItem.setCount((int) Math.round(Math.floor(itemChance) + rng));
                 if (outItem.getCount() == 0) outItem.setCount(1);
 
 

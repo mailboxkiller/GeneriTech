@@ -77,7 +77,7 @@ public class WorldGen implements IWorldGenerator {
             // Always add ores, in case they get enabled at runtime
             ConfigWorldGen.OreConfig config = ConfigWorldGen.getOreGenConfig().get(ore);
             WorldGen.addOreGen(ore.getName(), Blocks.BLOCK_ORE.getBlock().getStateFromMeta(ore.getMeta()), config);
-        }
+    }
     }
 
     public static OreGen addOreGen(String name, IBlockState block, ConfigWorldGen.OreConfig oreConfig) {

@@ -70,7 +70,7 @@ public class GuiPulverizer extends GuiBase {
         if (machineTier == MachineTier.TIER_0) {
         } else {
             this.container = tileEntity.getCapability(TeslaCapabilities.CAPABILITY_HOLDER, EnumFacing.DOWN);
-            powerBar = new Rectangle(9, 25, 14, 55);
+            powerBar = new Rectangle(18, 30, 9, 27);
         }
     }
 
@@ -99,6 +99,7 @@ public class GuiPulverizer extends GuiBase {
 
 
             int progress = Math.abs(tileEntity.getTicksRemaining() / 5);
+            if (progress==0)progress=40;
             drawTexturedModalRect(paramInt1 + 74, paramInt2 + 38, 176, 0, 40 - progress, 16);
 
         } else if (machineTier == MachineTier.TIER_1) {

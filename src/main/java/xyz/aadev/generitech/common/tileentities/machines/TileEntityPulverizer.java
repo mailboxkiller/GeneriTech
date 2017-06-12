@@ -105,6 +105,10 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
         return machineActive;
     }
 
+    @Override
+    public long getMaxPower() {
+        return container.getCapacity();
+    }
 
     @Override
     public void markForUpdate() {

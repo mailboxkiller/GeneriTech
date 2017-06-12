@@ -42,8 +42,17 @@ import javax.annotation.Nullable;
 
 public class TileEntityPowerStorage extends TileEntityMachineBase implements ITeslaHolder, ITeslaConsumer, ITickable {
     private InternalInventory inventory = new InternalInventory(this, 4);
-    private BaseTeslaContainer container = new BaseTeslaContainer(0, 50000, 1000, 1000);
+    private BaseTeslaContainer container = new BaseTeslaContainer(0, 100000, 1000, 1000);
 
+    @Override
+    public long getPower() {
+        return container.getStoredPower();
+    }
+
+    @Override
+    public long getMaxPower() {
+        return container.getCapacity();
+    }
 
     @Override
     public void update() {

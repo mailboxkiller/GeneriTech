@@ -79,8 +79,14 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
     private long powerUsage = 50;
     private MachineTier machineTier;
 
+    @Override
     public long getPower() {
         return container.getStoredPower();
+    }
+
+    @Override
+    public long getMaxPower() {
+        return container.getCapacity();
     }
 
     @Override
@@ -245,6 +251,7 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
 
     @Override
     public void update() {
+
 
 
         if (machineTier == null) {

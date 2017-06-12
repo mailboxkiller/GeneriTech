@@ -37,11 +37,13 @@ package xyz.aadev.generitech.common.tileentities;
 
 import net.darkhax.tesla.api.implementation.BaseTeslaContainer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ITickable;
 import xyz.aadev.aalib.common.tileentities.TileEntityInventoryBase;
 
 public abstract class TileEntityMachineBase extends TileEntityInventoryBase {
     protected BaseTeslaContainer container;
     private int[] sides = new int[6];
+
 
 
     public int[] getSides() {
@@ -55,6 +57,10 @@ public abstract class TileEntityMachineBase extends TileEntityInventoryBase {
     }
     public long getPower(){
         return container.getStoredPower();
+    }
+
+    public long getMaxPower(){
+        return this.container.getCapacity();
     }
 
 

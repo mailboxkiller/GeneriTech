@@ -73,9 +73,9 @@ public class GuiUpgradeScreen extends GuiBase {
 
         if (tileEntity instanceof TileEntityMachineBase) {
             //System.out.println(((TileEntityMachineBase) tileEntity).getPower());
-
-
-            drawTexturedModalRect(paramInt1+11, paramInt2+31, 176, 30, 25, 25);
+            int temp = (int)(((float)((TileEntityMachineBase) tileEntity).getPower() / (float)((TileEntityMachineBase) tileEntity).getMaxPower()) * 26);
+            if (temp > 25)temp=25;
+            drawTexturedModalRect(paramInt1+11, paramInt2+56 - temp, 176, 55 - temp, 25, temp);
 
         }
 

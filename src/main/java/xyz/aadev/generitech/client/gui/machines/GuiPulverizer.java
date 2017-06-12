@@ -124,17 +124,7 @@ public class GuiPulverizer extends GuiBase {
     @Override
     public void drawFG(int paramInt1, int paramInt2, int paramInt3, int paramInt4) {
 
-        if (machineTier == MachineTier.TIER_0) {
-//mabey one day
-        } else {
-            long powerCapacity = container.getCapacity();
-            long powerCurrent = tileEntity.getPower();
-
-            int powerLevel = powerCurrent > 0 ? (int) (powerCurrent * 100d / powerCapacity) : 0;
-
-            drawTexturedModalRect(paramInt1 + 74, paramInt2 + 38, 176, 0, 40 - powerLevel, 16);
-        }
-
+        
         if (machineTier == MachineTier.TIER_0) {
             String s = LanguageHelper.NONE.translateMessage(tileEntity.getUnlocalizedName());
             this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);

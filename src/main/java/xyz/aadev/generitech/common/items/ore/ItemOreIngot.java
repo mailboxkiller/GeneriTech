@@ -135,6 +135,12 @@ public class ItemOreIngot extends ItemBase implements IProvideRecipe, IProvideSm
             if (ore.isTypeSet(EnumOreType.DUST) && ore.isTypeSet(EnumOreType.INGOT)) {
                 GameRegistry.addSmelting(Items.ITEM_ORE_DUST.getStack(1, ore.getMeta()), Items.ITEM_ORE_INGOT.getStack(1, ore.getMeta()), 10);
             }
+
+            if (ore.equals(EnumOres.IRON)){
+                ItemStack item = new ItemStack(net.minecraft.init.Items.IRON_INGOT,1,ore.getMeta());
+                GameRegistry.addSmelting(Items.ITEM_ORE_DUST.getStack(1, ore.getMeta()), item, 10);
+            }
+
         }
 
         GameRegistry.addSmelting(Items.ITEM_ORE_DUST.getStack(1, EnumOres.GOLD.getMeta()), new ItemStack(net.minecraft.init.Items.GOLD_INGOT), 10);

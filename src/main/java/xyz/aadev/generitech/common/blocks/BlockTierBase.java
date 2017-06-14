@@ -57,6 +57,7 @@ public class BlockTierBase extends BlockBase implements IBlockRenderer {
         final String badPath = String.format("%s:badblock", Reference.MOD_ID);
 
         ModelLoader.setCustomStateMapper(this, new DefaultStateMapper() {
+            @SideOnly(Side.CLIENT)
             @Override
             protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
                 Map<IProperty<?>, Comparable<?>> blockStates = Maps.newLinkedHashMap(state.getProperties());
@@ -71,6 +72,7 @@ public class BlockTierBase extends BlockBase implements IBlockRenderer {
             }
         });
     }
+
 
     @SideOnly(Side.CLIENT)
     @Override
@@ -89,12 +91,12 @@ public class BlockTierBase extends BlockBase implements IBlockRenderer {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
+    public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> tab) {
         if (machineTiers.length == 0)
-            super.getSubBlocks(itemIn, tab, list);
+            super.getSubBlocks(itemIn, tab);
 
         for (MachineTier machineTier : machineTiers) {
-            list.add(new ItemStack(this, 1, machineTier.getMeta()));
+            tab.add(new ItemStack(this, 1, machineTier.getMeta()));
         }
     }
 

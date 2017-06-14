@@ -61,10 +61,10 @@ public class ItemOreDust extends ItemBase {
     }
 
     @Override
-    public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
+    public void getSubItems(CreativeTabs itemIn, NonNullList<ItemStack> tab) {
         for (int i = 0; i < EnumOres.values().length; i++) {
             if (EnumOres.byMeta(i).isTypeSet(EnumOreType.DUST)) {
-                subItems.add(new ItemStack(this, 1, i));
+                tab.add(new ItemStack(this, 1, i));
             }
         }
     }

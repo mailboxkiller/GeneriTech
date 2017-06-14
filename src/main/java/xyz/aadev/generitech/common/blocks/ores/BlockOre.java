@@ -38,11 +38,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import net.minecraft.world.World;
 import xyz.aadev.aalib.common.blocks.BlockBase;
 import xyz.aadev.generitech.GeneriTechTabs;
 import xyz.aadev.generitech.Reference;
@@ -50,6 +52,7 @@ import xyz.aadev.generitech.api.util.EnumOreType;
 import xyz.aadev.generitech.common.util.EnumOres;
 import xyz.aadev.generitech.common.util.LanguageHelper;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class BlockOre extends BlockBase {
@@ -85,17 +88,17 @@ public class BlockOre extends BlockBase {
     }
 
     @Override
-    public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
+    public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> tab) {
         for (int i = 0; i < EnumOres.values().length; i++) {
             if (EnumOres.byMeta(i).isTypeSet(EnumOreType.ORE)) {
-                list.add(new ItemStack(this, 1, i));
+                tab.add(new ItemStack(this, 1, i));
             }
         }
     }
 
+
     @Override
-    public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
+    public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced) {
         String oreName = EnumOres.byMeta(stack.getItemDamage()).getName();
-        tooltip.add(LanguageHelper.TOOLTIP.translateMessage(String.format("ore.%s", oreName)));
-    }
+        tooltip.add(LanguageHelper.TOOLTIP.translateMessage(String.format("ore.%s", oreName)));    }
 }

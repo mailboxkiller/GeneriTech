@@ -39,6 +39,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -65,10 +66,10 @@ public class ItemOreNugget extends ItemBase implements IProvideRecipe {
     }
 
     @Override
-    public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
+    public void getSubItems(CreativeTabs itemIn, NonNullList<ItemStack> tab) {
         for (int i = 0; i < EnumOres.values().length; i++) {
             if (EnumOres.byMeta(i).isTypeSet(EnumOreType.NUGGET)) {
-                subItems.add(new ItemStack(this, 1, i));
+                tab.add(new ItemStack(this, 1, i));
             }
         }
     }
@@ -94,14 +95,12 @@ public class ItemOreNugget extends ItemBase implements IProvideRecipe {
     public void RegisterRecipes() {
         for (int i = 0; i < EnumOres.values().length; i++) {
             // Ingot -> 9x Nugget
-            if (EnumOres.byMeta(i).isTypeSet(EnumOreType.INGOT) && EnumOres.byMeta(i).isTypeSet(EnumOreType.NUGGET)) {
-                GameRegistry.addRecipe(new ShapelessOreRecipe(Items.ITEM_ORE_NUGGET.getStack(9, i), "ingot" + EnumOres.byMeta(i).getOreName()));
-            }
+          /*  if (EnumOres.byMeta(i).isTypeSet(EnumOreType.INGOT) && EnumOres.byMeta(i).isTypeSet(EnumOreType.NUGGET)) {
+                ResourceLocation id = new ResourceLocation(Reference.MOD_ID+".Nuggets.Ingot."+EnumOres.byMeta(i));
 
-            // Iron Ingot -> 9x Iron Nuggets
-            if (EnumOres.byMeta(i) == EnumOres.IRON) {
-                GameRegistry.addRecipe(new ShapelessOreRecipe(Items.ITEM_ORE_NUGGET.getStack(9, i), "ingotIron"));
+                GameRegistry.addRecipe(id,new ShapelessOreRecipe(id,Items.ITEM_ORE_NUGGET.getStack(9, i), "ingot" + EnumOres.byMeta(i).getOreName()));
             }
+            */
         }
     }
 }

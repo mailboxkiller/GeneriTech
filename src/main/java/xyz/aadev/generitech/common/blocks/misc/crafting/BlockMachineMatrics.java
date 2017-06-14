@@ -70,10 +70,6 @@ public class BlockMachineMatrics extends BlockTierBase {
         return BlockRenderLayer.CUTOUT;
     }
 
-    @Override
-    public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
-        return false;
-    }
 
 
     @Override

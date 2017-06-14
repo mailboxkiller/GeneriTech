@@ -56,10 +56,6 @@ public class BlockGenerator extends BlockMachineBase {
         return state.withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, false);
     }
 
-    @Override
-    public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
-        return false;
-    }
 
     @Override
     public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing face) {

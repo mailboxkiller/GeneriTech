@@ -44,12 +44,12 @@ public class ButtonSides extends GuiButton {
     }
 
     @Override
-    public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-        super.drawButton(mc, mouseX, mouseY);
-
+    public void drawButtonForegroundLayer(int mouseX, int mouseY) {
+        super.drawButtonForegroundLayer(mouseX, mouseY);
         if (tileEntity instanceof TileEntityMachineBase) {
             sides = ((TileEntityMachineBase) tileEntity).getSides();
         }
+        drawTexturedModalRect(xIn, yIn, 177, 19, 10, 10);
 
         if (sides[i] == 0) {
             drawTexturedModalRect(xIn, yIn, 177, 19, 10, 10);
@@ -62,6 +62,7 @@ public class ButtonSides extends GuiButton {
         }
 
     }
+
 
     @Override
     public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {

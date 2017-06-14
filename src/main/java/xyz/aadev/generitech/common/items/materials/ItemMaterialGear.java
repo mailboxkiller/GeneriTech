@@ -57,10 +57,12 @@ public class ItemMaterialGear extends ItemBase {
         this.setInternalName("materialgear");
     }
 
+
+
     @Override
-    public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
+    public void getSubItems(CreativeTabs itemIn, NonNullList<ItemStack> tab) {
         for (EnumGears gear : EnumGears.values()) {
-            subItems.add(new ItemStack(itemIn, 1, gear.getMeta()));
+            tab.add(new ItemStack(this, 1, gear.getMeta()));
         }
     }
 

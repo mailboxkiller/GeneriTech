@@ -31,11 +31,10 @@ public class ButtonUpgrade extends GuiButton {
     }
 
     @Override
-    public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-        super.drawButton(mc, mouseX, mouseY);
-
-
+    public void drawButtonForegroundLayer(int mouseX, int mouseY) {
+        super.drawButtonForegroundLayer(mouseX, mouseY);
     }
+
 
     @Override
     public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {

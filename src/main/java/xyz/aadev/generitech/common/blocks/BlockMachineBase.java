@@ -75,6 +75,7 @@ public abstract class BlockMachineBase extends BlockTileBase {
         final String badPath = String.format("%s:badblock", Reference.MOD_ID);
 
         ModelLoader.setCustomStateMapper(this, new DefaultStateMapper() {
+            @SideOnly(Side.CLIENT)
             @Override
             protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
                 Map<IProperty<?>, Comparable<?>> blockStates = Maps.newLinkedHashMap(state.getProperties());
@@ -105,16 +106,18 @@ public abstract class BlockMachineBase extends BlockTileBase {
         }
     }
 
+
+
     @SideOnly(Side.CLIENT)
     @Override
-    public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
+    public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> tab) {
         if (machineTiers.length == 0)
-            super.getSubBlocks(itemIn, tab, list);
+            super.getSubBlocks(itemIn,tab);
 
         for (MachineTier machineTier : machineTiers) {
-            list.add(new ItemStack(this, 1, machineTier.getMeta()));
-        }
-    }
+            tab.add(new ItemStack(this, 1, machineTier.getMeta()));
+        }    }
+
 
     @Override
     public IBlockState getStateFromMeta(int meta) {

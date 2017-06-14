@@ -86,26 +86,29 @@ public class BlockOreBlock extends BlockBase implements IProvideRecipe {
         return getMetaFromState(state);
     }
 
+
     @Override
-    public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
+    public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> tab) {
         for (int i = 0; i < EnumOres.values().length; i++) {
             if (EnumOres.byMeta(i).isTypeSet(EnumOreType.BLOCK)) {
-                list.add(new ItemStack(itemIn, 1, i));
+                tab.add(new ItemStack(this, 1, i));
             }
-        }
-    }
+        }    }
 
     @Override
     public void RegisterRecipes() {
         for (int i = 0; i < EnumOres.values().length; i++) {
             if (EnumOres.byMeta(i).isTypeSet(EnumOreType.INGOT) && EnumOres.byMeta(i).isTypeSet(EnumOreType.BLOCK)) {
                 // Register 9x Ingot -> Block
-                GameRegistry.addRecipe(new ShapedOreRecipe(Blocks.BLOCK_ORE_BLOCK.getStack(1, i),
+
+
+
+                /*GameRegistry.addRecipe(null,new ShapedOreRecipe(null,Blocks.BLOCK_ORE_BLOCK.getStack(1, i),
                         "xxx",
                         "xxx",
                         "xxx",
                         'x', "ingot" + EnumOres.byMeta(i).getOreName())
-                );
+                );*/
             }
         }
     }

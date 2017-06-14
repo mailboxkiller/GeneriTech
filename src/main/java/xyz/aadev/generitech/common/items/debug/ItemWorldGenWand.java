@@ -1,6 +1,7 @@
 package xyz.aadev.generitech.common.items.debug;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -16,6 +17,7 @@ import xyz.aadev.generitech.Reference;
 import xyz.aadev.generitech.common.blocks.Blocks;
 import xyz.aadev.generitech.common.util.LanguageHelper;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 
@@ -55,9 +57,9 @@ public class ItemWorldGenWand extends ItemBase {
     }
 
     @Override
-    public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
+    public void addInformation(ItemStack stack, @Nullable World playerIn, List<String> tooltip, ITooltipFlag advanced) {
         String name = super.getUnlocalizedName();
         tooltip.add(LanguageHelper.TOOLTIP.translateMessage("worldgenwand"));
-        tooltip.add(LanguageHelper.TOOLTIP.translateMessage("worldgenwand2"));
-    }
+        tooltip.add(LanguageHelper.TOOLTIP.translateMessage("worldgenwand2"));    }
+    
 }

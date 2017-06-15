@@ -243,8 +243,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
 
 
     public boolean canWork() {
-        if ((ItemStack.areItemsEqual(PulverizerRegistry.getOutput(inventory.getStackInSlot(0)),inventory.getStackInSlot(2)) || ItemStack.areItemsEqual(PulverizerRegistry.getOutput(inventory.getStackInSlot(0)),inventory.getStackInSlot(3))) || ItemStack.areItemsEqual(inventory.getStackInSlot(3),ItemStack.EMPTY) || !ItemStack.areItemsEqual(inventory.getStackInSlot(1),ItemStack.EMPTY))
-        {
+
 
             if (machineTier == MachineTier.TIER_0) {
 
@@ -253,11 +252,27 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
             } else {
                 return container.getStoredPower() >= powerUsage;
             }
-        }else {
-            return false;
-        }
 
     }
+
+    public boolean outputSlotFree(){
+          return (ItemStack.areItemsEqual(PulverizerRegistry.getOutput(inventory.getStackInSlot(0)),inventory.getStackInSlot(2)) || ItemStack.areItemsEqual(PulverizerRegistry.getOutput(inventory.getStackInSlot(0)),inventory.getStackInSlot(3))) || (ItemStack.areItemsEqual(inventory.getStackInSlot(2),ItemStack.EMPTY) || ItemStack.areItemsEqual(inventory.getStackInSlot(3),ItemStack.EMPTY));
+    }
+
+    public long getPowerUsage(){
+
+        switch (MachineTier.byMeta(getBlockMetadata())){
+            case TIER_2:
+                return powerUsage = 60;
+            case TIER_3:
+                return powerUsage = 40;
+            default:
+                return powerUsage = 20;
+
+        }
+    }
+
+
 
     //checks if it can crush
     public boolean cancrush(ItemStack item) {
@@ -306,7 +321,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
                 fuelRemaining--;
                 machineActive = fuelRemaining > 0;
             } else if (ticksRemaining > 0) {
-                container.takePower(powerUsage, false);
+                container.takePower(getPowerUsage(), false);
                 machineActive = true;
             }
             if (machineActive && ticksRemaining > 0) {
@@ -323,7 +338,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
         }
 
 
-        if (this.canWork() && !ItemStack.areItemStacksEqual(inventory.getStackInSlot(0), ItemStack.EMPTY) && ItemStack.areItemStacksEqual(inventory.getStackInSlot(1), ItemStack.EMPTY)) {
+        if (this.outputSlotFree() && this.canWork() && !ItemStack.areItemStacksEqual(inventory.getStackInSlot(0), ItemStack.EMPTY) && ItemStack.areItemStacksEqual(inventory.getStackInSlot(1), ItemStack.EMPTY)) {
             if (!cancrush(inventory.getStackInSlot(0)))
                 return;
 
@@ -350,7 +365,8 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
             this.markDirty();
         }
 
-        if (inventory.getStackInSlot(1) != ItemStack.EMPTY  && ticksRemaining <= 0) {
+
+        if (!ItemStack.areItemsEqual(inventory.getStackInSlot(1) , ItemStack.EMPTY)&& ticksRemaining <= 0) {
 
 
             ticksRemaining = 0;
@@ -360,11 +376,10 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
             }
 
             ItemStack processItem = inventory.getStackInSlot(1);
+
             if (processItem == ItemStack.EMPTY) {
                 return;
             }
-
-
             NonNullList<Crushable> outputs = PulverizerRegistry.getOutputs(processItem);
 
 
@@ -403,7 +418,6 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
 
                 int rng = Math.round(rnd.nextFloat()+crushRNG);
 
-                System.out.println(rng);
 
                 outItem.setCount((int) Math.round(Math.floor(itemChance) + rng));
                 if (outItem.getCount() == 0) outItem.setCount(1);

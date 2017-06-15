@@ -75,13 +75,17 @@ public class GuiFurnace extends GuiBase {
             drawTexturedModalRect(paramInt1 + 18, paramInt2 + 31 - power, 176, 70 - powerLevel, 25, 25);
 
             if (tileEntity.getTemperature() > 0) {
-                int temp = (int)(((float)tileEntity.getTemperature() / (float)tileEntity.getMaxTemperature()) * 28);
+                int temp = (int)(((float)tileEntity.getTemperature() / (float)tileEntity.getMaxTemperature()) * 14);
+                if (tileEntity.getTemperature()+1 == tileEntity.getIdleTemp()) {
+                    temp=7;
+                }
                 if (temp > 13)temp=13;
                 int inversTemp = temp - 13;
                 drawTexturedModalRect(paramInt1 + 55, paramInt2 + 67 - temp, 176, 16 - inversTemp, 14, temp);
             }
 
             int progress = Math.abs(tileEntity.getSmeltProgress() / 25);
+
             drawTexturedModalRect(paramInt1 + 74, paramInt2 + 35, 176, 0, progress, 16);
 
 
@@ -114,7 +118,11 @@ public class GuiFurnace extends GuiBase {
         }
         if (heat.contains(currentMouse)) {
             ArrayList<String> heatMessage = new ArrayList<String>();
-            heatMessage.add(Integer.toString(tileEntity.getTemperature()));
+            int heat = tileEntity.getTemperature();
+            if (heat == tileEntity.getMaxTemperature()-1)heat=tileEntity.getMaxTemperature();
+            if (heat == tileEntity.getIdleTemp()-1)heat=tileEntity.getIdleTemp();
+
+            heatMessage.add(Integer.toString(heat));
             renderToolTip(heatMessage, mouseX, mouseY);
         }         
       

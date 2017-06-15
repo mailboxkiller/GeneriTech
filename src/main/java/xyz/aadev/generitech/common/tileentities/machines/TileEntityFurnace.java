@@ -78,6 +78,7 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
     private boolean isSmeltPaused = false;
     private long powerUsage = 50;
     private MachineTier machineTier;
+    private boolean ActiveTexture=false;
 
     @Override
     public long getPower() {
@@ -249,6 +250,10 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
         return false;
     }
 
+    public boolean getActiveTexture(){
+        return ActiveTexture;
+    }
+
     @Override
     public void update() {
 
@@ -272,6 +277,15 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
             } else {
                 internalTemp -= getTempRate() / 2;
             }
+        }
+
+
+        if (container.getStoredPower() >= powerUsage && canIdle){
+            ActiveTexture = true;
+        }else if (container.getStoredPower() <= powerUsage && canIdle){
+            ActiveTexture = false;
+        }else if (machineActive != ActiveTexture){
+            ActiveTexture = machineActive;
         }
 
         BlockPos pos = getPos();

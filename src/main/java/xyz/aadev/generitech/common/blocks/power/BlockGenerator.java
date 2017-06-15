@@ -27,7 +27,7 @@ public class BlockGenerator extends BlockMachineBase {
 
 
     public BlockGenerator() {
-        super(Material.ROCK, "machines/powergen/generator", MachineTier.allexeptTier_0());
+        super(Material.ROCK, "machines/generator/generator", MachineTier.allexeptTier_0());
         this.setDefaultState(blockState.getBaseState().withProperty(MACHINETIER, MachineTier.TIER_1));
         this.setTileEntity(TileEntityPower.class);
         this.setCreativeTab(GeneriTechTabs.GENERAL);

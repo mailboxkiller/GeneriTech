@@ -10,7 +10,7 @@
       "south": "generitech:blocks/machines/side_basic",
       "particle": "generitech:blocks/machines/furnace_front"
     },
-    "model":"minecraft:cube_all",
+    "model":"generitech:furnace",
     "transform":"forge:default-block"
   },
   "variants":{
@@ -35,7 +35,9 @@
     },
     "active": {
       "true": {
-        "north": "generitech:blocks/machines/furnace_front_active"
+		"textures": {
+          "0": "generitech:blocks/machines/furnace_front_active"
+        }
       },
       "false": {
       }

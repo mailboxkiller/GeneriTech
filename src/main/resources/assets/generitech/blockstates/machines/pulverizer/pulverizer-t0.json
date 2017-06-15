@@ -4,11 +4,11 @@
     "textures": {
       "up": "blocks/furnace_top",
       "down": "blocks/furnace_top",
-      "north": "generitech:blocks/machines/pulverizer_t0",
+      "north": "generitech:blocks/machines/pulverizer_t0_front",
       "east": "blocks/furnace_side",
       "west": "blocks/furnace_side",
       "south": "blocks/furnace_side",
-      "particle": "generitech:blocks/machines/pulverizer_t0"
+      "particle": "generitech:blocks/machines/pulverizer_t0_front"
     },
     "model":"minecraft:cube_all",
     "transform":"forge:default-block"
@@ -36,7 +36,7 @@
     "active": {
       "true": {
         "textures": {
-          "north": "generitech:blocks/machines/pulverizer_t0_animated"
+          "north": "generitech:blocks/machines/pulverizer_t0_front_active"
         }
       },
       "false": {

@@ -2,7 +2,7 @@
   "forge_marker":1,
   "defaults":{
     "textures": {
-      "particle": "generitech:blocks/machines/basicside"
+      "particle": "generitech:blocks/machines/side_basic"
     },
     "model":"generitech:generator",
     "transform":"forge:default-block"
@@ -15,7 +15,7 @@
     ],
     "facing":{
       "north":{
-
+		
       },
       "east":{
         "y": 90
@@ -30,7 +30,7 @@
     "active": {
       "true": {
         "textures": {
-          "0": "generitech:blocks/machines/generator_front_animated"
+          "0": "generitech:blocks/machines/generator_front_active"
         }
       },
       "false": {

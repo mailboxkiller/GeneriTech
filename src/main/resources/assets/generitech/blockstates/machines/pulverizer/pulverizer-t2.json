@@ -10,7 +10,7 @@
       "south": "generitech:blocks/machines/side_basic",
       "particle": "generitech:blocks/machines/pulverizer_front"
     },
-    "model":"minecraft:cube_all",
+    "model":"generitech:pulverizer",
     "transform":"forge:default-block"
   },
   "variants":{
@@ -36,11 +36,11 @@
     "active": {
       "true": {
         "textures": {
-          "north": "generitech:blocks/machines/pulverizer_animated"
+          "0": "generitech:blocks/machines/pulverizer_front_active"
         }
       },
       "false": {
-      }
+	  }
     }
   }
 }

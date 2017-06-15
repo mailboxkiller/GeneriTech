@@ -101,12 +101,11 @@ public class TileEntityPower extends TileEntityMachineBase implements ITeslaProd
         if (fuelRemaining != 0) fuelRemaining--;
 
         if (fuelRemaining > 0) {
-            container.givePower(60, false);
+            container.givePower(20, false);
         }
-        if (container.getStoredPower() != container.getCapacity() && inventory.getStackInSlot(0) != null || container.getStoredPower() < container.getCapacity() && inventory.getStackInSlot(0) != null) {
+        if (container.getStoredPower() != container.getCapacity() && inventory.getStackInSlot(0) != ItemStack.EMPTY || container.getStoredPower() < container.getCapacity() && inventory.getStackInSlot(0) != ItemStack.EMPTY) {
             burnTime();
         }
-
         if (container.getStoredPower() != 0) {
             DistributePowerToFace.transferPower(pos, worldIn, T0transfer, container, sides);
         }
@@ -125,7 +124,7 @@ public class TileEntityPower extends TileEntityMachineBase implements ITeslaProd
                 lastFuelType = inventory.getStackInSlot(0).getItem();
                 lastFuelValue = fuelRemaining;
             }
-            fuelRemaining = fuelRemaining / 10;
+            fuelRemaining = fuelRemaining/2;
             fuelTotal = fuelRemaining;
             inventory.decrStackSize(0, 1);
             this.markDirty();

@@ -48,6 +48,7 @@ import net.minecraftforge.event.world.ChunkDataEvent;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import xyz.aadev.aalib.common.util.WorldInfoHelper;
 import xyz.aadev.generitech.GeneriTech;
@@ -77,7 +78,9 @@ public class WorldGen implements IWorldGenerator {
             // Always add ores, in case they get enabled at runtime
             ConfigWorldGen.OreConfig config = ConfigWorldGen.getOreGenConfig().get(ore);
             WorldGen.addOreGen(ore.getName(), Blocks.BLOCK_ORE.getBlock().getStateFromMeta(ore.getMeta()), config);
-    }
+        }
+        //GameRegistry.registerWorldGenerator(new WorldGen(),0);
+
     }
 
     public static OreGen addOreGen(String name, IBlockState block, ConfigWorldGen.OreConfig oreConfig) {
@@ -214,6 +217,7 @@ public class WorldGen implements IWorldGenerator {
                 GeneriTech.Logger.info(String.format("Retrogen was performed on %s chunks. %s chunks remaining", counter, Math.max(0, chunks.size())));
         }
     }
+
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {

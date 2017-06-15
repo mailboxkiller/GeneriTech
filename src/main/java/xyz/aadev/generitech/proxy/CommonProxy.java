@@ -38,6 +38,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import xyz.aadev.aalib.api.common.util.IProvideEvent;
 import xyz.aadev.aalib.api.common.util.IProvideRecipe;
@@ -68,7 +69,9 @@ public abstract class CommonProxy implements IProxy {
     @Override
     public void registerWorldGen() {
         WorldGen.init();
+
     }
+
 
     @Override
     public void registerFluids() {
@@ -175,6 +178,8 @@ public abstract class CommonProxy implements IProxy {
                 MinecraftForge.EVENT_BUS.register(block.getBlock());
         }
     }
+
+
 
     @Override
     public void registerGUIs() {

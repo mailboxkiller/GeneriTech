@@ -105,7 +105,7 @@ public class GeneriTech {
 
         proxy.registerWorldGen();
 
-        proxy.registerFluids();
+        //proxy.registerFluids();
 
         integrationsManager.index();
         integrationsManager.preInit();
@@ -120,8 +120,8 @@ public class GeneriTech {
         proxy.registerRecipes();
         proxy.registerPulverizerRecipes();
 
-        //WorldGen worldGen = new WorldGen();
-        //GameRegistry.registerWorldGenerator(worldGen, 0);
+        WorldGen worldGen = new WorldGen();
+        GameRegistry.registerWorldGenerator(worldGen, 0);
         //MinecraftForge.EVENT_BUS.register(worldGen);
 
         MinecraftForge.EVENT_BUS.register(this);

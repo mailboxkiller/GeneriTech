@@ -34,6 +34,7 @@
 
 package xyz.aadev.generitech.common.blocks.ores;
 
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -59,10 +60,11 @@ public class BlockOreBlock extends BlockBase implements IProvideRecipe {
     public static final PropertyEnum ORE = PropertyEnum.create("ore", EnumOres.class);
 
     public BlockOreBlock() {
-        super(Material.ROCK, "ore/oreblock", Reference.MOD_ID);
+        super(Material.IRON, "ore/oreblock", Reference.MOD_ID);
         this.setDefaultState(this.blockState.getBaseState().withProperty(ORE, EnumOres.COPPER));
         this.setCreativeTab(GeneriTechTabs.ORE);
         this.setInternalName("oreblock");
+        this.setSoundType(SoundType.METAL);
     }
 
     @Override

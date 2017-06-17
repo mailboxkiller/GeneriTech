@@ -30,10 +30,10 @@ public class ContanierUpgradeStorage extends ContainerBase {
         super(inventoryPlayer, tileEntity);
         this.inventory = (IInventory) tileEntity;
 
-        this.addSlotToContainer(new SlotNormal(inventory, Start + 0, 34, 17));
-        this.addSlotToContainer(new SlotNormal(inventory, Start + 1, 70, 17));
-        this.addSlotToContainer(new SlotNormal(inventory, Start + 2, 34, 53));
-        this.addSlotToContainer(new SlotNormal(inventory, Start + 3, 70, 53));
+        this.addSlotToContainer(new SlotNormal(inventory, Start + 0, 32, 17));
+        this.addSlotToContainer(new SlotNormal(inventory, Start + 1, 68, 17));
+        this.addSlotToContainer(new SlotNormal(inventory, Start + 2, 32, 53));
+        this.addSlotToContainer(new SlotNormal(inventory, Start + 3, 68, 53));
 
         bindPlayerInventory(inventoryPlayer, 0, 84);
     }

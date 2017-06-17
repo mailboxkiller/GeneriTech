@@ -111,13 +111,14 @@ public class GuiUpgradeScreen extends GuiBase {
                 Left = 2;
                 Right = 3;
             }
-
-            this.addButton(new ButtonSides(0, guiLeft + 123, guiTop + 44, sides, guiLeft + 124, guiTop + 45, tileEntity));
-            this.addButton(new ButtonSides(1, guiLeft + 123, guiTop + 20, sides, guiLeft + 124, guiTop + 21, tileEntity));
-            this.addButton(new ButtonSides(Forward, guiLeft + 123, guiTop + 32, sides, guiLeft + 124, guiTop + 33, tileEntity));
-            this.addButton(new ButtonSides(Left, guiLeft + 135, guiTop + 32, sides, guiLeft + 136, guiTop + 33, tileEntity));
-            this.addButton(new ButtonSides(Right, guiLeft + 111, guiTop + 32, sides, guiLeft + 112, guiTop + 33, tileEntity));
-            this.addButton(new ButtonSides(Back, guiLeft + 123, guiTop + 56, sides, guiLeft + 124, guiTop + 57, tileEntity));
+            //bottom
+            this.addButton(new ButtonSides(0, guiLeft + 118, guiTop + 63, sides, tileEntity));
+            //top
+            this.addButton(new ButtonSides(1, guiLeft + 119, guiTop + 13, sides, tileEntity));
+            this.addButton(new ButtonSides(Forward, guiLeft + 141, guiTop + 51, sides,  tileEntity));
+            this.addButton(new ButtonSides(Back, guiLeft + 96, guiTop + 25, sides,  tileEntity));
+            this.addButton(new ButtonSides(Right, guiLeft + 96, guiTop + 51, sides,  tileEntity));
+            this.addButton(new ButtonSides(Left, guiLeft + 141, guiTop + 25, sides,  tileEntity));
 
         }
 
@@ -140,13 +141,13 @@ public class GuiUpgradeScreen extends GuiBase {
 
         if (!slot.contains(mouseX - guiLeft, mouseY - guiTop)) {
             RenderHelper.enableGUIStandardItemLighting();
-            renderItem.renderItemIntoGUI(new ItemStack(tileEntity.getBlockType(), 1, machineTier), guiLeft + 52, guiTop + 35);
+            renderItem.renderItemIntoGUI(new ItemStack(tileEntity.getBlockType(), 1, machineTier), guiLeft + 50, guiTop + 35);
         }
 
 
         if (slot.contains(mouseX - guiLeft, mouseY - guiTop)) {
             RenderHelper.enableGUIStandardItemLighting();
-            renderItem.renderItemIntoGUI(new ItemStack(Blocks.BLOCK_MACHINEMATRICS.getBlock(), 1, machineTier), guiLeft + 52, guiTop + 35);
+            renderItem.renderItemIntoGUI(new ItemStack(Blocks.BLOCK_MACHINEMATRICS.getBlock(), 1, machineTier), guiLeft + 50, guiTop + 35);
             ArrayList<String> powerMessage = new ArrayList<>();
             powerMessage.add("MachineTier (T" + machineTier + ")");
             renderToolTip(powerMessage, mouseX, mouseY);

@@ -30,14 +30,14 @@ public class ButtonSides extends GuiButton {
     private int i;
     private TileEntity tileEntity;
 
-    public ButtonSides(int buttonId, int x, int y, int[] sides, int xIn, int yIn, TileEntity tile) {
+    public ButtonSides(int buttonId, int x, int y, int[] sides, TileEntity tile) {
         super(buttonId, x, y, "");
         this.width = 10;
         this.height = 10;
         this.visible = false;
         this.sides = sides;
-        this.xIn = xIn;
-        this.yIn = yIn;
+        this.xIn = x+1;
+        this.yIn = y+1;
         this.i = buttonId;
         this.tileEntity = tile;
 

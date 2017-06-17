@@ -86,6 +86,17 @@ public class TileEntityPower extends TileEntityMachineBase implements ITeslaProd
         return false;
     }
 
+    public long getPowerGenRate(){
+        switch (MachineTier.byMeta(getBlockMetadata())){
+            case TIER_2:
+                return 60;
+            case TIER_3:
+                return 90;
+            default:
+                return 30;
+        }
+    }
+
     @Override
     public boolean canBeRotated() {
         return true;
@@ -101,7 +112,7 @@ public class TileEntityPower extends TileEntityMachineBase implements ITeslaProd
         if (fuelRemaining != 0) fuelRemaining--;
 
         if (fuelRemaining > 0) {
-            container.givePower(20, false);
+            container.givePower(getPowerGenRate(), false);
         }
         if (container.getStoredPower() != container.getCapacity() && inventory.getStackInSlot(0) != ItemStack.EMPTY || container.getStoredPower() < container.getCapacity() && inventory.getStackInSlot(0) != ItemStack.EMPTY) {
             burnTime();

@@ -34,6 +34,7 @@ import xyz.aadev.generitech.GeneriTechTabs;
 import xyz.aadev.generitech.Reference;
 import xyz.aadev.generitech.api.util.MachineTier;
 import xyz.aadev.generitech.common.blocks.BlockMachineBase;
+import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
 import xyz.aadev.generitech.common.tileentities.power.TileEntityPowerStorage;
 
 public class BlockPowerStorage extends BlockMachineBase {
@@ -59,26 +60,18 @@ public class BlockPowerStorage extends BlockMachineBase {
     @Override
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         TileEntity tileEntity = TileHelper.getTileEntity(worldIn, pos, TileEntity.class);
-        if (tileEntity instanceof TileEntityPowerStorage) {
-            if (((TileEntityPowerStorage) tileEntity).canBeRotated()) {
-                return state.withProperty(FACING, EnumFacing.NORTH);
-            }
+        if (((TileEntityPowerStorage) tileEntity).canBeRotated())
+        {   
+            return state.withProperty(FACING, EnumFacing.NORTH).withProperty(OVERLAY, ((TileEntityMachineBase) tileEntity).getOverlayState());
         }
-
 
         return state.withProperty(FACING, EnumFacing.NORTH);
     }
 
 
     @Override
-    public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
-        IBlockState blockState = getActualState(state, world, pos);
-        return (blockState.getValue(MACHINETIER) == MachineTier.TIER_0) ? 15 : 0;
-    }
-
-    @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, MACHINETIER, FACING);
+        return new BlockStateContainer(this, MACHINETIER, FACING, OVERLAY);
     }
 
     @Override

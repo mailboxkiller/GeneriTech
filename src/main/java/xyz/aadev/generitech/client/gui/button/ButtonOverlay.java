@@ -19,21 +19,31 @@ package xyz.aadev.generitech.client.gui.button;/*
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.tileentity.TileEntity;
+import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
 
-public class ButtonUpgrade extends GuiButton {
-    public ButtonUpgrade(int buttonId, int x, int y) {
-        super(buttonId, x, y, "");
-        this.visible = true;
-        this.width = 20;
-        this.height = 20;
+public class ButtonOverlay extends GuiButton {
+    private int xIn;
+    private int yIn;
+    private TileEntity tileEntity;
 
+    public ButtonOverlay(int buttonId, int x, int y, TileEntity tileEntity) {
+        super(buttonId, x, y, "Side Overlay");
+        this.visible = false;
+        this.width = 12;
+        this.height = 12;
+        this.xIn = x;
+        this.yIn = y;
+        this.tileEntity = tileEntity;
 
     }
 
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
         super.drawButton(mc, mouseX, mouseY);
-
+        if (((TileEntityMachineBase) tileEntity).getOverlayState()){
+            drawTexturedModalRect(xIn, yIn, 176, 55, width, height);
+        }
 
     }
 

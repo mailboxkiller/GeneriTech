@@ -24,10 +24,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityFurnace;
 import xyz.aadev.aalib.client.gui.GuiBase;
 import xyz.aadev.aalib.common.util.GuiHelper;
 import xyz.aadev.generitech.Reference;
 import xyz.aadev.generitech.api.util.MachineTier;
+import xyz.aadev.generitech.client.gui.button.ButtonOverlay;
 import xyz.aadev.generitech.client.gui.button.ButtonSides;
 import xyz.aadev.generitech.common.blocks.Blocks;
 import xyz.aadev.generitech.common.container.upgrade.ContanierUpgradeStorage;
@@ -36,6 +38,7 @@ import xyz.aadev.generitech.common.network.messages.power.PacketSides;
 import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
 import xyz.aadev.generitech.common.tileentities.power.TileEntityPower;
 import xyz.aadev.generitech.common.tileentities.power.TileEntityPowerStorage;
+import xyz.aadev.generitech.common.util.LanguageHelper;
 
 import java.awt.*;
 import java.io.IOException;
@@ -120,6 +123,9 @@ public class GuiUpgradeScreen extends GuiBase {
             this.addButton(new ButtonSides(Right, guiLeft + 96, guiTop + 51, sides,  tileEntity));
             this.addButton(new ButtonSides(Left, guiLeft + 141, guiTop + 25, sides,  tileEntity));
 
+            this.addButton(new ButtonOverlay(6,guiLeft + 155, guiTop + 69,tileEntity));
+
+
         }
 
     }
@@ -127,7 +133,16 @@ public class GuiUpgradeScreen extends GuiBase {
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         //adds side
-        task(button.id);
+        if (button.id==6){
+            if (((TileEntityMachineBase) tileEntity).getOverlayState()) {
+                ((TileEntityMachineBase) tileEntity).setOverlay_ticksLeft(0);
+            } else {
+                ((TileEntityMachineBase) tileEntity).setOverlay_ticksLeft(300);
+            }
+        } else {
+            task(button.id);
+        }
+
     }
 
     private void task(int i) throws IOException {
@@ -144,7 +159,6 @@ public class GuiUpgradeScreen extends GuiBase {
             renderItem.renderItemIntoGUI(new ItemStack(tileEntity.getBlockType(), 1, machineTier), guiLeft + 50, guiTop + 35);
         }
 
-
         if (slot.contains(mouseX - guiLeft, mouseY - guiTop)) {
             RenderHelper.enableGUIStandardItemLighting();
             renderItem.renderItemIntoGUI(new ItemStack(Blocks.BLOCK_MACHINEMATRICS.getBlock(), 1, machineTier), guiLeft + 50, guiTop + 35);
@@ -153,6 +167,9 @@ public class GuiUpgradeScreen extends GuiBase {
             renderToolTip(powerMessage, mouseX, mouseY);
         }
 
+        ArrayList<String> Message = new ArrayList<>();
+        Message.add(LanguageHelper.TOOLTIP.translateMessage("overlay_time_remaining "+ ((TileEntityMachineBase) tileEntity).getOverlay_ticksLeft()/20));
+        renderToolTip(Message, mouseX, mouseY);
 
     }
 

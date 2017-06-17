@@ -43,6 +43,29 @@ import xyz.aadev.aalib.common.tileentities.TileEntityInventoryBase;
 public abstract class TileEntityMachineBase extends TileEntityInventoryBase {
     protected BaseTeslaContainer container;
     private int[] sides = new int[6];
+    private int overlay_ticksLeft=0;
+    private boolean overlayState;
+
+    public void OverlayState(){
+        if(overlay_ticksLeft>0){
+            overlayState=true;
+            overlay_ticksLeft--;
+        }else if (overlayState) {
+            overlayState = false;
+        }
+    }
+
+    public int getOverlay_ticksLeft() {
+        return overlay_ticksLeft;
+    }
+
+    public void setOverlay_ticksLeft(int overlay_ticksLeft) {
+        this.overlay_ticksLeft = overlay_ticksLeft;
+    }
+
+    public boolean getOverlayState(){
+        return overlayState;
+    }
 
 
 

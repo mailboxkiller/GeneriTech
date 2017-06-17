@@ -34,9 +34,11 @@
 
 package xyz.aadev.generitech.common.blocks;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.Maps;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -45,12 +47,16 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import xyz.aadev.aalib.common.blocks.BlockTileBase;
+import xyz.aadev.aalib.common.util.TileHelper;
 import xyz.aadev.generitech.Reference;
 import xyz.aadev.generitech.api.util.MachineTier;
+import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
 
 import java.util.Arrays;
 import java.util.List;
@@ -59,6 +65,7 @@ import java.util.Map;
 
 public abstract class BlockMachineBase extends BlockTileBase {
     protected static final PropertyEnum<MachineTier> MACHINETIER = PropertyEnum.create("machinetier", MachineTier.class);
+    protected static final PropertyBool OVERLAY = PropertyBool.create("overlay");
 
 
     private MachineTier[] machineTiers;
@@ -116,6 +123,8 @@ public abstract class BlockMachineBase extends BlockTileBase {
         }
     }
 
+
+
     @Override
     public IBlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(MACHINETIER, MachineTier.byMeta(meta));
@@ -126,5 +135,6 @@ public abstract class BlockMachineBase extends BlockTileBase {
         MachineTier tier = state.getValue(MACHINETIER);
         return tier.getMeta();
     }
+
 
 }

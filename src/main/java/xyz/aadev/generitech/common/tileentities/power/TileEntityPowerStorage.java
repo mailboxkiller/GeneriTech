@@ -49,6 +49,7 @@ public class TileEntityPowerStorage extends TileEntityMachineBase implements ITe
         return container.getStoredPower();
     }
 
+
     @Override
     public long getMaxPower() {
         return container.getCapacity();
@@ -59,6 +60,7 @@ public class TileEntityPowerStorage extends TileEntityMachineBase implements ITe
         BlockPos pos = getPos();
         World worldIn = getWorld();
         DistributePowerToFace.transferPower(pos, worldIn, 120, container, getSides());
+        OverlayState();
         this.markForUpdate();
     }
 

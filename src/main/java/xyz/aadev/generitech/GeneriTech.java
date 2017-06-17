@@ -122,7 +122,6 @@ public class GeneriTech {
 
         WorldGen worldGen = new WorldGen();
         GameRegistry.registerWorldGenerator(worldGen, 0);
-        //MinecraftForge.EVENT_BUS.register(worldGen);
 
         MinecraftForge.EVENT_BUS.register(this);
 

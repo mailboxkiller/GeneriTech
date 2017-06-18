@@ -117,10 +117,10 @@ allprojects {
 
 curseforge {
     apiKey = curseApiKey
-    project {
-
-        releaseType = curseReleaseType
+    setProject(
+            project {
         id = curseProjedtId
+        releaseType = curseReleaseType
         /*changelog = file('build/changelog/CHANGELOG.md')
         changelogType = 'markdown'*/
         addGameVersion minecraft_version
@@ -128,6 +128,8 @@ curseforge {
         relations {
             requiredLibrary 'Tesla'
         }
-    }
+    })
+
+
 
 }

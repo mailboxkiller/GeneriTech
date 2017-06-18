@@ -61,7 +61,7 @@ group = "xyz.aadev.generitech"
 
 // If TeamCity is running this build, lets set the version info
 if (hasProperty("teamcity")) {
-    System.out.println(teamcity["curseProjectId"])
+    System.out.println(${build.number})
     cibuild = teamcity["build.number"]
     curseProjedtId = teamcity["curseProjectId"]
     curseApiKey = teamcity["curseApiKey"]

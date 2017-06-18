@@ -117,8 +117,8 @@ allprojects {
 
 curseforge {
     apiKey = curseApiKey
-    setProject(
-            project {
+
+    project {
         id = curseProjedtId
         releaseType = curseReleaseType
         /*changelog = file('build/changelog/CHANGELOG.md')
@@ -128,7 +128,7 @@ curseforge {
         relations {
             requiredLibrary 'Tesla'
         }
-    })
+    }
 
 
 

@@ -42,7 +42,7 @@ buildscript {
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
-        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.0.7"
+        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.0.8"
     }
 }
 
@@ -62,9 +62,10 @@ group = "xyz.aadev.generitech"
 // If TeamCity is running this build, lets set the version info
 if (hasProperty("teamcity")) {
     cibuild = teamcity["build.number"]
-    curseProjedtId = teamcity["curseProjectId"]
-    curseApiKey = teamcity["curseApiKey"]
-    curseReleaseType = teamcity["curseReleaseType"]
+    curseProjedtId = System.getenv("curseProjectId")
+    curseApiKey = System.getenv("curseApiKey")
+    curseReleaseType = System.getenv("curseReleaseType")
+
 
     version = minecraft_version + "-" + majorVersion + "." + minorVersion + "." + patchVersion + "." + cibuild
 
@@ -73,7 +74,7 @@ if (hasProperty("teamcity")) {
 }
 
 minecraft {
-    version =  minecraft_version + "-" + forge_version + forge_branch 
+    version =  minecraft_version + "-" + forge_version + forge_branch
 
     replaceIn "Reference.java"
     //replaceIn "ApiInfo.java"
@@ -116,16 +117,20 @@ allprojects {
 
 curseforge {
     apiKey = curseApiKey
+
+
     project {
-        releaseType = curseReleaseType
         id = curseProjedtId
-        changelog = file('build/changelog/CHANGELOG.md')
-        changelogType = 'markdown'
+        releaseType = curseReleaseType
+        changelog = file("i want this to end")
+        //changelogType = 'markdown'
         addGameVersion minecraft_version
         addArtifact apiJar
         relations {
             requiredLibrary 'Tesla'
         }
     }
+
+
 
 }

@@ -79,6 +79,8 @@ tooltip.generitech.ore.tin=Another staple of your average tech mod.
 tooltip.generitech.ore.lead=Life Pro Tip: Do not ingest.
 tooltip.generitech.worldgenwand=§4WARNING: Destroys blocks! For debug use only!
 tooltip.generitech.worldgenwand2=Removes all non-ore blocks in a 30m square radius.
+tooltip.generitech.overlay_button_info=Displays an overlay on the block, color-coded to the sides in this menu.
+tooltip.generitech.overlay_time_remaining=Seconds Remaining: 
 
 # Label
 label.generitech.time_left=Time Remaining

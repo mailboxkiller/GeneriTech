@@ -2,8 +2,8 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-            "all": "generitech:blocks/machines/FrameT2",
-			"particle": "generitech:blocks/machines/FrameT2"
+            "all": "generitech:blocks/machines/frame_t2",
+			"particle": "generitech:blocks/machines/frame_t2"
         },
         "model": "generitech:frame_T2",
 		"transform":"forge:default-block",

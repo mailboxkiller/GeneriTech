@@ -134,7 +134,7 @@ public class GuiUpgradeScreen extends GuiBase {
             if (((TileEntityMachineBase) tileEntity).getOverlayState()) {
                 ((TileEntityMachineBase) tileEntity).setOverlay_ticksLeft(0);
             } else {
-                ((TileEntityMachineBase) tileEntity).setOverlay_ticksLeft(300);
+                ((TileEntityMachineBase) tileEntity).setOverlay_ticksLeft(400);
             }
         } else {
             task(button.id);

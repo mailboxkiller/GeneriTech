@@ -1,0 +1,38 @@
+{
+	"textures": {
+        "n": "generitech:blocks/overlay/north",
+		"e": "generitech:blocks/overlay/east",
+		"s": "generitech:blocks/overlay/south",
+		"w": "generitech:blocks/overlay/west",
+		"u": "generitech:blocks/overlay/up",
+		"d": "generitech:blocks/overlay/down"
+    },
+    "elements": [
+        {
+            "name": "Cube",
+            "from": [ -0.25, -0.25, -0.25 ], 
+            "to": [ 16.25, 16.25, 16.25 ], 
+            "faces": {
+                "north": { "texture": "#n", "uv": [ 0.0, 0.0, 16.0, 16.0 ], "cullface": "north" },
+                "east": { "texture": "#e", "uv": [ 0.0, 0.0, 16.0, 16.0 ], "cullface": "east" },
+                "south": { "texture": "#s", "uv": [ 0.0, 0.0, 16.0, 16.0 ], "cullface": "south" },
+                "west": { "texture": "#w", "uv": [ 0.0, 0.0, 16.0, 16.0 ], "cullface": "west" },
+                "up": { "texture": "#u", "uv": [ 0.0, 0.0, 16.0, 16.0 ], "cullface": "up" },
+                "down": { "texture": "#d", "uv": [ 0.0, 0.0, 16.0, 16.0 ], "cullface": "down" }
+            }
+        },
+        {
+            "name": "Anti-Cube",
+            "from": [ 16.25, 16.25, 16.25 ], 
+            "to": [ -0.25, -0.25, -0.25 ], 
+            "faces": {
+                "north": { "texture": "#s", "uv": [ 16.0, 16.0, 0.0, 0.0 ] },
+                "east": { "texture": "#w", "uv": [ 16.0, 16.0, 0.0, 0.0 ] },
+                "south": { "texture": "#n", "uv": [ 16.0, 16.0, 0.0, 0.0 ] },
+                "west": { "texture": "#e", "uv": [ 16.0, 16.0, 0.0, 0.0 ] },
+                "up": { "texture": "#d", "uv": [ 16.0, 16.0, 0.0, 0.0 ] },
+                "down": { "texture": "#u", "uv": [ 16.0, 16.0, 0.0, 0.0 ] }
+            }
+        }
+    ]
+}

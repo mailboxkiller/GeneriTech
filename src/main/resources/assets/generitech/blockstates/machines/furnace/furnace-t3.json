@@ -41,6 +41,13 @@
       },
       "false": {
       }
-    }
+    },
+	"overlay": {
+	  "true": {
+		"submodel": "generitech:overlay_guide"
+	  },
+	  "false": {
+	  }
+	}
   }
 }

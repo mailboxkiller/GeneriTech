@@ -36,11 +36,18 @@
     "active": {
       "true": {
         "textures": {
-          "north": "generitech:blocks/machines/pulverizer_t0_front_active"
+          "0": "generitech:blocks/machines/pulverizer_t0_front_active"
         }
       },
       "false": {
       }
-    }
+    },
+	"overlay": {
+	  "true": {
+		"submodel": "generitech:overlay_guide"
+	  },
+	  "false": {
+	  }
+	}
   }
 }

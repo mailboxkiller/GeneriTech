@@ -118,7 +118,6 @@ allprojects {
 curseforge {
     apiKey = curseApiKey
     project {
-        System.out.println(curseProjedtId)
 
         releaseType = curseReleaseType
         id = curseProjedtId
@@ -129,6 +128,7 @@ curseforge {
         relations {
             requiredLibrary 'Tesla'
         }
+        System.out.println(id)
     }
 
 }

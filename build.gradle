@@ -117,9 +117,10 @@ allprojects {
 
 curseforge {
     apiKey = curseApiKey
+    id = curseProjedtId
 
     project {
-        id = curseProjedtId
+        //id = curseProjedtId
         releaseType = curseReleaseType
         /*changelog = file('build/changelog/CHANGELOG.md')
         changelogType = 'markdown'*/

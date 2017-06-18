@@ -120,7 +120,7 @@ curseforge {
 
 
     project {
-        //id = curseProjedtId
+        id = curseProjedtId
         releaseType = curseReleaseType
         changelog = file("i want this to end")
         //changelogType = 'markdown'

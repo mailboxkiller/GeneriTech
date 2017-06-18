@@ -50,7 +50,7 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 ext {
-    curseProjedtId = "0"
+    curseProjedtId = "245036"
     curseApiKey = ""
     curseReleaseType = "alpha"
 }
@@ -71,7 +71,6 @@ if (hasProperty("teamcity")) {
     // Fix for main branch being built
     version = version.replaceAll("/", "-")
 }
-
 minecraft {
     version =  minecraft_version + "-" + forge_version + forge_branch
 
@@ -115,12 +114,11 @@ allprojects {
 }
 
 curseforge {
-    apiKey = curseApiKey
+    apiKey = 'ba181c7f-8f15-4bce-be21-4a2aa5c0b00d'
+
     project {
-        releaseType = curseReleaseType
-        id = curseProjedtId
-        changelog = file('build/changelog/CHANGELOG.md')
-        changelogType = 'markdown'
+        id = 245036
+        releaseType = 'alpha'
         addGameVersion minecraft_version
         addArtifact apiJar
         relations {

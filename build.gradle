@@ -63,8 +63,8 @@ group = "xyz.aadev.generitech"
 if (hasProperty("teamcity")) {
     System.out.println(teamcity["build.number"])
     System.out.println(teamcity["teamcity.build.branch"])
-    System.out.println(teamcity["curseApiKey"])
-    System.out.println(teamcity["curseReleaseType"])
+    System.out.println(teamcity["env.curseApiKey"])
+    System.out.println(teamcity["env.curseReleaseType"])
     cibuild = teamcity["build.number"]
     curseProjedtId = teamcity["curseProjectId"]
     curseApiKey = teamcity["curseApiKey"]

@@ -24,9 +24,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityFurnace;
 import xyz.aadev.aalib.client.gui.GuiBase;
-import xyz.aadev.aalib.common.util.GuiHelper;
 import xyz.aadev.generitech.Reference;
 import xyz.aadev.generitech.api.util.MachineTier;
 import xyz.aadev.generitech.client.gui.button.ButtonOverlay;
@@ -36,8 +34,6 @@ import xyz.aadev.generitech.common.container.upgrade.ContanierUpgradeStorage;
 import xyz.aadev.generitech.common.network.Network;
 import xyz.aadev.generitech.common.network.messages.power.PacketSides;
 import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
-import xyz.aadev.generitech.common.tileentities.power.TileEntityPower;
-import xyz.aadev.generitech.common.tileentities.power.TileEntityPowerStorage;
 import xyz.aadev.generitech.common.util.LanguageHelper;
 
 import java.awt.*;
@@ -64,7 +60,7 @@ public class GuiUpgradeScreen extends GuiBase {
 
         machineTier = MachineTier.byMeta(tileEntity.getBlockMetadata()).getTier();
         slot = new Rectangle(48, 31, 25, 24);
-        info = new Rectangle(155,69,12,12);
+        info = new Rectangle(155, 69, 12, 12);
 
     }
 
@@ -78,9 +74,9 @@ public class GuiUpgradeScreen extends GuiBase {
 
         if (tileEntity instanceof TileEntityMachineBase) {
             //System.out.println(((TileEntityMachineBase) tileEntity).getPower());
-            int temp = (int)(((float)((TileEntityMachineBase) tileEntity).getPower() / (float)((TileEntityMachineBase) tileEntity).getMaxPower()) * 26);
-            if (temp > 25)temp=25;
-            drawTexturedModalRect(paramInt1+11, paramInt2+56 - temp, 176, 55 - temp, 25, temp);
+            int temp = (int) (((float) ((TileEntityMachineBase) tileEntity).getPower() / (float) ((TileEntityMachineBase) tileEntity).getMaxPower()) * 26);
+            if (temp > 25) temp = 25;
+            drawTexturedModalRect(paramInt1 + 11, paramInt2 + 56 - temp, 176, 55 - temp, 25, temp);
 
         }
 
@@ -88,7 +84,6 @@ public class GuiUpgradeScreen extends GuiBase {
 
     @Override
     public void drawFG(int paramInt1, int paramInt2, int paramInt3, int paramInt4) {
-
 
 
     }
@@ -120,12 +115,12 @@ public class GuiUpgradeScreen extends GuiBase {
             this.addButton(new ButtonSides(0, guiLeft + 118, guiTop + 63, sides, tileEntity));
             //top
             this.addButton(new ButtonSides(1, guiLeft + 119, guiTop + 13, sides, tileEntity));
-            this.addButton(new ButtonSides(Forward, guiLeft + 141, guiTop + 51, sides,  tileEntity));
-            this.addButton(new ButtonSides(Back, guiLeft + 96, guiTop + 25, sides,  tileEntity));
-            this.addButton(new ButtonSides(Right, guiLeft + 96, guiTop + 51, sides,  tileEntity));
-            this.addButton(new ButtonSides(Left, guiLeft + 141, guiTop + 25, sides,  tileEntity));
+            this.addButton(new ButtonSides(Forward, guiLeft + 141, guiTop + 51, sides, tileEntity));
+            this.addButton(new ButtonSides(Back, guiLeft + 96, guiTop + 25, sides, tileEntity));
+            this.addButton(new ButtonSides(Right, guiLeft + 96, guiTop + 51, sides, tileEntity));
+            this.addButton(new ButtonSides(Left, guiLeft + 141, guiTop + 25, sides, tileEntity));
 
-            this.addButton(new ButtonOverlay(6,guiLeft + 155, guiTop + 69,tileEntity));
+            this.addButton(new ButtonOverlay(6, guiLeft + 155, guiTop + 69, tileEntity));
 
 
         }
@@ -135,7 +130,7 @@ public class GuiUpgradeScreen extends GuiBase {
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         //adds side
-        if (button.id==6){
+        if (button.id == 6) {
             if (((TileEntityMachineBase) tileEntity).getOverlayState()) {
                 ((TileEntityMachineBase) tileEntity).setOverlay_ticksLeft(0);
             } else {
@@ -168,12 +163,11 @@ public class GuiUpgradeScreen extends GuiBase {
             powerMessage.add("MachineTier (T" + machineTier + ")");
             renderToolTip(powerMessage, mouseX, mouseY);
         }
-        if (info.contains(mouseX - guiLeft, mouseY - guiTop)){
+        if (info.contains(mouseX - guiLeft, mouseY - guiTop)) {
             ArrayList<String> Message = new ArrayList<>();
-            Message.add(LanguageHelper.TOOLTIP.translateMessage("overlay_time_remaining"+ ((TileEntityMachineBase) tileEntity).getOverlay_ticksLeft()/20));
+            Message.add(LanguageHelper.TOOLTIP.translateMessage("overlay_time_remaining" + Math.ceil(((TileEntityMachineBase) tileEntity).getOverlay_ticksLeft() / 20)));
             renderToolTip(Message, mouseX, mouseY);
         }
-
 
 
     }

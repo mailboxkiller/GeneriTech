@@ -246,9 +246,11 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
         return ActiveTexture;
     }
 
+
+
     @Override
     public void update() {
-
+        OverlayState();
 
 
         if (machineTier == null) {

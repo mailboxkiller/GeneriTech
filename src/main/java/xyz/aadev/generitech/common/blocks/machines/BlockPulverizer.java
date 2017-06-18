@@ -89,7 +89,7 @@ public class BlockPulverizer extends BlockMachineBase {
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         TileEntityPulverizer tileEntity = TileHelper.getTileEntity(worldIn, pos, TileEntityPulverizer.class);
         if (tileEntity != null && tileEntity.canBeRotated()) {
-            return state.withProperty(FACING, tileEntity.getForward()).withProperty(ACTIVE, tileEntity.isMachineActive());
+            return state.withProperty(FACING, tileEntity.getForward()).withProperty(ACTIVE, tileEntity.isMachineActive()).withProperty(OVERLAY, (tileEntity).getOverlayState());
         }
         return state.withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, false);
     }
@@ -102,7 +102,7 @@ public class BlockPulverizer extends BlockMachineBase {
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, MACHINETIER, FACING, ACTIVE);
+        return new BlockStateContainer(this, MACHINETIER, FACING, ACTIVE, OVERLAY);
     }
 
     @Override

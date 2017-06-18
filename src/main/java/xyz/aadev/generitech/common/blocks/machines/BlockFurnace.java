@@ -34,7 +34,6 @@
 
 package xyz.aadev.generitech.common.blocks.machines;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
@@ -105,14 +104,14 @@ public class BlockFurnace extends BlockMachineBase {
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         TileEntityFurnace tileEntity = TileHelper.getTileEntity(worldIn, pos, TileEntityFurnace.class);
         if (tileEntity != null && tileEntity.canBeRotated()) {
-            return state.withProperty(FACING, tileEntity.getForward()).withProperty(ACTIVE, tileEntity.getActiveTexture());
+            return state.withProperty(FACING, tileEntity.getForward()).withProperty(ACTIVE, tileEntity.getActiveTexture()).withProperty(OVERLAY, tileEntity.getOverlayState());
         }
         return state.withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, false);
     }
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, MACHINETIER, FACING, ACTIVE);
+        return new BlockStateContainer(this, MACHINETIER, FACING, ACTIVE, OVERLAY);
     }
 
     @Override

@@ -94,7 +94,6 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
     private float fortuneMultiplier = 0;
 
 
-
     public boolean isPulverizerPaused() {
         return pulverizerPaused;
     }
@@ -167,7 +166,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
 
     @Override
     public int[] getAccessibleSlotsBySide(EnumFacing side) {
-        return DistributePowerToFace.sidesnicememe(this,side,machineTier);
+        return DistributePowerToFace.sidesnicememe(this, side, machineTier);
     }
 
 
@@ -241,23 +240,23 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
     public boolean canWork() {
 
 
-            if (machineTier == MachineTier.TIER_0) {
+        if (machineTier == MachineTier.TIER_0) {
 
 
-                    return fuelRemaining > 0;
-            } else {
-                return container.getStoredPower() >= powerUsage;
-            }
+            return fuelRemaining > 0;
+        } else {
+            return container.getStoredPower() >= powerUsage;
+        }
 
     }
 
-    public boolean outputSlotFree(){
-          return (ItemStack.areItemsEqual(PulverizerRegistry.getOutput(inventory.getStackInSlot(0)),inventory.getStackInSlot(2)) || ItemStack.areItemsEqual(PulverizerRegistry.getOutput(inventory.getStackInSlot(0)),inventory.getStackInSlot(3))) || (ItemStack.areItemsEqual(inventory.getStackInSlot(2),ItemStack.EMPTY) || ItemStack.areItemsEqual(inventory.getStackInSlot(3),ItemStack.EMPTY));
+    public boolean outputSlotFree() {
+        return (ItemStack.areItemsEqual(PulverizerRegistry.getOutput(inventory.getStackInSlot(0)), inventory.getStackInSlot(2)) || ItemStack.areItemsEqual(PulverizerRegistry.getOutput(inventory.getStackInSlot(0)), inventory.getStackInSlot(3))) || (ItemStack.areItemsEqual(inventory.getStackInSlot(2), ItemStack.EMPTY) || ItemStack.areItemsEqual(inventory.getStackInSlot(3), ItemStack.EMPTY));
     }
 
-    public long getPowerUsage(){
+    public long getPowerUsage() {
 
-        switch (MachineTier.byMeta(getBlockMetadata())){
+        switch (MachineTier.byMeta(getBlockMetadata())) {
             case TIER_2:
                 return powerUsage = 60;
             case TIER_3:
@@ -267,7 +266,6 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
 
         }
     }
-
 
 
     //checks if it can crush
@@ -296,9 +294,10 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
 
     @Override
     public void update() {
-        if (machineTier == null){
+        if (machineTier == null) {
             machineTier = MachineTier.byMeta(getBlockMetadata());
         }
+        OverlayState();
 
 
         if (machineTier == MachineTier.TIER_0 && container.getInputRate() != 0) container.setInputRate(0);
@@ -308,7 +307,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
             this.markForUpdate();
         }
 
-        if (ticksRemaining == 0 && inventory.getStackInSlot(0) == ItemStack.EMPTY && machineTier != MachineTier.TIER_0||pulverizerPaused) {
+        if (ticksRemaining == 0 && inventory.getStackInSlot(0) == ItemStack.EMPTY && machineTier != MachineTier.TIER_0 || pulverizerPaused) {
             machineActive = false;
         }
 
@@ -362,7 +361,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
         }
 
 
-        if (!ItemStack.areItemsEqual(inventory.getStackInSlot(1) , ItemStack.EMPTY)&& ticksRemaining <= 0) {
+        if (!ItemStack.areItemsEqual(inventory.getStackInSlot(1), ItemStack.EMPTY) && ticksRemaining <= 0) {
 
 
             ticksRemaining = 0;
@@ -396,7 +395,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
                 if (itemFortune)
                     itemChance = itemChance + fortuneMultiplier;
 
-                switch (machineTier){
+                switch (machineTier) {
                     case TIER_1:
                         crushRNG = 0.5f;
                         break;
@@ -412,7 +411,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
                 }
 
 
-                int rng = Math.round(rnd.nextFloat()+crushRNG);
+                int rng = Math.round(rnd.nextFloat() + crushRNG);
 
 
                 outItem.setCount((int) Math.round(Math.floor(itemChance) + rng));
@@ -453,7 +452,6 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
 
         return 200;
     }
-
 
 
     @Override

@@ -37,20 +37,19 @@ package xyz.aadev.generitech.common.tileentities;
 
 import net.darkhax.tesla.api.implementation.BaseTeslaContainer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ITickable;
 import xyz.aadev.aalib.common.tileentities.TileEntityInventoryBase;
 
 public abstract class TileEntityMachineBase extends TileEntityInventoryBase {
     protected BaseTeslaContainer container;
     private int[] sides = new int[6];
-    private int overlay_ticksLeft=0;
+    private int overlay_ticksLeft = 0;
     private boolean overlayState;
 
-    public void OverlayState(){
-        if(overlay_ticksLeft>0){
-            overlayState=true;
+    public void OverlayState() {
+        if (overlay_ticksLeft > 0) {
+            overlayState = true;
             overlay_ticksLeft--;
-        }else if (overlayState) {
+        } else if (overlayState) {
             overlayState = false;
         }
     }
@@ -63,10 +62,9 @@ public abstract class TileEntityMachineBase extends TileEntityInventoryBase {
         this.overlay_ticksLeft = overlay_ticksLeft;
     }
 
-    public boolean getOverlayState(){
+    public boolean getOverlayState() {
         return overlayState;
     }
-
 
 
     public int[] getSides() {
@@ -78,14 +76,14 @@ public abstract class TileEntityMachineBase extends TileEntityInventoryBase {
         markForUpdate();
 
     }
-    public long getPower(){
+
+    public long getPower() {
         return container.getStoredPower();
     }
 
-    public long getMaxPower(){
+    public long getMaxPower() {
         return this.container.getCapacity();
     }
-
 
 
     @Override

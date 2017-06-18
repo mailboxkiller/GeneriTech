@@ -62,8 +62,8 @@ group = "xyz.aadev.generitech"
 // If TeamCity is running this build, lets set the version info
 if (hasProperty("teamcity")) {
     System.out.println(teamcity["build.number"])
-    System.out.println(teamcity["teamcity.build.branch"])
-    System.out.println(teamcity["env.curseApiKey"])
+    System.out.println(System.getenv("curseProjectId"))
+    System.out.println(System.getenv("curseApiKey"))
     System.out.println(teamcity["env.curseReleaseType"])
     cibuild = teamcity["build.number"]
     curseProjedtId = teamcity["curseProjectId"]

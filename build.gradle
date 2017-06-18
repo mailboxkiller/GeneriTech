@@ -61,14 +61,12 @@ group = "xyz.aadev.generitech"
 
 // If TeamCity is running this build, lets set the version info
 if (hasProperty("teamcity")) {
-    System.out.println(teamcity["build.number"])
-    System.out.println(System.getenv("curseProjectId"))
-    System.out.println(System.getenv("curseApiKey"))
-    System.out.println(System.getenv("curseReleaseType"))
     cibuild = teamcity["build.number"]
     curseProjedtId = System.getenv("curseProjectId")
     curseApiKey = System.getenv("curseApiKey")
     curseReleaseType = System.getenv("curseReleaseType")
+
+    System.out.println(curseProjedtId)
 
     version = minecraft_version + "-" + majorVersion + "." + minorVersion + "." + patchVersion + "." + cibuild
 

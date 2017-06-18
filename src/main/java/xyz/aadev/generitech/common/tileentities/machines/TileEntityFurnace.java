@@ -34,8 +34,6 @@
 
 package xyz.aadev.generitech.common.tileentities.machines;
 
-import net.darkhax.tesla.api.ITeslaConsumer;
-import net.darkhax.tesla.api.ITeslaHolder;
 import net.darkhax.tesla.api.implementation.BaseTeslaContainer;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.entity.player.EntityPlayer;
@@ -53,19 +51,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import xyz.aadev.aalib.common.inventory.InternalInventory;
 import xyz.aadev.aalib.common.inventory.InventoryOperation;
 import xyz.aadev.aalib.common.util.InventoryHelper;
-import xyz.aadev.generitech.GeneriTech;
-import xyz.aadev.generitech.Reference;
-import xyz.aadev.generitech.api.registries.PulverizerRegistry;
 import xyz.aadev.generitech.api.util.MachineTier;
 import xyz.aadev.generitech.client.gui.machines.GuiFurnace;
 import xyz.aadev.generitech.client.gui.upgrade.GuiUpgradeScreen;
 import xyz.aadev.generitech.common.container.machines.ContainerFurnace;
 import xyz.aadev.generitech.common.container.upgrade.ContanierUpgradeStorage;
 import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
-import xyz.aadev.generitech.common.tileentities.power.DistributePowerToFace;
-import xyz.aadev.generitech.common.util.LanguageHelper;
-
-import java.util.List;
+import xyz.aadev.generitech.common.util.DistributePowerToFace;
 
 public class TileEntityFurnace extends TileEntityMachineBase implements ITickable {
 

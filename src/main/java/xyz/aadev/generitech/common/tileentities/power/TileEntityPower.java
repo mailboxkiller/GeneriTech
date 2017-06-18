@@ -24,9 +24,9 @@ import xyz.aadev.generitech.api.util.MachineTier;
 import xyz.aadev.generitech.client.gui.power.GuiGenerator;
 import xyz.aadev.generitech.common.container.power.ContanierGenerator;
 import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
+import xyz.aadev.generitech.common.util.DistributePowerToFace;
 
 import javax.annotation.Nullable;
-import java.util.List;
 
 public class TileEntityPower extends TileEntityMachineBase implements ITeslaProducer, net.minecraft.util.ITickable {
     MachineTier machineTier;

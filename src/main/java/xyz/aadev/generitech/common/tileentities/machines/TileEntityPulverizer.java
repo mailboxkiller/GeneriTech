@@ -34,7 +34,6 @@
 
 package xyz.aadev.generitech.common.tileentities.machines;
 
-import mezz.jei.api.JEIPlugin;
 import net.darkhax.tesla.api.ITeslaConsumer;
 import net.darkhax.tesla.api.ITeslaHolder;
 import net.darkhax.tesla.api.implementation.BaseTeslaContainer;
@@ -50,7 +49,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.commons.lang3.time.DurationFormatUtils;
 import xyz.aadev.aalib.common.inventory.InternalInventory;
 import xyz.aadev.aalib.common.inventory.InventoryOperation;
 import xyz.aadev.aalib.common.util.InventoryHelper;
@@ -63,10 +61,8 @@ import xyz.aadev.generitech.client.gui.upgrade.GuiUpgradeScreen;
 import xyz.aadev.generitech.common.container.machines.ContainerPulverizer;
 import xyz.aadev.generitech.common.container.upgrade.ContanierUpgradeStorage;
 import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
-import xyz.aadev.generitech.common.tileentities.power.DistributePowerToFace;
-import xyz.aadev.generitech.common.util.LanguageHelper;
+import xyz.aadev.generitech.common.util.DistributePowerToFace;
 
-import java.util.List;
 import java.util.Random;
 
 /*

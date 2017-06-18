@@ -37,6 +37,7 @@ import xyz.aadev.aalib.common.inventory.InventoryOperation;
 import xyz.aadev.generitech.client.gui.upgrade.GuiUpgradeScreen;
 import xyz.aadev.generitech.common.container.upgrade.ContanierUpgradeStorage;
 import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
+import xyz.aadev.generitech.common.util.DistributePowerToFace;
 
 import javax.annotation.Nullable;
 

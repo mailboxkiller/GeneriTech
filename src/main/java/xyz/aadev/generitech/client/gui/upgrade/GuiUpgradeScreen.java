@@ -49,6 +49,7 @@ public class GuiUpgradeScreen extends GuiBase {
     TileEntity tileEntity;
     EntityPlayer player;
     Rectangle slot;
+    Rectangle info;
     private int[] sides;
     private int machineTier;
 
@@ -63,6 +64,7 @@ public class GuiUpgradeScreen extends GuiBase {
 
         machineTier = MachineTier.byMeta(tileEntity.getBlockMetadata()).getTier();
         slot = new Rectangle(48, 31, 25, 24);
+        info = new Rectangle(155,69,12,12);
 
     }
 
@@ -166,10 +168,13 @@ public class GuiUpgradeScreen extends GuiBase {
             powerMessage.add("MachineTier (T" + machineTier + ")");
             renderToolTip(powerMessage, mouseX, mouseY);
         }
+        if (info.contains(mouseX - guiLeft, mouseY - guiTop)){
+            ArrayList<String> Message = new ArrayList<>();
+            Message.add(LanguageHelper.TOOLTIP.translateMessage("overlay_time_remaining"+ ((TileEntityMachineBase) tileEntity).getOverlay_ticksLeft()/20));
+            renderToolTip(Message, mouseX, mouseY);
+        }
 
-        ArrayList<String> Message = new ArrayList<>();
-        Message.add(LanguageHelper.TOOLTIP.translateMessage("overlay_time_remaining "+ ((TileEntityMachineBase) tileEntity).getOverlay_ticksLeft()/20));
-        renderToolTip(Message, mouseX, mouseY);
+
 
     }
 

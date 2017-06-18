@@ -117,13 +117,13 @@ allprojects {
 
 curseforge {
     apiKey = curseApiKey
-    id = curseProjedtId
+
 
     project {
         //id = curseProjedtId
         releaseType = curseReleaseType
-        /*changelog = file('build/changelog/CHANGELOG.md')
-        changelogType = 'markdown'*/
+        changelog = file("i want this to end")
+        //changelogType = 'markdown'
         addGameVersion minecraft_version
         addArtifact apiJar
         relations {

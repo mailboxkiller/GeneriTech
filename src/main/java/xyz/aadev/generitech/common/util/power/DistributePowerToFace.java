@@ -139,8 +139,8 @@ public class DistributePowerToFace {
                     slots[1] = 3;
                     slots[2] = 0;
                 }
-                i++;
-            }
+        i++;
+    }
 
             return slots;
         }

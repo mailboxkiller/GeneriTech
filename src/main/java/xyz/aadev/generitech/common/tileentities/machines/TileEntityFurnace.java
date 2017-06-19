@@ -297,8 +297,6 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
                 ItemStack itemIn = internalInventory.getStackInSlot(0);
                 ItemStack itemOut;
 
-                //System.out.println("test");
-
                 if (!canSmelt(itemIn))
                     return;
 
@@ -409,6 +407,7 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
 
     @Override
     public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
+        System.out.println("wdawd");
         return (int) container.givePower((long) maxReceive, simulate);
     }
 }

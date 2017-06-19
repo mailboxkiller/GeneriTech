@@ -68,9 +68,10 @@ public class GuiUpgradeScreen extends GuiBase {
     public void drawBG(int paramInt1, int paramInt2, int paramInt3, int paramInt4) {
         bindTexture("gui/upgrade/upgrade.png");
         drawTexturedModalRect(paramInt1, paramInt2, 0, 0, this.xSize, this.ySize);
-        if (tileEntity instanceof TileEntityMachineBase) {
-            sides = ((TileEntityMachineBase) tileEntity).getSides();
-        }
+
+        sides = ((TileEntityMachineBase) tileEntity).getSides();
+
+        ((TileEntityMachineBase) tileEntity).markForUpdate();
 
         if (tileEntity instanceof TileEntityMachineBase) {
             //System.out.println(((TileEntityMachineBase) tileEntity).getPower());

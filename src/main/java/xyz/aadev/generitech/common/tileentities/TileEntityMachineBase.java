@@ -35,8 +35,9 @@
 package xyz.aadev.generitech.common.tileentities;
 
 
-import cofh.api.api.energy.IEnergyProvider;
-import cofh.api.api.energy.IEnergyReceiver;
+
+import cofh.api.energy.IEnergyProvider;
+import cofh.api.energy.IEnergyReceiver;
 import net.darkhax.tesla.api.implementation.BaseTeslaContainer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -61,6 +62,8 @@ public abstract class TileEntityMachineBase extends TileEntityInventoryBase impl
             this.markForUpdate();
         }
     }
+
+
 
     public int getOverlay_ticksLeft() {
         return overlay_ticksLeft;

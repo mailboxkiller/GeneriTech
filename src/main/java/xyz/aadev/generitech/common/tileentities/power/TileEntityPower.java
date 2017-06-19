@@ -2,6 +2,9 @@ package xyz.aadev.generitech.common.tileentities.power;
 
 
 
+import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyProvider;
+import cofh.api.energy.IEnergyTransport;
 import net.darkhax.tesla.api.ITeslaProducer;
 import net.darkhax.tesla.api.implementation.BaseTeslaContainer;
 import net.darkhax.tesla.capability.TeslaCapabilities;
@@ -15,6 +18,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import xyz.aadev.aalib.common.inventory.InternalInventory;
@@ -28,10 +35,11 @@ import xyz.aadev.generitech.common.util.DistributePowerToFace;
 
 import javax.annotation.Nullable;
 
-public class TileEntityPower extends TileEntityMachineBase implements ITeslaProducer, net.minecraft.util.ITickable {
+public class TileEntityPower extends TileEntityMachineBase implements ITeslaProducer, net.minecraft.util.ITickable,IEnergyTransport {
     MachineTier machineTier;
     private BaseTeslaContainer container = new BaseTeslaContainer(0, 50000, 1000, 1000);
     private InternalInventory inventory = new InternalInventory(this, 1);
+    private EnergyStorage storage = new EnergyStorage((int) container.getCapacity());
     private int[] sides = new int[6];
     private int T0transfer = 120;
     private int fuelRemaining = 0;
@@ -104,8 +112,6 @@ public class TileEntityPower extends TileEntityMachineBase implements ITeslaProd
 
     @Override
     public void update() {
-        BlockPos pos = getPos();
-        World worldIn = getWorld();
         if (machineTier == null) {
             machineTier = MachineTier.byMeta(getBlockMetadata());
         }
@@ -118,7 +124,7 @@ public class TileEntityPower extends TileEntityMachineBase implements ITeslaProd
             burnTime();
         }
         if (container.getStoredPower() != 0) {
-            DistributePowerToFace.transferPower(pos, worldIn, T0transfer, container, sides);
+            DistributePowerToFace.transferPower(getPos(), world, T0transfer, container, sides);
         }
 
 
@@ -212,5 +218,41 @@ public class TileEntityPower extends TileEntityMachineBase implements ITeslaProd
             return +14;
 
         return Math.round((((float) fuelTotal - (float) fuelRemaining) / (float) fuelTotal) * 13);
+    }
+
+
+    @Override
+    public int getEnergyStored(EnumFacing from) {
+        return (int) container.getStoredPower();
+    }
+
+    @Override
+    public int getMaxEnergyStored(EnumFacing from) {
+        return (int) container.getCapacity();
+    }
+
+    @Override
+    public InterfaceType getTransportState(EnumFacing from) {
+        return InterfaceType.SEND;
+    }
+
+    @Override
+    public boolean setTransportState(InterfaceType state, EnumFacing from) {
+        return true;
+    }
+
+    @Override
+    public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
+        return T0transfer;
+    }
+
+    @Override
+    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
+        return 0;
+    }
+
+    @Override
+    public boolean canConnectEnergy(EnumFacing from) {
+        return true;
     }
 }

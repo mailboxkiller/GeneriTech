@@ -47,10 +47,14 @@ public abstract class TileEntityMachineBase extends TileEntityInventoryBase {
 
     public void OverlayState() {
         if (overlay_ticksLeft > 0) {
-            overlayState = true;
+            if(!overlayState){
+                overlayState = true;
+                this.markForUpdate();
+            }
             overlay_ticksLeft--;
         } else if (overlayState) {
             overlayState = false;
+            this.markForUpdate();
         }
     }
 

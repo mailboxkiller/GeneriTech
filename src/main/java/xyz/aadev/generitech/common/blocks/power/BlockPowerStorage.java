@@ -63,7 +63,7 @@ public class BlockPowerStorage extends BlockMachineBase {
             return state.withProperty(FACING, EnumFacing.NORTH).withProperty(OVERLAY, ((TileEntityMachineBase) tileEntity).getOverlayState());
         }
 
-        return state.withProperty(FACING, EnumFacing.NORTH);
+        return state.withProperty(FACING, EnumFacing.NORTH).withProperty(OVERLAY, false);
     }
 
 

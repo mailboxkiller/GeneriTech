@@ -59,10 +59,8 @@ public class TileEntityPowerStorage extends TileEntityMachineBase implements ITe
     @Override
     public void update() {
         BlockPos pos = getPos();
-        World worldIn = getWorld();
-        DistributePowerToFace.transferPower(pos, worldIn, 120, container, getSides());
+        DistributePowerToFace.transferPower(pos, world, 120, container, getSides());
         OverlayState();
-        this.markForUpdate();
     }
 
     @Override

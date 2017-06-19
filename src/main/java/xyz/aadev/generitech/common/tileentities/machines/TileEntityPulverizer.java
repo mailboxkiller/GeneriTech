@@ -52,6 +52,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import xyz.aadev.aalib.common.inventory.InternalInventory;
 import xyz.aadev.aalib.common.inventory.InventoryOperation;
 import xyz.aadev.aalib.common.util.InventoryHelper;
+import xyz.aadev.generitech.GeneriTech;
 import xyz.aadev.generitech.Reference;
 import xyz.aadev.generitech.api.registries.PulverizerRegistry;
 import xyz.aadev.generitech.api.util.Crushable;
@@ -302,12 +303,12 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
 
         if (machineTier == MachineTier.TIER_0 && container.getInputRate() != 0) container.setInputRate(0);
 
-        if (!canWork()) {
+        if (!canWork()&&machineActive) {
             machineActive = false;
             this.markForUpdate();
         }
 
-        if (ticksRemaining == 0 && inventory.getStackInSlot(0) == ItemStack.EMPTY && machineTier != MachineTier.TIER_0 || pulverizerPaused) {
+        if (ticksRemaining == 0 && inventory.getStackInSlot(0) == ItemStack.EMPTY && machineTier != MachineTier.TIER_0 || pulverizerPaused && machineActive) {
             machineActive = false;
         }
 

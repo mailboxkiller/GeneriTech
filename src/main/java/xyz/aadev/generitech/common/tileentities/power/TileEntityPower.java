@@ -1,10 +1,6 @@
 package xyz.aadev.generitech.common.tileentities.power;
 
 
-
-import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyProvider;
-import cofh.api.energy.IEnergyTransport;
 import net.darkhax.tesla.api.ITeslaProducer;
 import net.darkhax.tesla.api.implementation.BaseTeslaContainer;
 import net.darkhax.tesla.capability.TeslaCapabilities;
@@ -15,43 +11,36 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import xyz.aadev.aalib.common.inventory.InternalInventory;
 import xyz.aadev.aalib.common.inventory.InventoryOperation;
-import xyz.aadev.generitech.Reference;
 import xyz.aadev.generitech.api.util.MachineTier;
 import xyz.aadev.generitech.client.gui.power.GuiGenerator;
 import xyz.aadev.generitech.common.container.power.ContanierGenerator;
 import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
-import xyz.aadev.generitech.common.util.DistributePowerToFace;
+import xyz.aadev.generitech.common.util.power.DistributePowerToFace;
 
 import javax.annotation.Nullable;
 
-public class TileEntityPower extends TileEntityMachineBase implements ITeslaProducer, net.minecraft.util.ITickable,IEnergyTransport {
+public class TileEntityPower extends TileEntityMachineBase implements ITeslaProducer, net.minecraft.util.ITickable {
     MachineTier machineTier;
     private BaseTeslaContainer container = new BaseTeslaContainer(0, 50000, 1000, 1000);
     private InternalInventory inventory = new InternalInventory(this, 1);
-    private EnergyStorage storage = new EnergyStorage((int) container.getCapacity());
     private int[] sides = new int[6];
     private int T0transfer = 120;
     private int fuelRemaining = 0;
     private Item lastFuelType;
     private int lastFuelValue;
+    private int fuelTotal = 0;
+
 
     @Override
     public boolean isEmpty() {
         return false;
     }
 
-    private int fuelTotal = 0;
 
     @Override
     protected void syncDataFrom(NBTTagCompound nbtTagCompound, SyncReason syncReason) {
@@ -123,10 +112,10 @@ public class TileEntityPower extends TileEntityMachineBase implements ITeslaProd
         if (container.getStoredPower() != container.getCapacity() && inventory.getStackInSlot(0) != ItemStack.EMPTY || container.getStoredPower() < container.getCapacity() && inventory.getStackInSlot(0) != ItemStack.EMPTY) {
             burnTime();
         }
-        if (container.getStoredPower() != 0) {
+        if (container.getStoredPower() != 0&& !world.isRemote) {
             DistributePowerToFace.transferPower(getPos(), world, T0transfer, container, sides);
+            this.markForUpdate();
         }
-
 
     }
 
@@ -141,7 +130,7 @@ public class TileEntityPower extends TileEntityMachineBase implements ITeslaProd
                 lastFuelType = inventory.getStackInSlot(0).getItem();
                 lastFuelValue = fuelRemaining;
             }
-            fuelRemaining = fuelRemaining/2;
+            fuelRemaining = (fuelRemaining/2)+1;
             fuelTotal = fuelRemaining;
             inventory.decrStackSize(0, 1);
             this.markDirty();
@@ -162,13 +151,10 @@ public class TileEntityPower extends TileEntityMachineBase implements ITeslaProd
 
     @Override
     public int[] getAccessibleSlotsBySide(EnumFacing side) {
-        int[] slots = new int[0];
-        float oreAngle = (this.getForward().getHorizontalAngle() + 90) >= 360 ? 0 : (this.getForward().getHorizontalAngle() + 90);
+        int[] slots;
 
-        if (Math.abs(side.getHorizontalAngle() - oreAngle) < Reference.EPSILON) {
-            slots = new int[1];
-            slots[0] = 0;
-        }
+        slots = new int[1];
+        slots[0] = 0;
 
         return slots;
     }
@@ -220,39 +206,8 @@ public class TileEntityPower extends TileEntityMachineBase implements ITeslaProd
         return Math.round((((float) fuelTotal - (float) fuelRemaining) / (float) fuelTotal) * 13);
     }
 
-
-    @Override
-    public int getEnergyStored(EnumFacing from) {
-        return (int) container.getStoredPower();
-    }
-
-    @Override
-    public int getMaxEnergyStored(EnumFacing from) {
-        return (int) container.getCapacity();
-    }
-
-    @Override
-    public InterfaceType getTransportState(EnumFacing from) {
-        return InterfaceType.SEND;
-    }
-
-    @Override
-    public boolean setTransportState(InterfaceType state, EnumFacing from) {
-        return true;
-    }
-
-    @Override
-    public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
-        return T0transfer;
-    }
-
     @Override
     public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
         return 0;
-    }
-
-    @Override
-    public boolean canConnectEnergy(EnumFacing from) {
-        return true;
     }
 }

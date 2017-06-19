@@ -3,7 +3,6 @@
  * http://www.teamcofh.com
  */
 @API (apiVersion = CoFHAPIProps.VERSION, owner = "cofhlib", provides = "cofhapi")
-package cofh.api;
+package cofh.api.api;
 
-import cofh.api.api.CoFHAPIProps;
 import net.minecraftforge.fml.common.API;

@@ -52,7 +52,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import xyz.aadev.aalib.common.inventory.InternalInventory;
 import xyz.aadev.aalib.common.inventory.InventoryOperation;
 import xyz.aadev.aalib.common.util.InventoryHelper;
-import xyz.aadev.generitech.GeneriTech;
 import xyz.aadev.generitech.Reference;
 import xyz.aadev.generitech.api.registries.PulverizerRegistry;
 import xyz.aadev.generitech.api.util.Crushable;
@@ -62,7 +61,7 @@ import xyz.aadev.generitech.client.gui.upgrade.GuiUpgradeScreen;
 import xyz.aadev.generitech.common.container.machines.ContainerPulverizer;
 import xyz.aadev.generitech.common.container.upgrade.ContanierUpgradeStorage;
 import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
-import xyz.aadev.generitech.common.util.DistributePowerToFace;
+import xyz.aadev.generitech.common.util.power.DistributePowerToFace;
 
 import java.util.Random;
 
@@ -93,6 +92,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
     private Item lastFuelType;
     private int lastFuelValue;
     private float fortuneMultiplier = 0;
+
 
 
     public boolean isPulverizerPaused() {
@@ -515,7 +515,16 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
     public long getPower() {
         return container.getStoredPower();
     }
+    @Override
+    public boolean canConnectEnergy(EnumFacing from) {
+        if (machineTier == MachineTier.TIER_0)return false;
+        return true;
+    }
 
+    @Override
+    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
+        return (int) container.givePower((long) maxReceive, simulate);
+    }
 
 }
 

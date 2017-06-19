@@ -44,8 +44,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import xyz.aadev.aalib.common.inventory.InternalInventory;
@@ -57,7 +57,7 @@ import xyz.aadev.generitech.client.gui.upgrade.GuiUpgradeScreen;
 import xyz.aadev.generitech.common.container.machines.ContainerFurnace;
 import xyz.aadev.generitech.common.container.upgrade.ContanierUpgradeStorage;
 import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
-import xyz.aadev.generitech.common.util.DistributePowerToFace;
+import xyz.aadev.generitech.common.util.power.DistributePowerToFace;
 
 public class TileEntityFurnace extends TileEntityMachineBase implements ITickable {
 
@@ -72,6 +72,8 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
     private MachineTier machineTier;
     private boolean ActiveTexture=false;
     private BlockPos pos = getPos();
+
+
 
     @Override
     public long getPower() {
@@ -252,7 +254,6 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
     public void update() {
         OverlayState();
 
-
         if (machineTier == null) {
             machineTier = MachineTier.byMeta(this.getBlockMetadata());
         }
@@ -406,4 +407,8 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
     }
 
 
+    @Override
+    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
+        return (int) container.givePower((long) maxReceive, simulate);
+    }
 }

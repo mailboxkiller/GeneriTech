@@ -28,7 +28,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -37,7 +36,7 @@ import xyz.aadev.aalib.common.inventory.InventoryOperation;
 import xyz.aadev.generitech.client.gui.upgrade.GuiUpgradeScreen;
 import xyz.aadev.generitech.common.container.upgrade.ContanierUpgradeStorage;
 import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
-import xyz.aadev.generitech.common.util.DistributePowerToFace;
+import xyz.aadev.generitech.common.util.power.DistributePowerToFace;
 
 import javax.annotation.Nullable;
 
@@ -172,5 +171,8 @@ public class TileEntityPowerStorage extends TileEntityMachineBase implements ITe
         return 0;
     }
 
-
+    @Override
+    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
+        return 0;
+    }
 }

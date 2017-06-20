@@ -2,10 +2,10 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-            "all": "generitech:blocks/machines/FrameT3",
-			"particle": "generitech:blocks/machines/FrameT3"
+            "all": "generitech:blocks/machines/Frame_t3",
+			"particle": "generitech:blocks/machines/Frame_t3"
         },
-        "model": "generitech:frame_T3",
+        "model": "generitech:frame_t3",
 		"transform":"forge:default-block",
         "uvlock": true
     },
@@ -13,7 +13,7 @@
 		"inventory":[{
 		}],
         "normal": [{
-			"model": "generitech:frame_T3"
+			"model": "generitech:frame_t3"
         }]
     }
 }

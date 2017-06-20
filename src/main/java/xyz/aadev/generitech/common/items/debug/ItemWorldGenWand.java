@@ -22,7 +22,7 @@ import java.util.List;
 public class ItemWorldGenWand extends ItemBase {
     public ItemWorldGenWand() {
         super("debug/worldgenwand", Reference.MOD_ID);
-        this.setCreativeTab(GeneriTechTabs.GENERAL);
+        this.setCreativeTab(GeneriTechTabs.TOOL);
         this.setInternalName("worldgenwand");
         this.setMaxStackSize(1);
     }

@@ -58,7 +58,7 @@ public class Reference {
         public static final int PULVERIZER = 0;
         public static final int FURNACE = 1;
         public static final int GENERATOR_GUI = 2;
-        public static final int POWERSTORAGE_GUI = 3;
+        public static final int UPGRADE_GUI = 3;
     }
 
     public static final class Commands {

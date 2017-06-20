@@ -17,6 +17,7 @@ package xyz.aadev.generitech.client.gui.upgrade;/*
  * Exclusive Remedies. The Software is being offered to you free of any charge. You agree that you have no remedy against AlgorithmicsAnonymous, its affiliates, contractors, suppliers, and agents for loss or damage caused by any defect or failure in the Software regardless of the form of action, whether in contract, tort, includinegligence, strict liability or otherwise, with regard to the Software. Copyright and other proprietary matters will be governed by United States laws and international treaties. IN ANY CASE, AlgorithmicsAnonymous SHALL NOT BE LIABLE FOR LOSS OF DATA, LOSS OF PROFITS, LOST SAVINGS, SPECIAL, INCIDENTAL, CONSEQUENTIAL, INDIRECT OR OTHER SIMILAR DAMAGES ARISING FROM BREACH OF WARRANTY, BREACH OF CONTRACT, NEGLIGENCE, OR OTHER LEGAL THEORY EVEN IF AlgorithmicsAnonymous OR ITS AGENT HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES, OR FOR ANY CLAIM BY ANY OTHER PARTY. Some jurisdictions do not allow the exclusion or limitation of incidental or consequential damages, so the above limitation or exclusion may not apply to you.
  */
 
+import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
@@ -44,6 +45,7 @@ public class GuiUpgradeScreen extends GuiBase {
 
     TileEntity tileEntity;
     EntityPlayer player;
+    boolean guiOverlay;
     Rectangle slot;
     Rectangle info;
     private int[] sides;
@@ -158,9 +160,13 @@ public class GuiUpgradeScreen extends GuiBase {
 
         if (slot.contains(mouseX - guiLeft, mouseY - guiTop)) {
             RenderHelper.enableGUIStandardItemLighting();
-            renderItem.renderItemIntoGUI(new ItemStack(Blocks.BLOCK_MACHINEMATRICS.getBlock(), 1, machineTier), guiLeft + 50, guiTop + 35);
+            if (machineTier != 0) {
+                renderItem.renderItemIntoGUI(new ItemStack(Blocks.BLOCK_MACHINEMATRICS.getBlock(), 1, machineTier), guiLeft + 50, guiTop + 35);
+            } else {
+                renderItem.renderItemIntoGUI(new ItemStack(Block.getBlockFromName("cobblestone"), 1, machineTier), guiLeft + 50, guiTop + 35);
+            }
             ArrayList<String> powerMessage = new ArrayList<>();
-            powerMessage.add("MachineTier (T" + machineTier + ")");
+            powerMessage.add("Machine Tier: " + machineTier);
             renderToolTip(powerMessage, mouseX, mouseY);
         }
         if (info.contains(mouseX - guiLeft, mouseY - guiTop)) {

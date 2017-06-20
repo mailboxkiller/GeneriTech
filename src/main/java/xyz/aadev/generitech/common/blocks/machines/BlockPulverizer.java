@@ -76,7 +76,7 @@ public class BlockPulverizer extends BlockMachineBase {
         if (!world.isRemote) {
             ItemStack heldItem = player.getHeldItem(hand);
             if (heldItem != null && heldItem.getItem() == Items.ITEM_TOOL_WRENCH.getItem()) {
-                player.openGui(GeneriTech.getInstance(), Reference.GUI_ID.POWERSTORAGE_GUI, world, pos.getX(), pos.getY(), pos.getZ());
+                player.openGui(GeneriTech.getInstance(), Reference.GUI_ID.UPGRADE_GUI, world, pos.getX(), pos.getY(), pos.getZ());
             } else {
                 player.openGui(GeneriTech.getInstance(), Reference.GUI_ID.PULVERIZER, world, pos.getX(), pos.getY(), pos.getZ());
 
@@ -100,7 +100,7 @@ public class BlockPulverizer extends BlockMachineBase {
     @Override
     public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
         IBlockState blockState = getActualState(state, world, pos);
-        return (blockState.getValue(ACTIVE) && blockState.getValue(MACHINETIER) == MachineTier.TIER_0) ? 15 : 0;
+        return (blockState.getValue(ACTIVE) && blockState.getValue(MACHINETIER) == MachineTier.TIER_0) ? 13 : 0;
     }
 
     @Override
@@ -172,6 +172,6 @@ public class BlockPulverizer extends BlockMachineBase {
 
     @SideOnly(Side.CLIENT)
     public BlockRenderLayer getBlockLayer () {
-        return BlockRenderLayer.CUTOUT;
+        return BlockRenderLayer.CUTOUT_MIPPED;
     }
 }

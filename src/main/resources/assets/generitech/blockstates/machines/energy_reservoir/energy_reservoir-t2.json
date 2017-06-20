@@ -2,9 +2,9 @@
   "forge_marker":1,
   "defaults":{
     "textures": {
-      "particle": "generitech:blocks/machines/StorageFrame"
+      "particle": "generitech:blocks/machines/storage_frame"
     },
-    "model":"generitech:energyReservoir",
+    "model":"generitech:energy_reservoir",
     "transform":"forge:default-block"
   },
   "variants":{
@@ -26,6 +26,13 @@
       "west":{
         "y": 270
       }
-    }
+    },
+	"overlay": {
+	  "true": {
+		"submodel": "generitech:overlay_guide"
+	  },
+	  "false": {
+	  }
+	}
   }
 }

@@ -37,9 +37,9 @@ import xyz.aadev.generitech.common.blocks.Blocks;
 
 import javax.annotation.Nullable;
 
-public class BlockMachineMatrics extends BlockTierBase {
+public class BlockMachineMatrix extends BlockTierBase {
 
-    public BlockMachineMatrics() {
+    public BlockMachineMatrix() {
         super(Material.ROCK, "machines/frame/frame", MachineTier.allexeptTier_0());
         this.setDefaultState(this.blockState.getBaseState().withProperty(MACHINETIER, MachineTier.TIER_1));
         this.setCreativeTab(GeneriTechTabs.GENERAL);

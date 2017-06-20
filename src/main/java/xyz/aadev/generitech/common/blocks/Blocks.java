@@ -43,11 +43,11 @@ import xyz.aadev.aalib.common.util.RegistrationHelper;
 import xyz.aadev.generitech.Reference;
 import xyz.aadev.generitech.common.blocks.machines.BlockFurnace;
 import xyz.aadev.generitech.common.blocks.machines.BlockPulverizer;
-import xyz.aadev.generitech.common.blocks.misc.crafting.BlockMachineMatrics;
+import xyz.aadev.generitech.common.blocks.misc.crafting.BlockMachineMatrix;
 import xyz.aadev.generitech.common.blocks.ores.BlockOre;
 import xyz.aadev.generitech.common.blocks.ores.BlockOreBlock;
+import xyz.aadev.generitech.common.blocks.power.BlockEnergyReservoir;
 import xyz.aadev.generitech.common.blocks.power.BlockGenerator;
-import xyz.aadev.generitech.common.blocks.power.BlockPowerStorage;
 import xyz.aadev.generitech.common.items.machines.ItemFurnace;
 import xyz.aadev.generitech.common.items.machines.ItemPulverizer;
 import xyz.aadev.generitech.common.items.misc.crafting.ItemMachineMatrics;
@@ -62,10 +62,10 @@ public enum Blocks {
     BLOCK_FURNACE(BlockFurnace.class, ItemFurnace.class),
     BLOCK_PULVERIZER(BlockPulverizer.class, ItemPulverizer.class),
 
-    BLOCK_MACHINEMATRICS(BlockMachineMatrics.class, ItemMachineMatrics.class),
+    BLOCK_MACHINEMATRICS(BlockMachineMatrix.class, ItemMachineMatrics.class),
     BLOCK_CABLES(BlockGenerator.class, ItemCable.class),
 
-    BLOCK_POWERSTORAGE(BlockPowerStorage.class, ItemPowerStorage.class);
+    BLOCK_ENERGY_RESERVOIR(BlockEnergyReservoir.class, ItemPowerStorage.class);
 
 
     private final Class<? extends BlockBase> blockClass;

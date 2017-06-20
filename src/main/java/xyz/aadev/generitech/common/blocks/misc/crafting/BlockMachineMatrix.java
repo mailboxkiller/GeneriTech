@@ -21,6 +21,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
@@ -36,6 +37,8 @@ import xyz.aadev.generitech.common.blocks.BlockTierBase;
 import xyz.aadev.generitech.common.blocks.Blocks;
 
 import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Random;
 
 public class BlockMachineMatrix extends BlockTierBase {
 
@@ -43,9 +46,10 @@ public class BlockMachineMatrix extends BlockTierBase {
         super(Material.ROCK, "machines/frame/frame", MachineTier.allexeptTier_0());
         this.setDefaultState(this.blockState.getBaseState().withProperty(MACHINETIER, MachineTier.TIER_1));
         this.setCreativeTab(GeneriTechTabs.GENERAL);
-        this.setInternalName("machineframe");
+        this.setInternalName("machine_matrix");
         this.fullBlock = false;
         this.setLightOpacity(0);
+
 
     }
 
@@ -55,15 +59,23 @@ public class BlockMachineMatrix extends BlockTierBase {
     }
 
 
-    @Override
-    public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
-        return Blocks.BLOCK_MACHINEMATRICS.getStack(1, getMetaFromState(state));
-    }
-
     @SideOnly(Side.CLIENT)
     public BlockRenderLayer getBlockLayer() {
         return BlockRenderLayer.CUTOUT;
     }
 
+    @Override
+    public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing face) {
+        return false;
+    }
 
+    @Override
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+        return Item.getItemFromBlock(Blocks.BLOCK_MACHINEMATRICS.getBlock());
+    }
+
+    @Override
+    public int damageDropped(IBlockState state) {
+        return getMetaFromState(state);
+    }
 }

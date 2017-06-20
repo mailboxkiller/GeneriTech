@@ -44,8 +44,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import xyz.aadev.aalib.common.inventory.InternalInventory;
@@ -57,7 +57,7 @@ import xyz.aadev.generitech.client.gui.upgrade.GuiUpgradeScreen;
 import xyz.aadev.generitech.common.container.machines.ContainerFurnace;
 import xyz.aadev.generitech.common.container.upgrade.ContanierUpgradeStorage;
 import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
-import xyz.aadev.generitech.common.util.DistributePowerToFace;
+import xyz.aadev.generitech.common.util.power.DistributePowerToFace;
 
 public class TileEntityFurnace extends TileEntityMachineBase implements ITickable {
 
@@ -68,9 +68,11 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
     private float internalTemp = 0f;
     private boolean canIdle = false;
     private boolean isSmeltPaused = false;
-    private long powerUsage = 50;
     private MachineTier machineTier;
     private boolean ActiveTexture=false;
+    private BlockPos pos = getPos();
+
+
 
     @Override
     public long getPower() {
@@ -213,13 +215,26 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
     public int getMaxTemperature() {
         switch (MachineTier.byMeta(getBlockMetadata())) {
             case TIER_1:
-
+                return 750;
             case TIER_2:
                 return 1000;
             case TIER_3:
                 return 1250;
             default:
-                return 750;
+                return 0;
+        }
+
+    }
+    public long getPowerUsage() {
+
+        switch (MachineTier.byMeta(getBlockMetadata())) {
+            case TIER_2:
+                return 60;
+            case TIER_3:
+                return 40;
+            default:
+                return 20;
+
         }
     }
 
@@ -236,10 +251,7 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
         }
     }
     public boolean isSlotOpen(){
-        if (ItemStack.areItemsEqual(FurnaceRecipes.instance().getSmeltingResult(internalInventory.getStackInSlot(0)), internalInventory.getStackInSlot(2)) || ItemStack.areItemsEqual(internalInventory.getStackInSlot(2),ItemStack.EMPTY)){
-            return true;
-        }
-        return false;
+        return ItemStack.areItemsEqual(FurnaceRecipes.instance().getSmeltingResult(internalInventory.getStackInSlot(0)), internalInventory.getStackInSlot(2)) || ItemStack.areItemsEqual(internalInventory.getStackInSlot(2),ItemStack.EMPTY);
     }
 
     public boolean getActiveTexture(){
@@ -247,24 +259,23 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
     }
 
 
-
     @Override
     public void update() {
         OverlayState();
-
 
         if (machineTier == null) {
             machineTier = MachineTier.byMeta(this.getBlockMetadata());
         }
 
-        if ((container.getStoredPower() >= powerUsage && machineActive && !isSmeltPaused)&&(internalTemp < this.getMaxTemperature())) {
+        if ((container.getStoredPower() >= getPowerUsage() && machineActive && !isSmeltPaused)&&(internalTemp < this.getMaxTemperature())) {
 
                 internalTemp += getTempRate();
-                container.takePower(powerUsage, false);
-        } else if (container.getStoredPower() >= powerUsage && canIdle && internalTemp <= getIdleTemp()) {
+                container.takePower(getPowerUsage(), false);
+                markForUpdate();
+        } else if (container.getStoredPower() >= getPowerUsage() && canIdle && internalTemp <= getIdleTemp()) {
             internalTemp += getTempRate();
-
-            container.takePower(powerUsage, false);
+            markForUpdate();
+            container.takePower(getPowerUsage(), false);
         } else {
             if (internalTemp <= 0) {
                 internalTemp = 0;
@@ -274,107 +285,99 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
         }
 
 
-        if (container.getStoredPower() >= powerUsage && canIdle){
+        if (container.getStoredPower() >= getPowerUsage() && canIdle&&!ActiveTexture){
             ActiveTexture = true;
-        }else if (container.getStoredPower() <= powerUsage && canIdle){
+        }else if (container.getStoredPower() <= getPowerUsage() && canIdle&&ActiveTexture){
             ActiveTexture = false;
-        }else if (machineActive != ActiveTexture){
+        }else if (machineActive != ActiveTexture && container.getStoredPower() >= getPowerUsage()){
             ActiveTexture = machineActive;
         }
 
-        BlockPos pos = getPos();
-        World worldIn = getWorld();
-        if (worldIn.isBlockPowered(pos) && !canIdle) {
+
+        if (world.isBlockPowered(pos) && !canIdle ) {
             canIdle = true;
         }
-        if (!worldIn.isBlockPowered(pos) && canIdle) {
+        if (!world.isBlockPowered(pos) && canIdle) {
             canIdle = false;
         }
 
+            if ((!ItemStack.areItemStacksEqual(internalInventory.getStackInSlot(0), ItemStack.EMPTY) && ItemStack.areItemStacksEqual(internalInventory.getStackInSlot(1), ItemStack.EMPTY)) && isSlotOpen()) {
+                ItemStack itemIn = internalInventory.getStackInSlot(0);
+                ItemStack itemOut;
+
+                if (!canSmelt(itemIn))
+                    return;
+
+                if (itemIn.getCount() - 1 <= 0) {
+                    itemOut = itemIn.copy();
+                    itemIn = ItemStack.EMPTY;
+                } else {
+                    itemOut = itemIn.copy();
+
+                    itemOut.setCount(1);
+                    itemIn.shrink(1);
+                }
+
+                if (itemIn != ItemStack.EMPTY && itemIn.getCount() == 0) itemIn = ItemStack.EMPTY;
+                if (itemOut.getCount() == 0) itemOut = ItemStack.EMPTY;
+
+                internalInventory.setInventorySlotContents(0, itemIn);
+                internalInventory.setInventorySlotContents(1, itemOut);
+
+                machineActive = true;
+
+                this.markForUpdate();
+                this.markDirty();
+            }
 
 
-        if ((!ItemStack.areItemStacksEqual(internalInventory.getStackInSlot(0),ItemStack.EMPTY)&& ItemStack.areItemStacksEqual(internalInventory.getStackInSlot(1),ItemStack.EMPTY)) && isSlotOpen()) {
-            ItemStack itemIn = internalInventory.getStackInSlot(0);
-            ItemStack itemOut;
+            if (!ItemStack.areItemStacksEqual(internalInventory.getStackInSlot(1), ItemStack.EMPTY) && getMultiplier() > 0) {
+                ItemStack processItem = internalInventory.getStackInSlot(1);
+                smeltProgress += getMultiplier();
 
-            //System.out.println("test");
+                if (smeltProgress > 1000) {
+                    smeltProgress = 1000;
+                    ItemStack outputStack = FurnaceRecipes.instance().getSmeltingResult(processItem.copy()).copy();
+                    if (InventoryHelper.addItemStackToInventory(outputStack, internalInventory, 2, 2, true) != ItemStack.EMPTY) {
+                        isSmeltPaused = true;
+                        return;
+                    }
 
-            if (!canSmelt(itemIn))
-                return;
+                    if (isSmeltPaused)
+                        isSmeltPaused = !isSmeltPaused;
 
-            if (itemIn.getCount() - 1 <= 0) {
-                itemOut = itemIn.copy();
-                itemIn = ItemStack.EMPTY;
+                    InventoryHelper.addItemStackToInventory(outputStack, internalInventory, 2, 2);
+
+                    if (getStackInSlot(0) == ItemStack.EMPTY || !canSmelt(getStackInSlot(0))) machineActive = false;
+                    smeltProgress = 0;
+                    internalInventory.setInventorySlotContents(1, ItemStack.EMPTY);
+
+                    this.markForUpdate();
+                    this.markDirty();
+                }
             } else {
-                itemOut = itemIn.copy();
+                if (!ItemStack.areItemStacksEqual(internalInventory.getStackInSlot(1), ItemStack.EMPTY) && isSmeltPaused() && smeltProgress > 1000) {
+                    ItemStack processItem = internalInventory.getStackInSlot(1);
+                    smeltProgress = 1000;
+                    ItemStack outputStack = FurnaceRecipes.instance().getSmeltingResult(processItem.copy()).copy();
+                    if (InventoryHelper.addItemStackToInventory(outputStack, internalInventory, 2, 2, true) != ItemStack.EMPTY) {
+                        isSmeltPaused = true;
+                        return;
+                    }
 
-                itemOut.setCount(1);
-                itemIn.shrink(1);
-            }
+                    InventoryHelper.addItemStackToInventory(outputStack, internalInventory, 2, 2);
 
-            if (itemIn != ItemStack.EMPTY && itemIn.getCount() == 0) itemIn = ItemStack.EMPTY;
-            if (itemOut.getCount() == 0) itemOut = ItemStack.EMPTY;
+                    machineActive = false;
+                    smeltProgress = 0;
+                    internalInventory.setInventorySlotContents(1, ItemStack.EMPTY);
 
-            internalInventory.setInventorySlotContents(0, itemIn);
-            internalInventory.setInventorySlotContents(1, itemOut);
-
-
-
-            machineActive = true;
-
-            this.markForUpdate();
-            this.markDirty();
-        }
-
-        ItemStack processItem = internalInventory.getStackInSlot(1);
-
-
-        if (!ItemStack.areItemStacksEqual(processItem,ItemStack.EMPTY)&& getMultiplier() > 0 ) {
-
-            smeltProgress += getMultiplier();
-
-            if (smeltProgress > 1000) {
-                smeltProgress = 1000;
-                ItemStack outputStack = FurnaceRecipes.instance().getSmeltingResult(processItem.copy()).copy();
-                if (InventoryHelper.addItemStackToInventory(outputStack, internalInventory, 2, 2, true) != ItemStack.EMPTY) {
-                    isSmeltPaused = true;
-                    return;
+                    this.markForUpdate();
+                    this.markDirty();
                 }
-
-                if (isSmeltPaused)
-                    isSmeltPaused = !isSmeltPaused;
-
-                InventoryHelper.addItemStackToInventory(outputStack, internalInventory, 2, 2);
-
-                if (getStackInSlot(0) == ItemStack.EMPTY || !canSmelt(getStackInSlot(0))) machineActive = false;
-                smeltProgress = 0;
-                internalInventory.setInventorySlotContents(1, ItemStack.EMPTY);
-
-                this.markForUpdate();
-                this.markDirty();
-            }
-        } else {
-            if (processItem != ItemStack.EMPTY && isSmeltPaused() && smeltProgress > 1000) {
-                smeltProgress = 1000;
-                ItemStack outputStack = FurnaceRecipes.instance().getSmeltingResult(processItem.copy()).copy();
-                if (InventoryHelper.addItemStackToInventory(outputStack, internalInventory, 2, 2, true) != ItemStack.EMPTY) {
-                    isSmeltPaused = true;
-                    return;
-                }
-
-                InventoryHelper.addItemStackToInventory(outputStack, internalInventory, 2, 2);
-
-                machineActive = false;
-                smeltProgress = 0;
-                internalInventory.setInventorySlotContents(1, ItemStack.EMPTY);
-
-                this.markForUpdate();
-                this.markDirty();
             }
         }
 
 
-    }
 
 
 
@@ -410,4 +413,8 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
     }
 
 
+    @Override
+    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
+        return (int) container.givePower((long) maxReceive, simulate);
+    }
 }

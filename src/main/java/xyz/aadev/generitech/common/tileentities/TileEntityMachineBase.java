@@ -35,23 +35,39 @@
 package xyz.aadev.generitech.common.tileentities;
 
 
+
+import cofh.api.energy.IEnergyConnection;
+import cofh.api.energy.IEnergyProvider;
+import cofh.api.energy.IEnergyReceiver;
+import cofh.api.tileentity.IInventoryConnection;
 import net.darkhax.tesla.api.implementation.BaseTeslaContainer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import xyz.aadev.aalib.common.tileentities.TileEntityInventoryBase;
 
-public abstract class TileEntityMachineBase extends TileEntityInventoryBase {
+public abstract class TileEntityMachineBase extends TileEntityInventoryBase implements IEnergyProvider,IEnergyReceiver, IInventoryConnection {
     protected BaseTeslaContainer container;
     private int[] sides = new int[6];
     private int overlay_ticksLeft = 0;
     private boolean overlayState;
 
+
     public void OverlayState() {
         if (overlay_ticksLeft > 0) {
-            overlayState = true;
+            if(!overlayState){
+                overlayState = true;
+                this.markForUpdate();
+            }
             overlay_ticksLeft--;
         } else if (overlayState) {
             overlayState = false;
+            this.markForUpdate();
         }
+    }
+
+
+    public void updateClient(){
+        this.markForUpdate();
     }
 
     public int getOverlay_ticksLeft() {
@@ -100,4 +116,29 @@ public abstract class TileEntityMachineBase extends TileEntityInventoryBase {
 
     }
 
+
+    @Override
+    public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
+        return 0;
+    }
+
+    @Override
+    public int getEnergyStored(EnumFacing from) {
+        return 0;
+    }
+
+    @Override
+    public int getMaxEnergyStored(EnumFacing from) {
+        return 0;
+    }
+
+    @Override
+    public boolean canConnectEnergy(EnumFacing from) {
+        return true;
+    }
+
+    @Override
+    public ConnectionType canConnectInventory(EnumFacing from) {
+        return ConnectionType.DENY;
+    }
 }

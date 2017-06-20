@@ -20,16 +20,32 @@ package xyz.aadev.generitech.api.util;/*
 import net.minecraft.util.IStringSerializable;
 
 public enum EnumSides implements IStringSerializable {
-    IN("in"),
-    OUT("out"),
-    DISABLED("disabled");
+    IN("in",0),
+    OUT("out",1),
+    DISABLED("disabled",2);
 
-    EnumSides(String s) {
+    private final String name;
+
+    EnumSides(String name, int i) {
+        this.name = name;
+    }
+
+    public static EnumSides getInput(int[] sides, int i) {
+
+        switch (sides[i]) {
+            case 1:
+                return EnumSides.IN;
+            case 2:
+                return EnumSides.DISABLED;
+            default:
+                return EnumSides.OUT;
+        }
+
 
     }
 
     @Override
     public String getName() {
-        return null;
+        return name.toLowerCase();
     }
 }

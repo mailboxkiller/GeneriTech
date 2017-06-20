@@ -1,7 +1,6 @@
 package xyz.aadev.generitech.common.tileentities.power;
 
 
-
 import net.darkhax.tesla.api.ITeslaProducer;
 import net.darkhax.tesla.api.implementation.BaseTeslaContainer;
 import net.darkhax.tesla.capability.TeslaCapabilities;
@@ -12,19 +11,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import xyz.aadev.aalib.common.inventory.InternalInventory;
 import xyz.aadev.aalib.common.inventory.InventoryOperation;
-import xyz.aadev.generitech.Reference;
 import xyz.aadev.generitech.api.util.MachineTier;
 import xyz.aadev.generitech.client.gui.power.GuiGenerator;
 import xyz.aadev.generitech.common.container.power.ContanierGenerator;
 import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
-import xyz.aadev.generitech.common.util.DistributePowerToFace;
+import xyz.aadev.generitech.common.util.power.DistributePowerToFace;
 
 import javax.annotation.Nullable;
 
@@ -37,13 +33,14 @@ public class TileEntityPower extends TileEntityMachineBase implements ITeslaProd
     private int fuelRemaining = 0;
     private Item lastFuelType;
     private int lastFuelValue;
+    private int fuelTotal = 0;
+
 
     @Override
     public boolean isEmpty() {
         return false;
     }
 
-    private int fuelTotal = 0;
 
     @Override
     protected void syncDataFrom(NBTTagCompound nbtTagCompound, SyncReason syncReason) {
@@ -104,8 +101,6 @@ public class TileEntityPower extends TileEntityMachineBase implements ITeslaProd
 
     @Override
     public void update() {
-        BlockPos pos = getPos();
-        World worldIn = getWorld();
         if (machineTier == null) {
             machineTier = MachineTier.byMeta(getBlockMetadata());
         }
@@ -117,10 +112,10 @@ public class TileEntityPower extends TileEntityMachineBase implements ITeslaProd
         if (container.getStoredPower() != container.getCapacity() && inventory.getStackInSlot(0) != ItemStack.EMPTY || container.getStoredPower() < container.getCapacity() && inventory.getStackInSlot(0) != ItemStack.EMPTY) {
             burnTime();
         }
-        if (container.getStoredPower() != 0) {
-            DistributePowerToFace.transferPower(pos, worldIn, T0transfer, container, sides);
+        if (container.getStoredPower() != 0&& !world.isRemote) {
+            DistributePowerToFace.transferPower(getPos(), world, T0transfer, container, sides);
+            this.markForUpdate();
         }
-
 
     }
 
@@ -135,7 +130,7 @@ public class TileEntityPower extends TileEntityMachineBase implements ITeslaProd
                 lastFuelType = inventory.getStackInSlot(0).getItem();
                 lastFuelValue = fuelRemaining;
             }
-            fuelRemaining = fuelRemaining/2;
+            fuelRemaining = (fuelRemaining/2)+1;
             fuelTotal = fuelRemaining;
             inventory.decrStackSize(0, 1);
             this.markDirty();
@@ -156,13 +151,10 @@ public class TileEntityPower extends TileEntityMachineBase implements ITeslaProd
 
     @Override
     public int[] getAccessibleSlotsBySide(EnumFacing side) {
-        int[] slots = new int[0];
-        float oreAngle = (this.getForward().getHorizontalAngle() + 90) >= 360 ? 0 : (this.getForward().getHorizontalAngle() + 90);
+        int[] slots;
 
-        if (Math.abs(side.getHorizontalAngle() - oreAngle) < Reference.EPSILON) {
-            slots = new int[1];
-            slots[0] = 0;
-        }
+        slots = new int[1];
+        slots[0] = 0;
 
         return slots;
     }
@@ -212,5 +204,10 @@ public class TileEntityPower extends TileEntityMachineBase implements ITeslaProd
             return +14;
 
         return Math.round((((float) fuelTotal - (float) fuelRemaining) / (float) fuelTotal) * 13);
+    }
+
+    @Override
+    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
+        return 0;
     }
 }

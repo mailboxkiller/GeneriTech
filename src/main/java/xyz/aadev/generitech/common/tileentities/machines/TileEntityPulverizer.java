@@ -61,7 +61,7 @@ import xyz.aadev.generitech.client.gui.upgrade.GuiUpgradeScreen;
 import xyz.aadev.generitech.common.container.machines.ContainerPulverizer;
 import xyz.aadev.generitech.common.container.upgrade.ContanierUpgradeStorage;
 import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
-import xyz.aadev.generitech.common.util.DistributePowerToFace;
+import xyz.aadev.generitech.common.util.power.DistributePowerToFace;
 
 import java.util.Random;
 
@@ -92,6 +92,7 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
     private Item lastFuelType;
     private int lastFuelValue;
     private float fortuneMultiplier = 0;
+
 
 
     public boolean isPulverizerPaused() {
@@ -302,12 +303,12 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
 
         if (machineTier == MachineTier.TIER_0 && container.getInputRate() != 0) container.setInputRate(0);
 
-        if (!canWork()) {
+        if (!canWork()&&machineActive) {
             machineActive = false;
             this.markForUpdate();
         }
 
-        if (ticksRemaining == 0 && inventory.getStackInSlot(0) == ItemStack.EMPTY && machineTier != MachineTier.TIER_0 || pulverizerPaused) {
+        if (ticksRemaining == 0 && inventory.getStackInSlot(0) == ItemStack.EMPTY && machineTier != MachineTier.TIER_0 || pulverizerPaused && machineActive) {
             machineActive = false;
         }
 
@@ -514,7 +515,16 @@ public class TileEntityPulverizer extends TileEntityMachineBase implements ITick
     public long getPower() {
         return container.getStoredPower();
     }
+    @Override
+    public boolean canConnectEnergy(EnumFacing from) {
+        if (machineTier == MachineTier.TIER_0)return false;
+        return true;
+    }
 
+    @Override
+    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
+        return (int) container.givePower((long) maxReceive, simulate);
+    }
 
 }
 

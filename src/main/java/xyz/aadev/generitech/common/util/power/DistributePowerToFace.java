@@ -1,4 +1,4 @@
-package xyz.aadev.generitech.common.util;/*
+package xyz.aadev.generitech.common.util.power;/*
  * LIMITED USE SOFTWARE LICENSE AGREEMENT
  * This Limited Use Software License Agreement (the "Agreement") is a legal agreement between you, the end-user, and the AlgorithmicsAnonymous Team ("AlgorithmicsAnonymous"). By downloading or purchasing the software materials, which includes source code (the "Source Code"), artwork data, music and software tools (collectively, the "Software"), you are agreeing to be bound by the terms of this Agreement. If you do not agree to the terms of this Agreement, promptly destroy the Software you may have downloaded or copied.
  * AlgorithmicsAnonymous SOFTWARE LICENSE
@@ -24,8 +24,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.structure.MapGenVillage;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 import xyz.aadev.generitech.Reference;
 import xyz.aadev.generitech.api.util.MachineTier;
 import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
@@ -48,24 +49,30 @@ public class DistributePowerToFace {
 
     public static void transferPower(BlockPos pos, World worldIn, long ratetranfer, BaseTeslaContainer container, int[] faces) {
 
-        long inputba = distributePowerToAllFaces(worldIn, pos, ratetranfer, true, faces);
-        long test = inputba / ratetranfer;
-        if (test == 0) test = 1;
-        if (inputba != 0 && test != 0 && container.getStoredPower() > test) {
-            long input = inputba / test;
-            if (container.getStoredPower() >= inputba) {
-                container.takePower(inputba, false);
+        long powerToTransfer = distributePowerToAllFaces(worldIn, pos, ratetranfer, true, faces);
+        long test = powerToTransfer / ratetranfer;
+        long lessThanTransfer = powerToTransfer %  ratetranfer;
+        if (powerToTransfer != 0 && test != 0 && container.getStoredPower() > test) {
+            long input = powerToTransfer / test;
+            if (container.getStoredPower() >= powerToTransfer) {
+                container.takePower(powerToTransfer, false);
                 distributePowerToAllFaces(worldIn, pos, input, false, faces);
-            } else if (container.getStoredPower() < inputba) {
+            } else if (container.getStoredPower() < powerToTransfer) {
                 long toMoveUnder = container.getStoredPower() / test;
                 container.takePower(container.getStoredPower(), false);
                 distributePowerToAllFaces(worldIn, pos, toMoveUnder, false, faces);
             }
+        } else if (lessThanTransfer > 0 && test==0){
+            container.takePower(lessThanTransfer, false);
+            distributePowerToAllFaces(worldIn, pos, lessThanTransfer, false, faces);
+
+
 
         }
 
 
     }
+
 
 
     public static <T> List<T> getConnectedCapabilitiesSide(Capability<T> capability, World world, BlockPos pos, int[] faces) {
@@ -91,12 +98,19 @@ public class DistributePowerToFace {
         return capabilities;
     }
 
+
     public static long distributePowerToAllFaces(World world, BlockPos pos, long amount, boolean simulated, int[] faces) {
 
         long consumedPower = 0L;
 
         for (final ITeslaConsumer consumer : getConnectedCapabilitiesSide(TeslaCapabilities.CAPABILITY_CONSUMER, world, pos, faces))
             consumedPower += consumer.givePower(amount, simulated);
+
+
+        for (final IEnergyStorage consumer : getConnectedCapabilitiesSide(CapabilityEnergy.ENERGY, world, pos, faces)){
+            consumedPower += consumer.receiveEnergy((int) amount, simulated);
+        }
+
 
         return consumedPower;
     }
@@ -125,8 +139,8 @@ public class DistributePowerToFace {
                     slots[1] = 3;
                     slots[2] = 0;
                 }
-                i++;
-            }
+        i++;
+    }
 
             return slots;
         }

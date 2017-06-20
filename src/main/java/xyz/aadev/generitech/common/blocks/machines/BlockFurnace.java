@@ -109,7 +109,7 @@ public class BlockFurnace extends BlockMachineBase {
         if (tileEntity != null && tileEntity.canBeRotated()) {
             return state.withProperty(FACING, tileEntity.getForward()).withProperty(ACTIVE, tileEntity.getActiveTexture()).withProperty(OVERLAY, tileEntity.getOverlayState());
         }
-        return state.withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, false);
+        return state.withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, false).withProperty(OVERLAY, false);
     }
 
     @Override

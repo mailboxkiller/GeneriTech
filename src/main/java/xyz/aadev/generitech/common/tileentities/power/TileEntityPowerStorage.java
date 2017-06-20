@@ -17,6 +17,7 @@ package xyz.aadev.generitech.common.tileentities.power;/*
  * Exclusive Remedies. The Software is being offered to you free of any charge. You agree that you have no remedy against AlgorithmicsAnonymous, its affiliates, contractors, suppliers, and agents for loss or damage caused by any defect or failure in the Software regardless of the form of action, whether in contract, tort, includinegligence, strict liability or otherwise, with regard to the Software. Copyright and other proprietary matters will be governed by United States laws and international treaties. IN ANY CASE, AlgorithmicsAnonymous SHALL NOT BE LIABLE FOR LOSS OF DATA, LOSS OF PROFITS, LOST SAVINGS, SPECIAL, INCIDENTAL, CONSEQUENTIAL, INDIRECT OR OTHER SIMILAR DAMAGES ARISING FROM BREACH OF WARRANTY, BREACH OF CONTRACT, NEGLIGENCE, OR OTHER LEGAL THEORY EVEN IF AlgorithmicsAnonymous OR ITS AGENT HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES, OR FOR ANY CLAIM BY ANY OTHER PARTY. Some jurisdictions do not allow the exclusion or limitation of incidental or consequential damages, so the above limitation or exclusion may not apply to you.
  */
 
+import cofh.api.tileentity.IInventoryConnection;
 import net.darkhax.tesla.api.ITeslaConsumer;
 import net.darkhax.tesla.api.ITeslaHolder;
 import net.darkhax.tesla.api.implementation.BaseTeslaContainer;
@@ -28,16 +29,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import xyz.aadev.aalib.common.inventory.InternalInventory;
 import xyz.aadev.aalib.common.inventory.InventoryOperation;
+import xyz.aadev.generitech.api.util.MachineTier;
 import xyz.aadev.generitech.client.gui.upgrade.GuiUpgradeScreen;
 import xyz.aadev.generitech.common.container.upgrade.ContanierUpgradeStorage;
 import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
-import xyz.aadev.generitech.common.util.DistributePowerToFace;
+import xyz.aadev.generitech.common.util.power.DistributePowerToFace;
 
 import javax.annotation.Nullable;
 
@@ -51,6 +52,7 @@ public class TileEntityPowerStorage extends TileEntityMachineBase implements ITe
     }
 
 
+
     @Override
     public long getMaxPower() {
         return container.getCapacity();
@@ -58,11 +60,8 @@ public class TileEntityPowerStorage extends TileEntityMachineBase implements ITe
 
     @Override
     public void update() {
-        BlockPos pos = getPos();
-        World worldIn = getWorld();
-        DistributePowerToFace.transferPower(pos, worldIn, 120, container, getSides());
+        DistributePowerToFace.transferPower(pos, world, 120, container, getSides());
         OverlayState();
-        this.markForUpdate();
     }
 
     @Override
@@ -104,7 +103,6 @@ public class TileEntityPowerStorage extends TileEntityMachineBase implements ITe
         return false;
     }
 
-    @Nullable
 
     @Override
     public ItemStack removeStackFromSlot(int index) {
@@ -119,6 +117,7 @@ public class TileEntityPowerStorage extends TileEntityMachineBase implements ITe
 
     @Override
     public Object getServerGuiElement(int guiId, EntityPlayer player) {
+        markForUpdate();
         return new ContanierUpgradeStorage(player.inventory, this, 0);
     }
 
@@ -142,6 +141,7 @@ public class TileEntityPowerStorage extends TileEntityMachineBase implements ITe
         // not care about which side is being accessed, however if you wanted to restrict which
         // side can be used, for example only allow power input through the back, that could be
         // done here.
+        markForUpdate();
         if (capability == TeslaCapabilities.CAPABILITY_CONSUMER || capability == TeslaCapabilities.CAPABILITY_HOLDER)
             return (T) this.container;
 
@@ -171,8 +171,20 @@ public class TileEntityPowerStorage extends TileEntityMachineBase implements ITe
 
     @Override
     public long givePower(long power, boolean simulated) {
-        return 0;
+        return container.givePower(power,simulated);
     }
 
+    @Override
+    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
+        int i = 0;
+        for (final EnumFacing sidea : net.minecraft.util.EnumFacing.VALUES) {
+            if (sidea == from && ((this.getSides()[i] == 1&& MachineTier.byMeta(getBlockMetadata()) != MachineTier.TIER_0))) {
+                this.markForUpdate();
+                return (int) container.givePower((long) maxReceive, simulate);
+            }
+            i++;
+        }
+        return 0;
+    }
 
 }

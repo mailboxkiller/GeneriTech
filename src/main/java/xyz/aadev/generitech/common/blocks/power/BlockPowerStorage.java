@@ -62,7 +62,7 @@ public class BlockPowerStorage extends BlockMachineBase {
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
         if (!world.isRemote) {
-            player.openGui(GeneriTech.getInstance(), Reference.GUI_ID.POWERSTORAGE_GUI, world, pos.getX(), pos.getY(), pos.getZ());
+            player.openGui(GeneriTech.getInstance(), Reference.GUI_ID.UPGRADE_GUI, world, pos.getX(), pos.getY(), pos.getZ());
         }
         return true;
     }
@@ -90,6 +90,7 @@ public class BlockPowerStorage extends BlockMachineBase {
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, MACHINETIER, FACING, OVERLAY ,UP,DOWN,NORTH,SOUTH,WEST,EAST);
     }
+    
 
     @Override
     public int damageDropped(IBlockState state) {

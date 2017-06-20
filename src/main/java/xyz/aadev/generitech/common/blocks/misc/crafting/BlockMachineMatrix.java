@@ -46,6 +46,7 @@ public class BlockMachineMatrix extends BlockTierBase {
         this.setInternalName("machineframe");
         this.fullBlock = false;
         this.setLightOpacity(0);
+
     }
 
     @Override
@@ -53,12 +54,6 @@ public class BlockMachineMatrix extends BlockTierBase {
         return new BlockStateContainer(this, MACHINETIER);
     }
 
-    @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-
-
-        return false;
-    }
 
     @Override
     public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
@@ -70,15 +65,5 @@ public class BlockMachineMatrix extends BlockTierBase {
         return BlockRenderLayer.CUTOUT;
     }
 
-    @Override
-    public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
-        return false;
-    }
-
-
-    @Override
-    public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing face) {
-        return false;
-    }
 
 }

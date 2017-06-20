@@ -117,7 +117,6 @@ public class TileEntityPowerStorage extends TileEntityMachineBase implements ITe
 
     @Override
     public Object getServerGuiElement(int guiId, EntityPlayer player) {
-        markForUpdate();
         return new ContanierUpgradeStorage(player.inventory, this, 0);
     }
 

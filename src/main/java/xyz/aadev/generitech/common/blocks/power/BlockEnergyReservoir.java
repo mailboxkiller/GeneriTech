@@ -74,14 +74,12 @@ public class BlockEnergyReservoir extends BlockMachineBase {
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         TileEntity tileEntity = TileHelper.getTileEntity(worldIn, pos, TileEntity.class);
         if (((TileEntityPowerStorage) tileEntity).canBeRotated()) {
-            state = state.withProperty(UP, EnumSides.getInput(((TileEntityPowerStorage) tileEntity).getSides(),0));
-            state = state.withProperty(DOWN, EnumSides.getInput(((TileEntityPowerStorage) tileEntity).getSides(),1));
+            state = state.withProperty(UP, EnumSides.getInput(((TileEntityPowerStorage) tileEntity).getSides(),1));
+            state = state.withProperty(DOWN, EnumSides.getInput(((TileEntityPowerStorage) tileEntity).getSides(),0));
             state = state.withProperty(NORTH, EnumSides.getInput(((TileEntityPowerStorage) tileEntity).getSides(),2));
             state = state.withProperty(SOUTH, EnumSides.getInput(((TileEntityPowerStorage) tileEntity).getSides(),3));
             state = state.withProperty(WEST, EnumSides.getInput(((TileEntityPowerStorage) tileEntity).getSides(),4));
             state = state.withProperty(EAST, EnumSides.getInput(((TileEntityPowerStorage) tileEntity).getSides(),5));
-
-
             return state.withProperty(FACING, ((TileEntityPowerStorage) tileEntity).getForward()).withProperty(OVERLAY, ((TileEntityMachineBase) tileEntity).getOverlayState());
         }
 

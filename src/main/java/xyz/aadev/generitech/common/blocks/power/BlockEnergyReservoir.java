@@ -31,6 +31,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import xyz.aadev.aalib.common.tileentities.TileEntityBase;
 import xyz.aadev.aalib.common.util.TileHelper;
 import xyz.aadev.generitech.GeneriTech;
 import xyz.aadev.generitech.GeneriTechTabs;
@@ -43,7 +44,6 @@ import xyz.aadev.generitech.common.tileentities.power.TileEntityPowerStorage;
 
 public class BlockEnergyReservoir extends BlockMachineBase {
 
-
     public static final PropertyEnum NORTH = PropertyEnum.create("north", EnumSides.class);
     public static final PropertyEnum EAST = PropertyEnum.create("east", EnumSides.class);
     public static final PropertyEnum SOUTH = PropertyEnum.create("south", EnumSides.class);
@@ -53,11 +53,11 @@ public class BlockEnergyReservoir extends BlockMachineBase {
 
 
     public BlockEnergyReservoir() {
-        super(Material.ROCK, "machines/pulverizer/pulverizer", MachineTier.allexeptTier_0());
+        super(Material.ROCK, "machines/energy_reservoir/energy_reservoir", MachineTier.allexeptTier_0());
         this.setDefaultState(blockState.getBaseState().withProperty(MACHINETIER, MachineTier.TIER_0));
         this.setTileEntity(TileEntityPowerStorage.class);
         this.setCreativeTab(GeneriTechTabs.GENERAL);
-        this.setInternalName("powerstorage");
+        this.setInternalName("energy_reservoir");
     }
 
 
@@ -78,11 +78,11 @@ public class BlockEnergyReservoir extends BlockMachineBase {
             state = state.withProperty(DOWN, EnumSides.getInput(((TileEntityPowerStorage) tileEntity).getSides(),1));
             state = state.withProperty(NORTH, EnumSides.getInput(((TileEntityPowerStorage) tileEntity).getSides(),2));
             state = state.withProperty(SOUTH, EnumSides.getInput(((TileEntityPowerStorage) tileEntity).getSides(),3));
-            state = state.withProperty(SOUTH, EnumSides.getInput(((TileEntityPowerStorage) tileEntity).getSides(),4));
-            state = state.withProperty(SOUTH, EnumSides.getInput(((TileEntityPowerStorage) tileEntity).getSides(),5));
+            state = state.withProperty(WEST, EnumSides.getInput(((TileEntityPowerStorage) tileEntity).getSides(),4));
+            state = state.withProperty(EAST, EnumSides.getInput(((TileEntityPowerStorage) tileEntity).getSides(),5));
 
 
-            return state.withProperty(FACING, EnumFacing.NORTH).withProperty(OVERLAY, ((TileEntityMachineBase) tileEntity).getOverlayState());
+            return state.withProperty(FACING, ((TileEntityPowerStorage) tileEntity).getForward()).withProperty(OVERLAY, ((TileEntityMachineBase) tileEntity).getOverlayState());
         }
 
         return state.withProperty(FACING, EnumFacing.NORTH).withProperty(OVERLAY, false);
@@ -91,7 +91,7 @@ public class BlockEnergyReservoir extends BlockMachineBase {
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, MACHINETIER, FACING, OVERLAY ,UP,DOWN,NORTH,SOUTH,WEST,EAST);
+        return new BlockStateContainer(this, MACHINETIER, FACING, OVERLAY , UP, DOWN, NORTH, SOUTH, WEST, EAST);
     }
 
 
@@ -108,5 +108,23 @@ public class BlockEnergyReservoir extends BlockMachineBase {
 
     }
 
-    
+    @Override
+    public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+        return 13;
+    }
+
+    @Override
+    public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+        return false;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public BlockRenderLayer getBlockLayer () {
+        return BlockRenderLayer.CUTOUT_MIPPED;
+    }
+
+    @Override
+    public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing face) {
+        return false;
+    }
 }

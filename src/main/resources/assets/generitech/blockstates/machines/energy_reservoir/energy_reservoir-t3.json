@@ -5,7 +5,8 @@
       "particle": "generitech:blocks/machines/storage_frame"
     },
     "model":"generitech:energy_reservoir",
-    "transform":"forge:default-block"
+    "transform":"forge:default-block",
+    "uvlock": true
   },
   "variants":{
     "inventory":[
@@ -33,6 +34,84 @@
 	  },
 	  "false": {
 	  }
+	},
+	"north": {
+		"out": {
+		
+		},
+		"in": {
+		
+		},
+		"disabled": {
+			"textures": {
+				"north": "generitech:blocks/machines/storage_frame"
+			}
+		}
+	},
+	"east": {
+		"out": {
+			
+		},
+		"in": {
+			
+		},
+		"disabled": {
+			"textures": {
+				"east": "generitech:blocks/machines/storage_frame"
+			}
+		}
+	},
+	"south": {
+		"out": {
+			
+		},
+		"in": {
+			
+		},
+		"disabled": {
+			"textures": {
+				"south": "generitech:blocks/machines/storage_frame"
+			}
+		}
+	},
+	"west": {
+		"out": {
+			
+		},
+		"in": {
+			
+		},
+		"disabled": {
+			"textures": {
+				"west": "generitech:blocks/machines/storage_frame"
+			}
+		}
+	},
+	"up": {
+		"out": {
+			
+		},
+		"in": {
+			
+		},
+		"disabled": {
+			"textures": {
+				"up": "generitech:blocks/machines/storage_frame"
+			}
+		}
+	},
+	"down": {
+		"out": {
+			
+		},
+		"in": {
+			
+		},
+		"disabled": {
+			"textures": {
+				"down": "generitech:blocks/machines/storage_frame_blocked"
+			}
+		}
 	}
   }
 }

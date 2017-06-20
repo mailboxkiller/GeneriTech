@@ -231,7 +231,7 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
             case TIER_2:
                 return 60;
             case TIER_3:
-                return e40;
+                return 40;
             default:
                 return 20;
 

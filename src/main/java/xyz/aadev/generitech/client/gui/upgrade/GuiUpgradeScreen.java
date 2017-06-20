@@ -71,7 +71,6 @@ public class GuiUpgradeScreen extends GuiBase {
 
         sides = ((TileEntityMachineBase) tileEntity).getSides();
 
-        ((TileEntityMachineBase) tileEntity).markForUpdate();
 
         if (tileEntity instanceof TileEntityMachineBase) {
             //System.out.println(((TileEntityMachineBase) tileEntity).getPower());

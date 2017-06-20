@@ -68,7 +68,6 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
     private float internalTemp = 0f;
     private boolean canIdle = false;
     private boolean isSmeltPaused = false;
-    private long powerUsage = 50;
     private MachineTier machineTier;
     private boolean ActiveTexture=false;
     private BlockPos pos = getPos();
@@ -216,13 +215,26 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
     public int getMaxTemperature() {
         switch (MachineTier.byMeta(getBlockMetadata())) {
             case TIER_1:
-
+                return 750;
             case TIER_2:
                 return 1000;
             case TIER_3:
                 return 1250;
             default:
-                return 750;
+                return 0;
+        }
+
+    }
+    public long getPowerUsage() {
+
+        switch (MachineTier.byMeta(getBlockMetadata())) {
+            case TIER_2:
+                return 60;
+            case TIER_3:
+                return e40;
+            default:
+                return 20;
+
         }
     }
 
@@ -239,10 +251,7 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
         }
     }
     public boolean isSlotOpen(){
-        if (ItemStack.areItemsEqual(FurnaceRecipes.instance().getSmeltingResult(internalInventory.getStackInSlot(0)), internalInventory.getStackInSlot(2)) || ItemStack.areItemsEqual(internalInventory.getStackInSlot(2),ItemStack.EMPTY)){
-            return true;
-        }
-        return false;
+        return ItemStack.areItemsEqual(FurnaceRecipes.instance().getSmeltingResult(internalInventory.getStackInSlot(0)), internalInventory.getStackInSlot(2)) || ItemStack.areItemsEqual(internalInventory.getStackInSlot(2),ItemStack.EMPTY);
     }
 
     public boolean getActiveTexture(){
@@ -258,14 +267,15 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
             machineTier = MachineTier.byMeta(this.getBlockMetadata());
         }
 
-        if ((container.getStoredPower() >= powerUsage && machineActive && !isSmeltPaused)&&(internalTemp < this.getMaxTemperature())) {
+        if ((container.getStoredPower() >= getPowerUsage() && machineActive && !isSmeltPaused)&&(internalTemp < this.getMaxTemperature())) {
 
                 internalTemp += getTempRate();
-                container.takePower(powerUsage, false);
-        } else if (container.getStoredPower() >= powerUsage && canIdle && internalTemp <= getIdleTemp()) {
+                container.takePower(getPowerUsage(), false);
+                markForUpdate();
+        } else if (container.getStoredPower() >= getPowerUsage() && canIdle && internalTemp <= getIdleTemp()) {
             internalTemp += getTempRate();
-
-            container.takePower(powerUsage, false);
+            markForUpdate();
+            container.takePower(getPowerUsage(), false);
         } else {
             if (internalTemp <= 0) {
                 internalTemp = 0;
@@ -275,23 +285,21 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
         }
 
 
-        if (container.getStoredPower() >= powerUsage && canIdle&&!ActiveTexture){
+        if (container.getStoredPower() >= getPowerUsage() && canIdle&&!ActiveTexture){
             ActiveTexture = true;
-        }else if (container.getStoredPower() <= powerUsage && canIdle&&ActiveTexture){
+        }else if (container.getStoredPower() <= getPowerUsage() && canIdle&&ActiveTexture){
             ActiveTexture = false;
-        }else if (machineActive != ActiveTexture){
+        }else if (machineActive != ActiveTexture && container.getStoredPower() >= getPowerUsage()){
             ActiveTexture = machineActive;
         }
 
 
-        if (world.isBlockPowered(pos) && !canIdle) {
+        if (world.isBlockPowered(pos) && !canIdle ) {
             canIdle = true;
         }
         if (!world.isBlockPowered(pos) && canIdle) {
             canIdle = false;
         }
-
-        if (!ItemStack.areItemStacksEqual(internalInventory.getStackInSlot(0),ItemStack.EMPTY)&&!ItemStack.areItemStacksEqual(internalInventory.getStackInSlot(1),ItemStack.EMPTY)) {
 
             if ((!ItemStack.areItemStacksEqual(internalInventory.getStackInSlot(0), ItemStack.EMPTY) && ItemStack.areItemStacksEqual(internalInventory.getStackInSlot(1), ItemStack.EMPTY)) && isSlotOpen()) {
                 ItemStack itemIn = internalInventory.getStackInSlot(0);
@@ -369,7 +377,7 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
             }
         }
 
-    }
+
 
 
 
@@ -407,7 +415,6 @@ public class TileEntityFurnace extends TileEntityMachineBase implements ITickabl
 
     @Override
     public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
-        System.out.println("wdawd");
         return (int) container.givePower((long) maxReceive, simulate);
     }
 }

@@ -42,7 +42,7 @@ import xyz.aadev.generitech.common.util.power.DistributePowerToFace;
 
 import javax.annotation.Nullable;
 
-public class TileEntityPowerStorage extends TileEntityMachineBase implements ITeslaHolder, ITeslaConsumer, ITickable, IInventoryConnection {
+public class TileEntityPowerStorage extends TileEntityMachineBase implements ITeslaHolder, ITeslaConsumer, ITickable {
     private InternalInventory inventory = new InternalInventory(this, 4);
     private BaseTeslaContainer container = new BaseTeslaContainer(0, 100000, 1000, 1000);
 
@@ -52,6 +52,7 @@ public class TileEntityPowerStorage extends TileEntityMachineBase implements ITe
     }
 
 
+
     @Override
     public long getMaxPower() {
         return container.getCapacity();
@@ -59,7 +60,6 @@ public class TileEntityPowerStorage extends TileEntityMachineBase implements ITe
 
     @Override
     public void update() {
-        BlockPos pos = getPos();
         DistributePowerToFace.transferPower(pos, world, 120, container, getSides());
         OverlayState();
     }
@@ -117,6 +117,7 @@ public class TileEntityPowerStorage extends TileEntityMachineBase implements ITe
 
     @Override
     public Object getServerGuiElement(int guiId, EntityPlayer player) {
+        markForUpdate();
         return new ContanierUpgradeStorage(player.inventory, this, 0);
     }
 
@@ -140,6 +141,7 @@ public class TileEntityPowerStorage extends TileEntityMachineBase implements ITe
         // not care about which side is being accessed, however if you wanted to restrict which
         // side can be used, for example only allow power input through the back, that could be
         // done here.
+        markForUpdate();
         if (capability == TeslaCapabilities.CAPABILITY_CONSUMER || capability == TeslaCapabilities.CAPABILITY_HOLDER)
             return (T) this.container;
 
@@ -169,14 +171,14 @@ public class TileEntityPowerStorage extends TileEntityMachineBase implements ITe
 
     @Override
     public long givePower(long power, boolean simulated) {
-        return 0;
+        return container.givePower(power,simulated);
     }
 
     @Override
     public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
         int i = 0;
         for (final EnumFacing sidea : net.minecraft.util.EnumFacing.VALUES) {
-            if (sidea == from && (((TileEntityMachineBase) this).getSides()[i] == 1&& MachineTier.byMeta(getBlockMetadata()) != MachineTier.TIER_0)) {
+            if (sidea == from && ((this.getSides()[i] == 1&& MachineTier.byMeta(getBlockMetadata()) != MachineTier.TIER_0))) {
                 this.markForUpdate();
                 return (int) container.givePower((long) maxReceive, simulate);
             }
@@ -185,8 +187,4 @@ public class TileEntityPowerStorage extends TileEntityMachineBase implements ITe
         return 0;
     }
 
-    @Override
-    public ConnectionType canConnectInventory(EnumFacing from) {
-        return ConnectionType.DENY;
-    }
 }

@@ -36,14 +36,16 @@ package xyz.aadev.generitech.common.tileentities;
 
 
 
+import cofh.api.energy.IEnergyConnection;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
+import cofh.api.tileentity.IInventoryConnection;
 import net.darkhax.tesla.api.implementation.BaseTeslaContainer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import xyz.aadev.aalib.common.tileentities.TileEntityInventoryBase;
 
-public abstract class TileEntityMachineBase extends TileEntityInventoryBase implements IEnergyProvider,IEnergyReceiver {
+public abstract class TileEntityMachineBase extends TileEntityInventoryBase implements IEnergyProvider,IEnergyReceiver, IInventoryConnection {
     protected BaseTeslaContainer container;
     private int[] sides = new int[6];
     private int overlay_ticksLeft = 0;
@@ -64,6 +66,9 @@ public abstract class TileEntityMachineBase extends TileEntityInventoryBase impl
     }
 
 
+    public void updateClient(){
+        this.markForUpdate();
+    }
 
     public int getOverlay_ticksLeft() {
         return overlay_ticksLeft;
@@ -132,7 +137,8 @@ public abstract class TileEntityMachineBase extends TileEntityInventoryBase impl
         return true;
     }
 
-
-
-
+    @Override
+    public ConnectionType canConnectInventory(EnumFacing from) {
+        return ConnectionType.DENY;
+    }
 }

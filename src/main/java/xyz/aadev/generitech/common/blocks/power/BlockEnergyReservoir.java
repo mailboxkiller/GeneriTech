@@ -18,6 +18,7 @@ package xyz.aadev.generitech.common.blocks.power;/*
  */
 
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,6 +35,7 @@ import xyz.aadev.aalib.common.util.TileHelper;
 import xyz.aadev.generitech.GeneriTech;
 import xyz.aadev.generitech.GeneriTechTabs;
 import xyz.aadev.generitech.Reference;
+import xyz.aadev.generitech.api.util.EnumSides;
 import xyz.aadev.generitech.api.util.MachineTier;
 import xyz.aadev.generitech.common.blocks.BlockMachineBase;
 import xyz.aadev.generitech.common.tileentities.TileEntityMachineBase;
@@ -41,12 +43,21 @@ import xyz.aadev.generitech.common.tileentities.power.TileEntityPowerStorage;
 
 public class BlockEnergyReservoir extends BlockMachineBase {
 
+
+    public static final PropertyEnum NORTH = PropertyEnum.create("north", EnumSides.class);
+    public static final PropertyEnum EAST = PropertyEnum.create("east", EnumSides.class);
+    public static final PropertyEnum SOUTH = PropertyEnum.create("south", EnumSides.class);
+    public static final PropertyEnum WEST = PropertyEnum.create("west", EnumSides.class);
+    public static final PropertyEnum UP = PropertyEnum.create("up", EnumSides.class);
+    public static final PropertyEnum DOWN = PropertyEnum.create("down", EnumSides.class);
+
+
     public BlockEnergyReservoir() {
-        super(Material.ROCK, "machines/energy_reservoir/energy_reservoir", MachineTier.allexeptTier_0());
+        super(Material.ROCK, "machines/pulverizer/pulverizer", MachineTier.allexeptTier_0());
         this.setDefaultState(blockState.getBaseState().withProperty(MACHINETIER, MachineTier.TIER_0));
         this.setTileEntity(TileEntityPowerStorage.class);
         this.setCreativeTab(GeneriTechTabs.GENERAL);
-        this.setInternalName("energy_reservoir");
+        this.setInternalName("powerstorage");
     }
 
 
@@ -63,17 +74,26 @@ public class BlockEnergyReservoir extends BlockMachineBase {
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         TileEntity tileEntity = TileHelper.getTileEntity(worldIn, pos, TileEntity.class);
         if (((TileEntityPowerStorage) tileEntity).canBeRotated()) {
+            state = state.withProperty(UP, EnumSides.getInput(((TileEntityPowerStorage) tileEntity).getSides(),0));
+            state = state.withProperty(DOWN, EnumSides.getInput(((TileEntityPowerStorage) tileEntity).getSides(),1));
+            state = state.withProperty(NORTH, EnumSides.getInput(((TileEntityPowerStorage) tileEntity).getSides(),2));
+            state = state.withProperty(SOUTH, EnumSides.getInput(((TileEntityPowerStorage) tileEntity).getSides(),3));
+            state = state.withProperty(SOUTH, EnumSides.getInput(((TileEntityPowerStorage) tileEntity).getSides(),4));
+            state = state.withProperty(SOUTH, EnumSides.getInput(((TileEntityPowerStorage) tileEntity).getSides(),5));
+
+
             return state.withProperty(FACING, EnumFacing.NORTH).withProperty(OVERLAY, ((TileEntityMachineBase) tileEntity).getOverlayState());
         }
 
-        return state.withProperty(FACING, EnumFacing.NORTH);
+        return state.withProperty(FACING, EnumFacing.NORTH).withProperty(OVERLAY, false);
     }
 
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, MACHINETIER, FACING, OVERLAY);
+        return new BlockStateContainer(this, MACHINETIER, FACING, OVERLAY ,UP,DOWN,NORTH,SOUTH,WEST,EAST);
     }
+
 
     @Override
     public int damageDropped(IBlockState state) {
